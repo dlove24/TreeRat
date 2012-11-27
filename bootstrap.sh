@@ -10,4 +10,4 @@ export CXX=/usr/bin/clang++
 # Re-run CMake
 mkdir -p build
 cd build
-cmake ../CMakeLists.txt
+cmake ..
