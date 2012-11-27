@@ -27,7 +27,7 @@
 project ( treerat )
 
 # Set-up CMake
-cmake_minimum_required ( VERSION 2.6 )
+cmake_minimum_required ( VERSION 2.8 )
 
 # Include the checks for library functions
 include ( CheckLibraryExists )
@@ -39,13 +39,28 @@ include ( CheckIncludeFiles )
 ## Compiler Configuration
 ##
 
-# Enforce ANSI mode on GCC compilers
-if ( ${CMAKE_COMPILER_IS_GNUCC} ) 
-  message ( "-- Using GCC compiler profile...")
-  # Force ANSI C (C89/C90) mode
-  set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -ansi -pedantic -Wall -Wextra" )
-endif ( ${CMAKE_COMPILER_IS_GNUCC} ) 
+# Enforce Ansi C99 mode for C compilers, and C++11 mode for
+# C++ compilers. All compilers should have all warnings on, and
+# be as pedantic as possible
 
+if ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
+	message ( "-- Using Clang compiler profile for C...")
+	set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -pedantic -Wall -Wextra" )
+	
+elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
+	message ( "-- Using GCC compiler profile for C...")
+	set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -pedantic -Wall -Wextra" )
+endif ()
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+	message ( "-- Using Clang compiler profile for C++...")
+	set( CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++11 -pedantic -Wall -Wextra" )
+	
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+	message ( "-- Using GCC compiler profile for C++...")
+	set( CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++11 -pedantic -Wall -Wextra" )
+endif ()
+	
 ##
 ## Project Configuration
 ##
