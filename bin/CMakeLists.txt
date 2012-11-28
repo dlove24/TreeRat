@@ -20,11 +20,26 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ##
-## Add Helper Libraries
+## Add the external libraries
 ##
 
+include_directories(
+  Boost_INCLUDE_DIR
+)
+
+#${Boost_LIBRARY_DIRS}/lib
 
 ##
-## Add Core Libraries
+## Set-up the build for the treerat executable
 ##
+
+PROJECT( treerat )
+
+ADD_EXECUTABLE( treerat
+  main.cpp
+)
+
+# Include the boost libary
+#target_link_libraries( treerat boost )
+
 
