@@ -214,6 +214,7 @@ class Switch {
     Common :: String _Description; /*< The description for the
                                             Switch object.*/
 
+#pragma GCC diagnostic ignored "-Wreorder"
     vector < char >  _Abbreviations; /*< The abbreviation of the Switch
                                               object.*/
 

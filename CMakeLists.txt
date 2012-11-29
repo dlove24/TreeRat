@@ -54,11 +54,11 @@ endif ()
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
   message ( "-- Using Clang compiler profile for C++...")
-  set ( CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++11 -pedantic -Wall -Wextra" )
+  set ( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pedantic -Wall -Wextra" )
 	
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   message ( "-- Using GCC compiler profile for C++...")
-  set ( CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++11 -pedantic -Wall -Wextra" )
+  set ( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pedantic -fdiagnostics-show-option -Wall -Wextra" )
 endif ()
 	
 ##

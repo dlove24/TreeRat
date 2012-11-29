@@ -99,7 +99,7 @@ Common :: String CLI :: HelpMenu (void) {
       menu += (*i).first;
       menu += " ";
 
-      for (int j = 0; j < (*i).second->Abbreviations ().size (); j++) {
+      for (unsigned int j = 0; j < (*i).second->Abbreviations ().size (); j++) {
         menu += "[";
         menu += (*i).second->Abbreviations () [ j ];
         menu += "] ";
@@ -122,7 +122,7 @@ Common :: String CLI :: HelpMenu (const SubCommand& subcommand) {
   menu = subcommand.Name ();
   menu += " ";
 
-  for (int k = 0; k < subcommand.Abbreviations ().size (); k++) {
+  for (unsigned int k = 0; k < subcommand.Abbreviations ().size (); k++) {
     menu += "[";
     menu += subcommand.Abbreviations () [ k ];
     menu += "] ";
@@ -154,7 +154,7 @@ Common :: String CLI :: HelpMenu (const SubCommand& subcommand) {
       menu += (*j).first;
       menu += " ";
 
-      for (int k = 0; k < subcommand.Abbreviations ().size (); k++) {
+      for (unsigned int k = 0; k < subcommand.Abbreviations ().size (); k++) {
         menu += "[";
         menu += subcommand.Abbreviations () [ k ];
         menu += "] ";
@@ -222,7 +222,7 @@ ExecutionPlan& CLI :: Parse (int argc, char** argv) {
       if ( (argument.size () > 1) && (argument [ 1 ] == _Escape)) {
         Common :: String name = argument.substr (2, Common :: String :: npos);
         Common :: String arg;
-        int found = name.find (_Equals, 0);
+        unsigned long int found = name.find (_Equals, 0);
 
         if (found != Common :: String :: npos) {
           arg = name.substr (found + 1, name.size ());
@@ -335,7 +335,7 @@ ExecutionPlan& CLI :: Parse (int argc, char** argv) {
 void CLI :: AddSubCommand (SubCommand& addition) {
   _SubCommands [ addition.Name () ] = &addition;
 
-  for (int i = 0; i < addition.Abbreviations ().size (); i++) {
+  for (unsigned int i = 0; i < addition.Abbreviations ().size (); i++) {
     _SubCommandAbbreviations [ addition.Abbreviations () [ i ]] = &addition;
     }
   }
@@ -343,7 +343,7 @@ void CLI :: AddSubCommand (SubCommand& addition) {
 void CLI :: AddSwitch (Switch& addition) {
   _Switches [ addition.Name () ] = &addition;
 
-  for (int i = 0; i < addition.Abbreviations ().size (); i++) {
+  for (unsigned int i = 0; i < addition.Abbreviations ().size (); i++) {
     _SwitchAbbreviations [ addition.Abbreviations () [ i ]] = &addition;
     }
   }

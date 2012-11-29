@@ -273,6 +273,7 @@ class SubCommand {
     Common :: String _Description; /*< The description for the
                                             SubCommand object.*/
 
+#pragma GCC diagnostic ignored "-Wreorder"
     vector < Common :: String > _Abbreviations; /*< The abbreviation of the
                                              SubCommand object.*/
 

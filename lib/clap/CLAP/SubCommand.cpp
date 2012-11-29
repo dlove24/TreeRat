@@ -52,7 +52,7 @@ SubCommand :: ~SubCommand (void) throw () {
 void SubCommand :: AddSubCommand (SubCommand& addition) {
   _SubCommands [ addition._Name ] = &addition;
 
-  for (int i = 0; i < addition._Abbreviations.size (); i++) {
+  for (unsigned long int i = 0; i < addition._Abbreviations.size (); i++) {
     _SubCommandAbbreviations [ addition._Abbreviations [ i ]] = &addition;
     }
   }
@@ -60,7 +60,7 @@ void SubCommand :: AddSubCommand (SubCommand& addition) {
 void SubCommand :: AddSwitch (Switch& addition) {
   _Switches [ addition.Name () ] = &addition;
 
-  for (int i = 0; i < addition.Abbreviations ().size (); i++) {
+  for (unsigned long int i = 0; i < addition.Abbreviations ().size (); i++) {
     _SwitchAbbreviations [ addition.Abbreviations () [ i ]] = &addition;
     }
   }

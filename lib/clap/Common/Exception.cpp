@@ -54,6 +54,8 @@ const Common :: ErrorMessage& Exception :: What
 Common :: ErrorMessage Exception :: Message (const Common :: Error& error) {
   Common :: ErrorMessage message;
 
+#pragma GCC diagnostic ignored "-Wswitch"
+
   switch (error) {
     case enoent :
       message = "No such file or directory.";

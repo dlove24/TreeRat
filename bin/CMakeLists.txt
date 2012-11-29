@@ -25,7 +25,7 @@
 
 include_directories(
    Boost_INCLUDE_DIR
-   ${CMAKE_CURRENT_SOURCE_DIR}/../../lib/clap/CALP/include
+   ${CMAKE_CURRENT_SOURCE_DIR}/../lib/clap
 )
 
 #${Boost_LIBRARY_DIRS}/lib
@@ -42,5 +42,8 @@ ADD_EXECUTABLE( treerat
 
 # Include the boost libary
 #target_link_libraries( treerat boost )
+
+# Include the CLAP library
+target_link_libraries ( treerat CLAP )
 
 

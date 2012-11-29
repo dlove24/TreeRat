@@ -13,7 +13,9 @@ using namespace libCLAP;
 
 namespace libCLAP {
 namespace CLAP {
-class Common :: Exception;
+
+//class Common :: Exception;
+
 /*!
  * \class Exception
  * \brief Exception handling for CLAP

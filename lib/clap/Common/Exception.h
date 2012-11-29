@@ -103,6 +103,7 @@ class Exception {
     Common :: ErrorMessage _What;  /*!< This is a string that holds the
                                              Message that can be logged or
                                              displayed.*/
+#pragma GCC diagnostic ignored "-Wreorder"
     Common :: Error        _Error; /*!< This is the error code that
                                              caused the exception.*/
   };

@@ -23,14 +23,78 @@
 
 #include <iostream>
 #include <string>
-#include "../CLAP/CLI.h"
-#include "../CLAP/ExecutionPlan.h"
+#include "CLAP/CLI.h"
+#include "CLAP/ExecutionPlan.h"
 
 using namespace std;
 using namespace libCLAP;
 using namespace libCLAP :: CLAP;
 
 int main (int argc, char** argv) {
+  Common::String ApplicationName = "TreeRat";
+  Common::String VersionNumber = "0.0.1";
+  Common::String Description = "Configures network nodes, using data held in the ONA database";
+  Common::String CMD = argv[0];
+
+  // Set-up the command line parser
+  CLI parser (ApplicationName,
+              CMD,
+              VersionNumber,
+              Description,
+              '=',
+              '-');
+
+  // Add the "--help" option
+  Common :: String helpname = "help";
+  char helpab = 'h';
+  Common :: String helpdes = "help description";
+  Switch helpsw (helpname, helpab, helpdes);
+  parser.AddSwitch (helpsw);
+
+  // Parse the command line
+  ExecutionPlan* plan;
+
+  try {
+    plan = & (parser.Parse (argc, argv));
+    }
+
+  catch (Exception& e) {
+    cout << e.What () << "\n";
+    return 1;
+    }
+
+  Stage* curr = plan->Current ();
+  cout << curr->Name () << "\n";
+  std :: map < Common :: String, Option* > :: const_iterator i;
+
+  for (i = curr->Options ().begin (); i != curr->Options ().end (); i++) {
+    cout << "\t" << (*i).first << " = " << (*i).second->Value () << "\n";
+    }
+
+  while (! curr->Arguments().empty()) {
+    cout << "\t" << curr->Shift() << "\n";
+    }
+
+  while (curr->Next () != NULL) {
+    plan->Next ();
+    curr = plan->Current ();
+    cout << curr->Name () << "\n";
+
+    for (i = curr->Options ().begin (); i != curr->Options ().end (); i++) {
+      cout << "\t" << (*i).first << " = " << (*i).second->Value () << "\n";
+      }
+
+    while (! curr->Arguments().empty()) {
+      cout << "\t" << curr->Shift() << "\n";
+      }
+    }
+
+  Common :: String stagename = plan->End ()->Name ();
+
+  cout << "ending stage is " << stagename << endl;
+
+
+  delete plan;
 
   return 0;
   }
