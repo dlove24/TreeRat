@@ -44,21 +44,21 @@ include ( CheckIncludeFiles )
 # be as pedantic as possible
 
 if ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
-	message ( "-- Using Clang compiler profile for C...")
-	set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -pedantic -Wall -Wextra" )
+  message ( "-- Using Clang compiler profile for C...")
+  set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -pedantic -Wall -Wextra" )
 	
 elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
-	message ( "-- Using GCC compiler profile for C...")
-	set ( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -pedantic -Wall -Wextra" )
+  message ( "-- Using GCC compiler profile for C...")
+  set ( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -pedantic -Wall -Wextra" )
 endif ()
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-	message ( "-- Using Clang compiler profile for C++...")
-	set ( CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++11 -pedantic -Wall -Wextra" )
+  message ( "-- Using Clang compiler profile for C++...")
+  set ( CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++11 -pedantic -Wall -Wextra" )
 	
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-	message ( "-- Using GCC compiler profile for C++...")
-	set ( CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++11 -pedantic -Wall -Wextra" )
+  message ( "-- Using GCC compiler profile for C++...")
+  set ( CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++11 -pedantic -Wall -Wextra" )
 endif ()
 	
 ##
@@ -110,21 +110,21 @@ check_include_files ( getopt.h HAVE_GETOPT_H )
 # platforms: Apple platforms have to be checked at compile time
 
 if( NOT APPLE )
-   # check 64 bit
-   if ( CMAKE_SIZEOF_VOID_P MATCHES 4)
-     set ( HAVE_64_BIT 0 )
-   else()
-     set ( HAVE_64_BIT 1 )
-   endif()
+  # check 64 bit
+  if ( CMAKE_SIZEOF_VOID_P MATCHES 4)
+    set ( HAVE_64_BIT 0 )
+  else()
+    set ( HAVE_64_BIT 1 )
+  endif()
 
-   # check endianness
-   include( TestBigEndian )
-   test_big_endian ( HAVE_BIG_ENDIAN )
-   if ( HAVE_BIG_ENDIAN )
-     set ( HAVE_BIG_ENDIAN 1 )
-   else ()
-     set ( HAVE_BIG_ENDIAN 0 )
-   endif ()
+  # check endianness
+  include( TestBigEndian )
+  test_big_endian ( HAVE_BIG_ENDIAN )
+  if ( HAVE_BIG_ENDIAN )
+    set ( HAVE_BIG_ENDIAN 1 )
+  else ()
+    set ( HAVE_BIG_ENDIAN 0 )
+  endif ()
 endif ()
 
 ##
