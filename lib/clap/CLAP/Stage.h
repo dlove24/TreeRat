@@ -198,9 +198,9 @@ class Stage {
                                      the same as the name of the SubCommand
                                      that the stage represents.*/
     Stage* _Parent; /*< The parent of the current Stage. This will be
-                             set to NULL if this is the main stage.*/
+                             set to nullptr if this is the main stage.*/
     Stage* _Next; /*< The next child of the current Stage. This will be
-                           set to NULL if this is the last stage.*/
+                           set to nullptr if this is the last stage.*/
   };
 }
 }

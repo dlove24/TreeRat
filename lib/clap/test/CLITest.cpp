@@ -101,7 +101,7 @@ int main (int argc, char** argv) {
     cout << "\t" << curr->Shift() << "\n";
     }
 
-  while (curr->Next () != NULL) {
+  while (curr->Next () != nullptr) {
     plan->Next ();
     curr = plan->Current ();
     cout << curr->Name () << "\n";

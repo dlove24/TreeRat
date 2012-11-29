@@ -30,7 +30,7 @@ class Stage;
  * one parent and one child. Also when adding stages they have to be
  * added sequentially.
  *
- * For example : NULL <- Stage1 <-> Stage2 <-> Stage3 -> NULL
+ * For example : nullptr <- Stage1 <-> Stage2 <-> Stage3 -> nullptr
  * That would be an example of what the execution plan structure would
  * look like.
  */

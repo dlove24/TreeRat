@@ -28,7 +28,7 @@
 
 using namespace std;
 using namespace libCLAP;
-using namespace libCLAP :: CLAP;
+using namespace libCLAP::CLAP;
 
 int main (int argc, char** argv) {
   Common::String ApplicationName = "TreeRat";
@@ -45,13 +45,14 @@ int main (int argc, char** argv) {
               '-');
 
   // Add the "--help" option
-  Common :: String helpname = "help";
+  Common::String helpname = "help";
   char helpab = 'h';
-  Common :: String helpdes = "help description";
+  Common::String helpdes = "help description";
   Switch helpsw (helpname, helpab, helpdes);
   parser.AddSwitch (helpsw);
 
-  // Parse the command line
+  // Parse the command line, and set-up the graph
+  // for the execution plan
   ExecutionPlan* plan;
 
   try {
@@ -59,29 +60,29 @@ int main (int argc, char** argv) {
     }
 
   catch (Exception& e) {
-    cout << e.What () << "\n";
+    cout << e.What() << "\n";
     return 1;
     }
 
-  Stage* curr = plan->Current ();
-  cout << curr->Name () << "\n";
-  std :: map < Common :: String, Option* > :: const_iterator i;
+  Stage* curr = plan->Current();
+  cout << curr->Name() << "\n";
+  std::map <Common::String, Option*> ::const_iterator i;
 
-  for (i = curr->Options ().begin (); i != curr->Options ().end (); i++) {
-    cout << "\t" << (*i).first << " = " << (*i).second->Value () << "\n";
+  for (auto i : curr->Options()) {
+    cout << i.first << "=" << i.second->Value() << endl;
     }
 
   while (! curr->Arguments().empty()) {
     cout << "\t" << curr->Shift() << "\n";
     }
 
-  while (curr->Next () != NULL) {
-    plan->Next ();
-    curr = plan->Current ();
-    cout << curr->Name () << "\n";
+  while (curr->Next() != nullptr) {
+    plan->Next();
+    curr = plan->Current();
+    cout << curr->Name() << "\n";
 
-    for (i = curr->Options ().begin (); i != curr->Options ().end (); i++) {
-      cout << "\t" << (*i).first << " = " << (*i).second->Value () << "\n";
+    for (i = curr->Options().begin(); i != curr->Options().end(); i++) {
+      cout << "\t" << (*i).first << " = " << (*i).second->Value() << "\n";
       }
 
     while (! curr->Arguments().empty()) {
@@ -89,7 +90,7 @@ int main (int argc, char** argv) {
       }
     }
 
-  Common :: String stagename = plan->End ()->Name ();
+  Common::String stagename = plan->End()->Name();
 
   cout << "ending stage is " << stagename << endl;
 

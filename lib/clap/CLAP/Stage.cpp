@@ -16,15 +16,15 @@ using namespace libCLAP :: CLAP;
 
 Stage :: Stage (const Common :: String& name) :
   _Name (name),
-  _Parent (NULL),
-  _Next (NULL) {
+  _Parent (nullptr),
+  _Next (nullptr) {
   }
 
 Stage :: Stage (const Common :: String& name,
                 Stage& parent) :
   _Name (name),
   _Parent (&parent),
-  _Next (NULL) {
+  _Next (nullptr) {
   }
 
 Stage :: Stage (const Stage& copy) :
@@ -34,11 +34,11 @@ Stage :: Stage (const Stage& copy) :
   }
 
 Stage :: ~Stage (void) throw () {
-  if (_Parent != NULL) {
+  if (_Parent != nullptr) {
     _Parent->_Next = _Next;
     }
 
-  if (_Next != NULL) {
+  if (_Next != nullptr) {
     _Next->_Parent = _Parent;
     }
 

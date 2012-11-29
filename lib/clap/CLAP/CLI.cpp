@@ -197,7 +197,7 @@ Common :: String CLI :: HelpMenu (const SubCommand& subcommand) {
 ExecutionPlan& CLI :: Parse (int argc, char** argv) {
   ExecutionPlan* exeplan = new ExecutionPlan (_Name);
 
-  if (exeplan == NULL) {
+  if (exeplan == nullptr) {
     throw Exception (Common :: enomem);
     }
 
@@ -235,7 +235,7 @@ ExecutionPlan& CLI :: Parse (int argc, char** argv) {
           Option* addoption = new Option ( (*swit).second->Name (),
                                            arg);
 
-          if (addoption == NULL) {
+          if (addoption == nullptr) {
             throw Exception (Common :: enomem);
             }
 
@@ -269,7 +269,7 @@ ExecutionPlan& CLI :: Parse (int argc, char** argv) {
           Option* addoption = new Option ( (*swiabt).second->Name (),
                                            arg);
 
-          if (addoption == NULL) {
+          if (addoption == nullptr) {
             throw Exception (Common :: enomem);
             }
 
@@ -298,7 +298,7 @@ ExecutionPlan& CLI :: Parse (int argc, char** argv) {
         subcommandabbreviations = & ( (*sub).second->SubCommandAbbreviations ());
         Stage* stage = new Stage ( (*sub).second->Name ());
 
-        if (stage == NULL) {
+        if (stage == nullptr) {
           throw Exception (Common :: enomem);
           }
 
@@ -315,7 +315,7 @@ ExecutionPlan& CLI :: Parse (int argc, char** argv) {
           subcommandabbreviations = & ( (*subab).second->SubCommandAbbreviations ());
           Stage* stage = new Stage ( (*subab).second->Name ());
 
-          if (stage == NULL) {
+          if (stage == nullptr) {
             throw Exception (Common :: enomem);
             }
 

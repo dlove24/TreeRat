@@ -16,7 +16,7 @@ using namespace libCLAP :: CLAP;
 ExecutionPlan :: ExecutionPlan (const Common :: String& name) {
   _Main = new Stage (name);
 
-  if (_Main == NULL) {
+  if (_Main == nullptr) {
     throw Exception (Common :: enomem);
     }
 
@@ -27,17 +27,17 @@ ExecutionPlan :: ExecutionPlan (const Common :: String& name) {
 ExecutionPlan :: ExecutionPlan (const ExecutionPlan& copy) {
   _Main = new Stage (* (copy._Main));
 
-  if (_Main == NULL) {
+  if (_Main == nullptr) {
     throw Exception (Common :: enomem);
     }
 
   _Current = _Main;
   Stage* temp;
 
-  while (& (_Current->Next ()) != NULL) {
+  while (& (_Current->Next ()) != nullptr) {
     temp = new Stage (* (_Current->Next ()));
 
-    if (temp == NULL) {
+    if (temp == nullptr) {
       throw Exception (Common :: enomem);
       }
 
@@ -54,7 +54,7 @@ ExecutionPlan :: ~ExecutionPlan (void) throw () {
   _Current = _Main;
   Stage* temp;
 
-  while (_Current != NULL) {
+  while (_Current != nullptr) {
     temp = _Current;
     _Current = _Current->Next ();
     delete temp;
