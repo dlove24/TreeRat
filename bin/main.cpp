@@ -21,6 +21,15 @@
 *** \date   November 2012
 **/
 
+#include <iostream>
+#include <string>
+#include "../CLAP/CLI.h"
+#include "../CLAP/ExecutionPlan.h"
+
+using namespace std;
+using namespace libCLAP;
+using namespace libCLAP :: CLAP;
+
 int main (int argc, char** argv) {
 
   return 0;

@@ -24,7 +24,8 @@
 ##
 
 include_directories(
-  Boost_INCLUDE_DIR
+   Boost_INCLUDE_DIR
+   ${CMAKE_CURRENT_SOURCE_DIR}/../../lib/clap/CALP/include
 )
 
 #${Boost_LIBRARY_DIRS}/lib
@@ -36,7 +37,7 @@ include_directories(
 PROJECT( treerat )
 
 ADD_EXECUTABLE( treerat
-  main.cpp
+   main.cpp
 )
 
 # Include the boost libary

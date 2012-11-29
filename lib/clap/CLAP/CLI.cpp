@@ -24,10 +24,10 @@ CLI :: CLI (const Common :: String& name,
             const char escape) :
   _Name (name),
   _CMD (cmd),
-  _Version (version),
-  _Description (description),
+  _Escape (escape),
   _Equals (equals),
-  _Escape (escape) {
+  _Version (version),
+  _Description (description) {
   }
 
 CLI :: CLI (const Common :: String& name,
@@ -35,10 +35,10 @@ CLI :: CLI (const Common :: String& name,
             const Common :: String& description) :
   _Name (name),
   _CMD (name),
-  _Version (version),
-  _Description (description),
+  _Escape (ESCAPE),
   _Equals (EQUALS),
-  _Escape (ESCAPE) {
+  _Version (version),
+  _Description (description) {
   }
 
 CLI :: CLI (const Common :: String& name,
@@ -47,19 +47,19 @@ CLI :: CLI (const Common :: String& name,
             const Common :: String& description) :
   _Name (name),
   _CMD (cmd),
-  _Version (version),
-  _Description (description),
+  _Escape (ESCAPE),
   _Equals (EQUALS),
-  _Escape (ESCAPE) {
+  _Version (version),
+  _Description (description) {
   }
 
 CLI :: CLI (const CLI& copy) :
   _Name (copy._Name),
   _CMD (copy._CMD),
+  _Escape (copy._Escape),
+  _Equals (copy._Equals),
   _Version (copy._Version),
   _Description (copy._Description),
-  _Equals (copy._Equals),
-  _Escape (copy._Escape),
   _Switches (copy._Switches),
   _SubCommands (copy._SubCommands),
   _SwitchAbbreviations (copy._SwitchAbbreviations),
