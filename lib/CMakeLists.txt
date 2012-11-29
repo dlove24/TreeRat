@@ -23,6 +23,8 @@
 ## Add Helper Libraries
 ##
 
+# Command Line Argument Parser
+add_subdirectory ( clap )
 
 ##
 ## Add Core Libraries

@@ -1,0 +1,54 @@
+#!/bin/sh
+
+echo "" > CMakeLists.txt
+echo "project ( libCLAP )" >> CMakeLists.txt
+echo "" >> CMakeLists.txt
+echo "add_subdirectory ( CLAP )" >> CMakeLists.txt
+echo "add_subdirectory ( Common )" >> CMakeLists.txt
+echo "add_subdirectory ( test )" >> CMakeLists.txt
+echo "" >> CMakeLists.txt
+echo "add_library ( CLAP SHARED" >> CMakeLists.txt
+echo "              CLAP/CLI.cpp" >> CMakeLists.txt
+echo "              CLAP/Exception.cpp" >> CMakeLists.txt
+echo "              CLAP/ExecutionPlan.cpp" >> CMakeLists.txt
+echo "              CLAP/Option.cpp" >> CMakeLists.txt
+echo "              CLAP/Stage.cpp" >> CMakeLists.txt
+echo "              CLAP/SubCommand.cpp" >> CMakeLists.txt
+echo "              CLAP/Switch.cpp" >> CMakeLists.txt
+echo "              Common/Exception.cpp )" >> CMakeLists.txt
+if [ $# -gt 1 ]; then
+   if [ $1 = '--prefix' ]; then
+      if [ $2 != '' ]; then
+         echo "set ( CMAKE_INSTALL_PREFIX $2 )" >> CMakeLists.txt
+      else
+         echo "set ( CMAKE_INSTALL_PREFIX /usr/local/ )" >> CMakeLists.txt
+      fi
+   else
+      echo "set ( CMAKE_INSTALL_PREFIX /usr/local/ )" >> CMakeLists.txt
+   fi
+else
+   echo "set ( CMAKE_INSTALL_PREFIX /usr/local/ )" >> CMakeLists.txt
+fi
+echo "" >> CMakeLists.txt
+echo "INSTALL_FILES ( /include/CLAP/Common FILES ./Common/Exception.h" >>  CMakeLists.txt
+echo "                                           ./Common/Types.h )" >> CMakeLists.txt
+echo "INSTALL_FILES ( /include/CLAP/CLAP FILES ./CLAP/CLI.h" >> CMakeLists.txt
+echo "                                         ./CLAP/Exception.h" >> CMakeLists.txt
+echo "                                         ./CLAP/ExecutionPlan.h" >> CMakeLists.txt
+echo "                                         ./CLAP/Option.h" >> CMakeLists.txt
+echo "                                         ./CLAP/Stage.h" >> CMakeLists.txt
+echo "                                         ./CLAP/SubCommand.h" >> CMakeLists.txt
+echo "                                         ./CLAP/Switch.h" >> CMakeLists.txt
+echo "                                         ./CLAP/Types.h )" >> CMakeLists.txt
+echo "INSTALL_FILES ( /share/ FILES ./libCLAP.so )" >> CMakeLists.txt
+echo "add_test ( test1 test/cli -1 c1 -2stuff c2 )" >> CMakeLists.txt
+echo "set ( CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG" )" >> CMakeLists.txt
+echo "set ( CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG" )" >> CMakeLists.txt
+echo "set ( CMAKE_C_FLAGS_DEBUG "-g -DDEBUG" )" >> CMakeLists.txt
+echo "set ( CMAKE_CXX_FLAGS_RELEASE "-O2 -fPIC" )" >> CMakeLists.txt
+echo "set ( CMAKE_C_FLAGS_RELEASE "-O2 -fPIC" )" >> CMakeLists.txt
+echo "include_directories ( \${libCLAP} )" >> CMakeLists.txt
+echo "link_directories ( \${libCLAP} )" >> CMakeLists.txt
+echo "enable_testing ()" >> CMakeLists.txt
+
+cmake .
