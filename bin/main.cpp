@@ -1,5 +1,5 @@
 /**
-*** Copyright (c) 2011 David Love <d.love@shu.ac.uk>
+*** Copyright(c) 2011 David Love <d.love@shu.ac.uk>
 ***
 *** Permission to use, copy, modify, and/or distribute this software for any
 *** purpose with or without fee is hereby granted, provided that the above
@@ -13,7 +13,6 @@
 *** ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 *** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ***
-*** \file   main.c
 *** \brief  Parses the command line arguments to @treerat, and hands control
 ***         to the relevant sub-command
 ***
@@ -30,11 +29,14 @@ using namespace std;
 using namespace libCLAP;
 using namespace libCLAP::CLAP;
 
+//* Global options map. Holds the state of all known options
+map<std::string, bool> globalOptions;
+
 int main (int argc, char** argv) {
-  Common::String ApplicationName = "TreeRat";
-  Common::String VersionNumber = "0.0.1";
-  Common::String Description = "Configures network nodes, using data held in the ONA database";
-  Common::String CMD = argv[0];
+  std::string ApplicationName = "TreeRat";
+  std::string VersionNumber = "0.0.1";
+  std::string Description = "Configures network nodes, using data held in the ONA database";
+  std::string CMD = argv[0];
 
   // Set-up the command line parser
   CLI parser (ApplicationName,
@@ -44,15 +46,56 @@ int main (int argc, char** argv) {
               '=',
               '-');
 
-  // Add the "--help" option
-  Common::String helpname = "help";
-  char helpab = 'h';
-  Common::String helpdes = "help description";
-  Switch helpsw (helpname, helpab, helpdes);
-  parser.AddSwitch (helpsw);
+  /**
+   ** Global Options
+   **
+   */
 
-  // Parse the command line, and set-up the graph
-  // for the execution plan
+  // Add the "--help" option
+  std::string optHelp_Name {"help"};
+  std::string optHelp_Description {"show the options of this command"};
+  char optHelp_ShortName {'h'};
+
+  Switch optHelp (optHelp_Name, optHelp_ShortName, optHelp_Description);
+  parser.AddSwitch (optHelp);
+
+  // Add the "--verbose" option
+  std::string optVerbose_Name {"verbose"};
+  std::string optVerbose_Description {"enable verbose output"};
+  char optVerbose_ShortName {'v'};
+
+  Switch optVerbose (optVerbose_Name, optVerbose_ShortName, optVerbose_Description);
+  parser.AddSwitch (optVerbose);
+
+  /**
+   ** Subcommands
+   **
+   */
+
+  //
+  // Refresh subcommand
+  //
+
+  std::string cmdRefresh_Name {"refresh"};
+  std::string cmdRefresh_Description {"refresh the YAML configuration files from the ONA database"};
+
+  SubCommand cmdRefresh (cmdRefresh_Name, cmdRefresh_Description);
+  parser.AddSubCommand (cmdRefresh);
+
+  // Add the "--host" option
+  std::string cmdRefresh_optHost_Name {"host"};
+  std::string cmdRefresh_optHost_Description {"the name (or IP address) on the ONA host"};
+  char cmdRefresh_optHost_ShortName {'h'};
+
+  Switch cmdRefresh_optHost (cmdRefresh_optHost_Name, cmdRefresh_optHost_ShortName, cmdRefresh_optHost_Description);
+  cmdRefresh.AddSwitch (cmdRefresh_optHost);
+
+  /**
+   ** Parse the command line, and set-up the graph for
+   ** the execution plan
+   **
+   */
+
   ExecutionPlan* plan;
 
   try {
@@ -60,40 +103,39 @@ int main (int argc, char** argv) {
     }
 
   catch (Exception& e) {
-    cout << e.What() << "\n";
+    cout << e.What() << endl;
     return 1;
     }
 
-  Stage* curr = plan->Current();
-  cout << curr->Name() << "\n";
-  std::map <Common::String, Option*> ::const_iterator i;
+  // Parse the options of the global stage first
 
-  for (auto i : curr->Options()) {
-    cout << i.first << "=" << i.second->Value() << endl;
-    }
+  auto globalStage = plan->Current();
 
-  while (! curr->Arguments().empty()) {
-    cout << "\t" << curr->Shift() << "\n";
-    }
-
-  while (curr->Next() != nullptr) {
-    plan->Next();
-    curr = plan->Current();
-    cout << curr->Name() << "\n";
-
-    for (i = curr->Options().begin(); i != curr->Options().end(); i++) {
-      cout << "\t" << (*i).first << " = " << (*i).second->Value() << "\n";
-      }
-
-    while (! curr->Arguments().empty()) {
-      cout << "\t" << curr->Shift() << "\n";
+  if (globalStage->Name() == "TreeRat") {
+      for (auto option : globalStage->Options()) {
+        globalOptions[option.first] = true;
       }
     }
 
-  Common::String stagename = plan->End()->Name();
+  // Get the name of the sub-command (if more than
+  // one command is given it should be ignored. In this
+  // case CLAP will stop us parsing options, etc. anyway.).
+  //
+  // Once we have found the name of the next sub-command,
+  // control is then handed over to it.
 
-  cout << "ending stage is " << stagename << endl;
+  plan->Next();
 
+  if (globalStage->Next() != nullptr) {
+    Stage* currentStage {plan->Current() };
+
+    // Refresh sub-command
+    if (currentStage->Name() == "refresh") {
+      for (auto option : currentStage->Options()) {
+          cout << "\toption: " << option.first << "=" <<  option.second->Value() << endl;
+        }
+      }
+    }
 
   delete plan;
 
