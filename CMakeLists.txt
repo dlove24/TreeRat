@@ -180,18 +180,13 @@ add_subdirectory ( lib )
 add_subdirectory ( bin )
 
 ##
-## Enable Testing, if we can find the CppTest framework
+## Enable Testing, if we can find the 'prove' test harness
 ##
 
-find_library ( CPPTEST_LIBRARY cpptest )
+find_program ( PROVE_FOUND prove )
 
-if ( CPPTEST_LIBRARY )
-  message ( "++ Found the CppTest library. Testing Enabled" )
-
-  # Save the location of the CppTest header files, and add these
-  # to the global includes
-  find_path ( CPPTEST_INCLUDE_DIR cpptest.h )
-  include_directories ( ${CPPTEST_INCLUDE_DIR} )
+if ( PROVE_FOUND )
+  message ( "++ Found the prove harness. Testing Enabled" )
 
   enable_testing ()
   add_subdirectory ( test )

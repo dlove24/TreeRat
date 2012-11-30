@@ -20,19 +20,14 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ##
+## Add the TAP++ headers
+##
+
+include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/include  )
+
+##
 ## Build the TAP++ library
 ##
 
-add_subdirectory (tap)
-
-##
-## Add test routines
-##
-
-# Core treerat command
-add_subdirectory ( treerat )
-
-# Refresh subcommand
-#add_subdirectory ( refresh )
-
+add_subdirectory ( lib )
 

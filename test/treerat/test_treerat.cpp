@@ -1,26 +1,21 @@
-#define BOOST_TEST_MODULE MyTest
-#include <boost/test/unit_test.hpp>
+#include <tap.h>
+#include <string>
 
-int add( int i, int j ) { return i+j; }
+using namespace TAP;
 
-//BOOST_AUTO_TEST_CASE( my_test )
-int main( int, char* [] )
-{
-    // seven ways to detect and report the same error:
-    BOOST_CHECK( add( 2,2 ) == 4 );        // #1 continues on error
+int foo(int ronkle = 1) {
+  return ronkle;
+}
 
-    BOOST_REQUIRE( add( 2,2 ) == 4 );      // #2 throws on error
+std::string bar() {
+  return "a string";
+}
 
-    if( add( 2,2 ) != 4 )
-      BOOST_ERROR( "Ouch..." );            // #3 continues on error
+int main() {
+  plan(3);
+  ok(true, "This test passes");
+  is(foo(), 1, "foo() should be 1");
+  is(bar(), "a string", "bar() should be \"a string\"");
 
-    if( add( 2,2 ) != 4 )
-      BOOST_FAIL( "Ouch..." );             // #4 throws on error
-
-    if( add( 2,2 ) != 4 ) throw "Ouch..."; // #5 throws on error
-
-    BOOST_CHECK_MESSAGE( add( 2,2 ) == 4,  // #6 continues on error
-                         "add(..) result: " << add( 2,2 ) );
-
-    BOOST_CHECK_EQUAL( add( 2,2 ), 4 );	  // #7 continues on error
+  return exit_status();
 }

@@ -23,17 +23,20 @@
 ## Build the treerat test harness
 ##
 
-link_directories ( ${Boost_LIBRARY_DIRS} )
-include_directories ( ${Boost_INCLUDE_DIRS} )
+include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/../tap/include )
 
 add_executable ( test_treerat test_treerat.cpp )
 
 target_link_Libraries ( test_treerat
-  ${Boost_LIBRARIES}
+  tap
 )
+
+##
+## Build the treerat tests
+##
 
 ##
 ## Run the tests
 ##
 
-add_test ( test_treerat test_treerat "-v")
+add_test ( test_treerat test_treerat )

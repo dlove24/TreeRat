@@ -20,19 +20,9 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ##
-## Build the TAP++ library
+## Library Sources
 ##
 
-add_subdirectory (tap)
-
-##
-## Add test routines
-##
-
-# Core treerat command
-add_subdirectory ( treerat )
-
-# Refresh subcommand
-#add_subdirectory ( refresh )
-
-
+add_library ( tap STATIC
+  tap.cpp
+) 
