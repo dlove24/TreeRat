@@ -133,12 +133,14 @@ for (auto option : globalStage->Options()) {
 
     // Refresh sub-command
     if (currentStage->Name() == "refresh") {
-for (auto option : currentStage->Options()) {
-        cout << "\toption: " << option.first << "=" <<  option.second->Value() << endl;
+        for (auto option : currentStage->Options()) {
+            cout << "\toption: " << option.first << "=" <<  option.second->Value() << endl;
         }
       }
 
     // Return to the caller (exiting the program)
+    delete plan;
+    return EXIT_SUCCESS;
     }
 
 
@@ -148,10 +150,10 @@ for (auto option : currentStage->Options()) {
   delete plan;
 
   string help = parser.HelpMenu ();
-  cout << help << "\n";
+  cout << help << endl;
 
   help = parser.HelpMenu (cmdRefresh);
-  cout << help << "\n";
+  cout << help << endl;
 
   return EXIT_FAILURE;
   }
