@@ -23,8 +23,20 @@
 ## Configure CMake
 ##
 
+# Set-up CMake
+cmake_minimum_required ( VERSION 2.8 )
+
 # Add third-party modules
 set ( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/" )
+
+# Include the checks for library functions
+include ( CheckLibraryExists )
+
+# Include the checks for header files
+include ( CheckIncludeFiles )
+
+# Include checks for specific prototypes
+include ( CheckPrototypeExists )
 
 ##
 ## Project Definition
@@ -32,15 +44,6 @@ set ( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/" )
 
 # Project Name
 project ( treerat )
-
-# Set-up CMake
-cmake_minimum_required ( VERSION 2.8 )
-
-# Include the checks for library functions
-include ( CheckLibraryExists )
-
-# Include the checks for header files
-include ( CheckIncludeFiles )
 
 ##
 ## Compiler Configuration
@@ -73,8 +76,7 @@ endif ()
 ##
 
 # Set the global configure file
-configure_file ( ${CMAKE_CURRENT_SOURCE_DIR}/include/config/config.h.in 
-${CMAKE_CURRENT_SOURCE_DIR}/lib/config/config.h )
+configure_file ( ${CMAKE_CURRENT_SOURCE_DIR}/include/config/config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/config/config.h )
 
 # Add the global configure file to the search path
 include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/include/config )
@@ -135,6 +137,14 @@ find_package ( Boost 1.45.0 COMPONENTS
 ## Include Files Defines for the C Standard Library
 ##
 
+# popen - Used to create pipes to commands
+check_library_exists ( c popen "" HAVE_POPEN )
+
+if ( HAVE_POPEN )
+  check_prototype_exists ( popen "stdlib.h" POPEN_PROTO_STDLIB )
+  check_prototype_exists ( popen "stdio.h" POPEN_PROTO_STDIO )
+endif ()
+
 ##
 ## Include Files Defines for the POSIX Platform
 ##
@@ -191,4 +201,3 @@ if ( PROVE_FOUND )
   enable_testing ()
   add_subdirectory ( test )
 endif()
-

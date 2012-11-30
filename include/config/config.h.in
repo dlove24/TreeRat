@@ -56,6 +56,12 @@
 *** Function Declarations
 **/
 
+/* The location of popen varies a bit. These variables set both the
+ * existance of popen, and its location
+ */
+#cmakedefine HAVE_POPEN 1
+#cmakedefine POPEN_PROTO_STDLIB 1
+#cmakedefine POPEN_PROTO_STDIO 1
 
 /**
 *** Header Declarations

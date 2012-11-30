@@ -25,9 +25,9 @@
 
 include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/../tap/include )
 
-add_executable ( test_treerat test_treerat.cpp )
+add_executable ( test_treerat_00 test_treerat.cpp )
 
-target_link_Libraries ( test_treerat
+target_link_Libraries ( test_treerat_00
   tap
 )
 
@@ -39,4 +39,7 @@ target_link_Libraries ( test_treerat
 ## Run the tests
 ##
 
-add_test ( test_treerat test_treerat )
+add_test (
+  NAME test_treerat
+  COMMAND test_treerat_00 $<TARGET_FILE:treerat>
+)

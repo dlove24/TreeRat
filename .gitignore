@@ -15,7 +15,7 @@ CMakeLists.txt.user
 build/*
 
 # CMake Project config file
-lib/config/config.h
+include/config/config.h
 
 # CTest
 Testing/
