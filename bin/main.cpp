@@ -32,6 +32,8 @@ using namespace libCLAP::CLAP;
 //* Global options map. Holds the state of all known options
 map<string, bool> globalOptions;
 
+/** Main loop.
+ */
 int main (int argc, char** argv) {
   string ApplicationName = "TreeRat";
   string VersionNumber = "0.0.1";
@@ -104,7 +106,7 @@ int main (int argc, char** argv) {
 
   catch (Exception& e) {
     cout << e.What() << endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   // Parse the options of the global stage first
@@ -135,9 +137,21 @@ for (auto option : currentStage->Options()) {
         cout << "\toption: " << option.first << "=" <<  option.second->Value() << endl;
         }
       }
+
+    // Return to the caller (exiting the program)
     }
+
+
+  // If we have no sub-command to parse, that is an error so show the help text to
+  // the user and abort
 
   delete plan;
 
-  return EXIT_SUCCESS;
+  string help = parser.HelpMenu ();
+  cout << help << "\n";
+
+  help = parser.HelpMenu (cmdRefresh);
+  cout << help << "\n";
+
+  return EXIT_FAILURE;
   }

@@ -63,7 +63,8 @@ int main (int argc, char** argv) {
   else {
     // Record the location of treerat
     string prog_location = argv[1];
-    note ("TreeRat locaction is ", prog_location);
+
+    note ("TreeRat location is: ", prog_location);
 
     plan (2);
 
