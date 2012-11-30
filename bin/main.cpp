@@ -30,13 +30,13 @@ using namespace libCLAP;
 using namespace libCLAP::CLAP;
 
 //* Global options map. Holds the state of all known options
-map<std::string, bool> globalOptions;
+map<string, bool> globalOptions;
 
 int main (int argc, char** argv) {
-  std::string ApplicationName = "TreeRat";
-  std::string VersionNumber = "0.0.1";
-  std::string Description = "Configures network nodes, using data held in the ONA database";
-  std::string CMD = argv[0];
+  string ApplicationName = "TreeRat";
+  string VersionNumber = "0.0.1";
+  string Description = "Configures network nodes, using data held in the ONA database";
+  string CMD = argv[0];
 
   // Set-up the command line parser
   CLI parser (ApplicationName,
@@ -52,16 +52,16 @@ int main (int argc, char** argv) {
    */
 
   // Add the "--help" option
-  std::string optHelp_Name {"help"};
-  std::string optHelp_Description {"show the options of this command"};
+  string optHelp_Name {"help"};
+  string optHelp_Description {"show the options of this command"};
   char optHelp_ShortName {'h'};
 
   Switch optHelp (optHelp_Name, optHelp_ShortName, optHelp_Description);
   parser.AddSwitch (optHelp);
 
   // Add the "--verbose" option
-  std::string optVerbose_Name {"verbose"};
-  std::string optVerbose_Description {"enable verbose output"};
+  string optVerbose_Name {"verbose"};
+  string optVerbose_Description {"enable verbose output"};
   char optVerbose_ShortName {'v'};
 
   Switch optVerbose (optVerbose_Name, optVerbose_ShortName, optVerbose_Description);
@@ -76,15 +76,15 @@ int main (int argc, char** argv) {
   // Refresh subcommand
   //
 
-  std::string cmdRefresh_Name {"refresh"};
-  std::string cmdRefresh_Description {"refresh the YAML configuration files from the ONA database"};
+  string cmdRefresh_Name {"refresh"};
+  string cmdRefresh_Description {"refresh the YAML configuration files from the ONA database"};
 
   SubCommand cmdRefresh (cmdRefresh_Name, cmdRefresh_Description);
   parser.AddSubCommand (cmdRefresh);
 
   // Add the "--host" option
-  std::string cmdRefresh_optHost_Name {"host"};
-  std::string cmdRefresh_optHost_Description {"the name (or IP address) on the ONA host"};
+  string cmdRefresh_optHost_Name {"host"};
+  string cmdRefresh_optHost_Description {"the name (or IP address) on the ONA host"};
   char cmdRefresh_optHost_ShortName {'h'};
 
   Switch cmdRefresh_optHost (cmdRefresh_optHost_Name, cmdRefresh_optHost_ShortName, cmdRefresh_optHost_Description);
@@ -139,5 +139,5 @@ int main (int argc, char** argv) {
 
   delete plan;
 
-  return 0;
+  return EXIT_SUCCESS;
   }

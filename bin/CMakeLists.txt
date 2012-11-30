@@ -24,26 +24,30 @@
 ##
 
 include_directories(
-   Boost_INCLUDE_DIR
+   ${Boost_INCLUDE_DIRS}
    ${CMAKE_CURRENT_SOURCE_DIR}/../lib/clap
 )
 
-#${Boost_LIBRARY_DIRS}/lib
+link_directories (
+  ${Boost_LIBRARY_DIRS}
+)
 
 ##
 ## Set-up the build for the treerat executable
 ##
 
-PROJECT( treerat )
+project ( treerat )
 
-ADD_EXECUTABLE( treerat
+add_executable ( treerat
    main.cpp
 )
 
-# Include the boost libary
-#target_link_libraries( treerat boost )
+##
+## Set-up the link for the treerat executable
+##
 
-# Include the CLAP library
-target_link_libraries ( treerat CLAP )
-
+target_link_libraries ( treerat
+  ${Boost_LIBRARIES}
+  CLAP
+)
 

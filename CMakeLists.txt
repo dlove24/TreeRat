@@ -89,7 +89,40 @@ if ( SEPARATE_LIB_M )
 endif()
 
 # Look for the Boost C++ library. This is fatal if we don't find it.
-find_package (Boost)
+set ( Boost_USE_STATIC_LIBS OFF)
+set ( Boost_USE_MULTITHREADED ON)
+set ( Boost_USE_STATIC_RUNTIME OFF)
+
+find_package ( Boost 1.45.0 COMPONENTS
+#  chrono
+#  context
+#  date_time
+#  filesystem
+#  graph
+#  iostreams
+#  locale
+#  math_c99
+#  math_c99f
+#  math_c99l
+#  math_tr1
+#  math_tr1f
+#  math_tr1l
+#  prg_exec_monitor
+#  program_options
+#  python
+#  random
+#  regex
+#  serialization
+#  signals
+#  system
+#  thread
+#  timer
+   unit_test_framework
+#  wave
+#  wserialization
+
+  REQUIRED
+)
 
 ##
 ## Include Files Defines for the C Standard Library
@@ -138,3 +171,10 @@ add_subdirectory ( lib )
 ##
 
 add_subdirectory ( bin )
+
+##
+## Enable Testing
+##
+
+enable_testing ()
+add_subdirectory ( test )
