@@ -20,6 +20,13 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ##
+## Configure CMake
+##
+
+# Add third-party modules
+set ( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/" )
+
+##
 ## Project Definition
 ##
 
@@ -173,8 +180,20 @@ add_subdirectory ( lib )
 add_subdirectory ( bin )
 
 ##
-## Enable Testing
+## Enable Testing, if we can find the CppTest framework
 ##
 
-enable_testing ()
-add_subdirectory ( test )
+find_library ( CPPTEST_LIBRARY cpptest )
+
+if ( CPPTEST_LIBRARY )
+  message ( "++ Found the CppTest library. Testing Enabled" )
+
+  # Save the location of the CppTest header files, and add these
+  # to the global includes
+  find_path ( CPPTEST_INCLUDE_DIR cpptest.h )
+  include_directories ( ${CPPTEST_INCLUDE_DIR} )
+
+  enable_testing ()
+  add_subdirectory ( test )
+endif()
+
