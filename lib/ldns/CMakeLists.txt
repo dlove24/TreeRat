@@ -24,6 +24,10 @@
 ##
 
 add_library ( ldns STATIC
+  compat/b32_ntop
+  compat/b32_pton
+  compat/b64_ntop
+  compat/b64_pton
   buffer.c
   dane.c
   dname.c
