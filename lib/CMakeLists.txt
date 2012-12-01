@@ -26,6 +26,9 @@
 # Command Line Argument Parser
 add_subdirectory ( clap )
 
+# DNS Resolver Library
+add_subdirectory ( ldns )
+
 ##
 ## Add Core Libraries
 ##

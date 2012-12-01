@@ -38,6 +38,9 @@ include ( CheckIncludeFiles )
 # Include checks for specific prototypes
 include ( CheckPrototypeExists )
 
+# Include checks for particular types
+include ( CheckTypeSize )
+
 ##
 ## Project Definition
 ##
@@ -78,8 +81,8 @@ endif ()
 # Set the global configure file
 configure_file ( ${CMAKE_CURRENT_SOURCE_DIR}/include/config/config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/config/config.h )
 
-# Add the global configure file to the search path
-include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/include/config )
+# Add the global includes to the search path
+include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/include )
 
 ##
 ## Library Configuration
@@ -148,6 +151,43 @@ endif ()
 ##
 ## Include Files Defines for the POSIX Platform
 ##
+
+check_include_files ( "inttypes.h"   HAVE_INTTYPES_H )
+check_include_files ( "netdb.h"      HAVE_NETDB_H )
+check_include_files ( "stdint.h"     HAVE_STDINT_H )
+check_include_files ( "unistd.h"     HAVE_UNISTD_H )
+check_include_files ( "winsock2.h"   HAVE_WINSOCK2_H )
+
+check_include_files ( "arpa/inet.h"  HAVE_ARPA_INET_H )
+check_include_files ( "netinet/in.h" HAVE_NETINET_IN_H )
+check_include_files ( "sys/select.h" HAVE_SYS_SELECT_H )
+check_include_files ( "sys/types.h"  HAVE_SYS_TYPES_H )
+
+check_include_files ( "sys/socket.h" HAVE_SOCKET_H )
+if ( HAVE_SOCKET_H )
+  set ( CMAKE_EXTRA_INCLUDE_FILES sys/socket.h )
+  check_type_size ( "socklen_t" SOCKLEN_T )
+  set ( CMAKE_EXTRA_INCLUDE_FILES )
+endif ()
+
+check_include_files ( "resolv.h" HAVE_RESOLV_H )
+if ( HAVE_RESOLV_H )
+  set ( CMAKE_EXTRA_INCLUDE_FILES resolv.h )
+  check_type_size ( "b32_ntop" B32_NTOP )
+  set ( CMAKE_EXTRA_INCLUDE_FILES )
+
+  set ( CMAKE_EXTRA_INCLUDE_FILES resolv.h )
+  check_type_size ( "b32_pton" B32_PTON )
+  set ( CMAKE_EXTRA_INCLUDE_FILES )
+
+  set ( CMAKE_EXTRA_INCLUDE_FILES resolv.h )
+  check_type_size ( "b64_ntop" B64_NTOP )
+  set ( CMAKE_EXTRA_INCLUDE_FILES )
+
+  set ( CMAKE_EXTRA_INCLUDE_FILES resolv.h )
+  check_type_size ( "b64_pton" B64_PTON )
+  set ( CMAKE_EXTRA_INCLUDE_FILES )
+endif ()
 
 ##
 ## Include File Defines for Other Features
