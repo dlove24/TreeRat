@@ -20,27 +20,9 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ##
-## Build the treerat test harness
+## Library Sources
 ##
 
-include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/../tap/include )
-
-add_executable ( test_treerat_00 test_treerat.cpp )
-
-target_link_Libraries ( test_treerat_00
-  tap
-  utils
-)
-
-##
-## Build the treerat tests
-##
-
-##
-## Run the tests
-##
-
-add_test (
-  NAME test_treerat
-  COMMAND test_treerat_00 $<TARGET_FILE:treerat>
-)
+add_library ( utils STATIC
+  fileutils.cpp
+) 

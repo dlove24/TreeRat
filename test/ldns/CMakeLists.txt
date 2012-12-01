@@ -20,20 +20,20 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ##
-## Build the treerat test harness
+## Build the ldns test harness
 ##
 
 include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/../tap/include )
 
-add_executable ( test_treerat_00 test_treerat.cpp )
+add_executable ( test_ldns_00 test_ldns_lookup.cpp :)
 
-target_link_Libraries ( test_treerat_00
+target_link_Libraries ( test_ldns_00
   tap
-  utils
+  ldns
 )
 
 ##
-## Build the treerat tests
+## Build the ldns tests
 ##
 
 ##
@@ -41,6 +41,6 @@ target_link_Libraries ( test_treerat_00
 ##
 
 add_test (
-  NAME test_treerat
-  COMMAND test_treerat_00 $<TARGET_FILE:treerat>
+  NAME test_ldns
+  COMMAND test_ldns_00 $<TARGET_FILE:ldns>
 )

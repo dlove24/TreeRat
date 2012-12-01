@@ -1,56 +1,35 @@
+/**
+*** Copyright(c) 2011 David Love <d.love@shu.ac.uk>
+***
+*** Permission to use, copy, modify, and/or distribute this software for any
+*** purpose with or without fee is hereby granted, provided that the above
+*** copyright notice and this permission notice appear in all copies.
+***
+*** THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+*** WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+*** MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+*** ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+*** WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+*** ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+*** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+***
+*** \brief  Test the core \c treerat options
+***
+*** \author David Love
+*** \date   November 2012
+**/
+
 #include <config/config.h>
 
 #include <iostream>
 #include <string>
 
-#ifdef HAVE_POPEN
-#  ifdef POPEN_PROTO_STDLIB
-#    include <stdlib.h>
-#  endif
-#  ifdef POPEN_PROTO_STDIO
-#    include <stdio.h>
-#  endif
-#else
-#  error "No popen function found"
-#endif
-
 #include <tap.h>
+
+#include <utils/fileutils.h>
 
 using namespace std;
 using namespace TAP;
-
-/** Run the command, with the given arguments, under the system shell.
-*/
-string run (const string program_name, const string program_arguments) {
-  string command {program_name + " " + program_arguments};
-  FILE* cmd_pipe {popen (command.c_str(), "r") };
-  string result = "";
-
-  if (!cmd_pipe) {
-    bail_out ("Cannot execute the test command");
-    }
-
-  // This can be a fixed size because we get the output
-  // in chunks: so we cannot overflow.
-  char buffer[128];
-
-  while (!feof (cmd_pipe)) {
-    if (fgets (buffer, 128, cmd_pipe) != nullptr) {
-      result += buffer;
-      }
-    }
-
-  pclose (cmd_pipe);
-
-  return result;
-  }
-
-/** Run the command, with the given arguments, under the system shell.
-*/
-int check_status (const string program_name, const string program_arguments) {
-  string command = program_name + " " + program_arguments;
-  return system (command.c_str());
-  }
 
 int main (int argc, char** argv) {
 
