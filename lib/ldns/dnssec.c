@@ -93,6 +93,7 @@ ldns_nsec_get_bitmap(ldns_rr *nsec) {
 
 /*return the owner name of the closest encloser for name from the list of rrs */
 /* this is NOT the hash, but the original name! */
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 ldns_rdf *
 ldns_dnssec_nsec3_closest_encloser(ldns_rdf *qname,
                                    ATTR_UNUSED(ldns_rr_type qtype),
@@ -1570,6 +1571,7 @@ ldns_rr_list_sort_nsec3(ldns_rr_list *unsorted)
 	      qsort_rr_compare_nsec3);
 }
 
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 int
 ldns_dnssec_default_add_to_signatures( ATTR_UNUSED(ldns_rr *sig)
 				     , ATTR_UNUSED(void *n)
@@ -1578,6 +1580,7 @@ ldns_dnssec_default_add_to_signatures( ATTR_UNUSED(ldns_rr *sig)
 	return LDNS_SIGNATURE_LEAVE_ADD_NEW;
 }
 
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 int
 ldns_dnssec_default_leave_signatures( ATTR_UNUSED(ldns_rr *sig)
 				    , ATTR_UNUSED(void *n)
@@ -1586,6 +1589,7 @@ ldns_dnssec_default_leave_signatures( ATTR_UNUSED(ldns_rr *sig)
 	return LDNS_SIGNATURE_LEAVE_NO_ADD;
 }
 
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 int
 ldns_dnssec_default_delete_signatures( ATTR_UNUSED(ldns_rr *sig)
 				     , ATTR_UNUSED(void *n)
@@ -1594,6 +1598,7 @@ ldns_dnssec_default_delete_signatures( ATTR_UNUSED(ldns_rr *sig)
 	return LDNS_SIGNATURE_REMOVE_NO_ADD;
 }
 
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 int
 ldns_dnssec_default_replace_signatures( ATTR_UNUSED(ldns_rr *sig)
 				      , ATTR_UNUSED(void *n)

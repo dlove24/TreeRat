@@ -63,6 +63,10 @@
 #cmakedefine POPEN_PROTO_STDLIB 1
 #cmakedefine POPEN_PROTO_STDIO 1
 
+/* OpenSSL library defines.
+ */
+#cmakedefine HAVE_SSL 1
+
 /**
 *** Header Declarations
 **/

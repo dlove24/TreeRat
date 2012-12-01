@@ -240,6 +240,7 @@ ldns_send_buffer(ldns_pkt **result, ldns_resolver *r, ldns_buffer *qb, ldns_rdf 
 }
 
 /** best effort to set nonblocking */
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 static void
 ldns_sock_nonblock(int sockfd)
 {
@@ -260,6 +261,7 @@ ldns_sock_nonblock(int sockfd)
 }
 
 /** best effort to set blocking */
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 static void
 ldns_sock_block(int sockfd)
 {
@@ -369,6 +371,7 @@ ldns_udp_bgsend(ldns_buffer *qbin, const struct sockaddr_storage *to, socklen_t 
 	return sockfd;
 }
 
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 int
 ldns_udp_connect(const struct sockaddr_storage *to, struct timeval ATTR_UNUSED(timeout))
 {

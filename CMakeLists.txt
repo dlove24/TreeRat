@@ -136,6 +136,16 @@ find_package ( Boost 1.45.0 COMPONENTS
   REQUIRED
 )
 
+# Look for the OpenSSL library. This is not fatal if we cannot find
+# it as lDNS can work around the problem
+
+find_package ( OpenSSL )
+
+if ( _OPENSSL_FOUND )
+  set ( HAVE_SSL 1 )
+  include_directories ( ${OPENSSL_INCLUDE_DIR} )
+endif ()
+
 ##
 ## Include Files Defines for the C Standard Library
 ##

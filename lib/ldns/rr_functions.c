@@ -341,11 +341,13 @@ ldns_rr_dnskey_key_size(const ldns_rr *key)
 	                                  );
 }
 
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 uint32_t ldns_soa_serial_identity(uint32_t ATTR_UNUSED(unused), void *data)
 {
 	return (uint32_t) (intptr_t) data;
 }
 
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 uint32_t ldns_soa_serial_increment(uint32_t s, void *ATTR_UNUSED(unused))
 {
 	return ldns_soa_serial_increment_by(s, (void *)1);

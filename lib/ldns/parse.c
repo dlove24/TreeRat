@@ -377,6 +377,7 @@ ldns_bskipcs(ldns_buffer *buffer, const char *s)
         }
 }
 
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 void
 ldns_fskipc(ATTR_UNUSED(FILE *fp), ATTR_UNUSED(char c))
 {

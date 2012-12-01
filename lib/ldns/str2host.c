@@ -780,6 +780,7 @@ ldns_str2rdf_alg(ldns_rdf **rd, const char *str)
 	return st;
 }
 
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 ldns_status
 ldns_str2rdf_unknown( ATTR_UNUSED(ldns_rdf **rd)
 		    , ATTR_UNUSED(const char *str)
