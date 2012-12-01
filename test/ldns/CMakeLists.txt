@@ -25,7 +25,7 @@
 
 include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/../tap/include )
 
-add_executable ( test_ldns_00 test_ldns_lookup.cpp :)
+add_executable ( test_ldns_00 test_ldns_lookup.cpp )
 
 target_link_Libraries ( test_ldns_00
   tap
@@ -42,5 +42,5 @@ target_link_Libraries ( test_ldns_00
 
 add_test (
   NAME test_ldns
-  COMMAND test_ldns_00 $<TARGET_FILE:ldns>
+  COMMAND test_ldns_00
 )

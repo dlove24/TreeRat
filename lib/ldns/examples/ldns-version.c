@@ -1,5 +1,5 @@
 /*
- * ldns-version shows ldns's version 
+ * ldns-version shows ldns's version
  *
  * (c) NLnet Labs, 2005 - 2008
  * See the file LICENSE for the license
@@ -9,8 +9,7 @@
 #include <ldns/ldns.h>
 
 int
-main(void)
-{
-	printf("%s\n", ldns_version());
-        return 0;
-}
+main (void) {
+  printf ("%s\n", ldns_version());
+  return 0;
+  }

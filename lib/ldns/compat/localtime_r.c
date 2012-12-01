@@ -6,9 +6,8 @@
 #include <time.h>
 #endif
 
-struct tm *localtime_r(const time_t *timep, struct tm *result)
-{
-	/* no thread safety. */
-	*result = *localtime(timep);
-	return result;
-}
+struct tm* localtime_r (const time_t* timep, struct tm* result) {
+  /* no thread safety. */
+  *result = *localtime (timep);
+  return result;
+  }

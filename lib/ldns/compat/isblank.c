@@ -5,11 +5,10 @@
 #include <ldns/config.h>
 #endif
 
-int isblank(int c);
+int isblank (int c);
 
 /* true if character is a blank (space or tab). C99. */
 int
-isblank(int c)
-{
-	return (c == ' ') || (c == '\t');
-}
+isblank (int c) {
+  return (c == ' ') || (c == '\t');
+  }

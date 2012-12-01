@@ -32,7 +32,7 @@ add_subdirectory (tap)
 # Core treerat command
 add_subdirectory ( treerat )
 
-# Refresh subcommand
-#add_subdirectory ( refresh )
+# lDNS library
+add_subdirectory ( ldns )
 
 

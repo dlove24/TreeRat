@@ -27,20 +27,20 @@
 using namespace std;
 
 /** Run the command, with the given arguments, under the system shell. If
- *  the command runs successfully, the output from \c stdout is returned 
- *  to the caller. Otherwise the function raises the exception ?? and 
+ *  the command runs successfully, the output from \c stdout is returned
+ *  to the caller. Otherwise the function raises the exception ?? and
  *  retuns an empty string to the caller.
  *
  *    \param [in] program_name The name (and path if needed) of the
  *      program to execute.
- *    
- *    \param [in] program_arguments Literial arguments passed to the 
+ *
+ *    \param [in] program_arguments Literial arguments passed to the
  *      program. These are not interpreted any further (e.g. expanding
  *      shell globs).
  *
  * \retval TRUE   The output from the command (may be empty: but will be
  *   a valid string).
- * 
+ *
  * \retval FALSE  An empty string,
  *
  * Example Usage:
@@ -56,13 +56,13 @@ string run (const string program_name, const string program_arguments);
  *  function: only the return value is returned to the caller.
  *
  *    \param [in] program_name The name (and path if needed) of the
- *    program to execute. 
- 
- *    \param [in] program_arguments Literial arguments passed to the 
+ *    program to execute.
+
+ *    \param [in] program_arguments Literial arguments passed to the
  *      program. These are not interpreted any further (e.g. expanding
  *      shell globs).
  *
- * \retval Boolean If the command runs sucessfully, the function returns 
+ * \retval Boolean If the command runs sucessfully, the function returns
  *   \c true, otheriwse the function returns \c false.
  *
 */

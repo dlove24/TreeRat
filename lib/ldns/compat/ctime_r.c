@@ -6,11 +6,13 @@
 #include <time.h>
 #endif
 
-char *ctime_r(const time_t *timep, char *buf)
-{
-	/* no thread safety. */
-	char* result = ctime(timep);
-	if(buf && result)
-		strcpy(buf, result);
-	return result;
-}
+char* ctime_r (const time_t* timep, char* buf) {
+  /* no thread safety. */
+  char* result = ctime (timep);
+
+  if (buf && result) {
+    strcpy (buf, result);
+    }
+
+  return result;
+  }

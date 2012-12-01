@@ -8,8 +8,8 @@
 
 #include <sys/types.h>
 
-void *realloc (void*, size_t);
-void *malloc (size_t);
+void* realloc (void*, size_t);
+void* malloc (size_t);
 
 /* Changes allocation to new sizes, copies over old data.
  * if oldptr is NULL, does a malloc.
@@ -17,14 +17,16 @@ void *malloc (size_t);
  *   (does not return NULL and free block)
  */
 
-void *
-rpl_realloc (void* ptr, size_t n)
-{
-  if (n == 0)
+void*
+rpl_realloc (void* ptr, size_t n) {
+  if (n == 0) {
     n = 1;
-  if(ptr == 0) {
-    return malloc(n);
+    }
+
+  if (ptr == 0) {
+    return malloc (n);
+    }
+
+  return realloc (ptr, n);
   }
-  return realloc(ptr, n);
-}
 

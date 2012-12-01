@@ -59,12 +59,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-/*	"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";*/
+/*  "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";*/
 static const char Base32[] =
-	"abcdefghijklmnopqrstuvwxyz234567";
-/*	"0123456789ABCDEFGHIJKLMNOPQRSTUV";*/
+  "abcdefghijklmnopqrstuvwxyz234567";
+/*  "0123456789ABCDEFGHIJKLMNOPQRSTUV";*/
 static const char Base32_extended_hex[] =
-	"0123456789abcdefghijklmnopqrstuv";
+  "0123456789abcdefghijklmnopqrstuv";
 static const char Pad32 = '=';
 
 /* (From RFC1521 and draft-ietf-dnssec-secext-03.txt)
@@ -175,213 +175,246 @@ static const char Pad32 = '=';
  */
 
 int
-ldns_b32_pton_ar(char const *src, size_t hashed_owner_str_len, uint8_t *target, size_t targsize, const char B32_ar[])
-{
-	int tarindex, state, ch;
-	char *pos;
-	int i = 0;
+ldns_b32_pton_ar (char const* src, size_t hashed_owner_str_len, uint8_t* target, size_t targsize, const char B32_ar[]) {
+  int tarindex, state, ch;
+  char* pos;
+  int i = 0;
 
-	state = 0;
-	tarindex = 0;
-	
-	while ((ch = *src++) != '\0' && (i == 0 || i < (int) hashed_owner_str_len)) {
-		i++;
-		ch = tolower(ch);
-		if (isspace((unsigned char)ch))        /* Skip whitespace anywhere. */
-			continue;
+  state = 0;
+  tarindex = 0;
 
-		if (ch == Pad32)
-			break;
+  while ( (ch = *src++) != '\0' && (i == 0 || i < (int) hashed_owner_str_len)) {
+    i++;
+    ch = tolower (ch);
 
-		pos = strchr(B32_ar, ch);
-		if (pos == 0) {
-			/* A non-base32 character. */
-			return (-ch);
-		}
+    if (isspace ( (unsigned char) ch)) {   /* Skip whitespace anywhere. */
+      continue;
+      }
 
-		switch (state) {
-		case 0:
-			if (target) {
-				if ((size_t)tarindex >= targsize) {
-					return (-2);
-				}
-				target[tarindex] = (pos - B32_ar) << 3;
-			}
-			state = 1;
-			break;
-		case 1:
-			if (target) {
-				if ((size_t)tarindex + 1 >= targsize) {
-					return (-3);
-				}
-				target[tarindex]   |=  (pos - B32_ar) >> 2;
-				target[tarindex+1]  = ((pos - B32_ar) & 0x03)
-							<< 6 ;
-			}
-			tarindex++;
-			state = 2;
-			break;
-		case 2:
-			if (target) {
-				if ((size_t)tarindex + 1 >= targsize) {
-					return (-4);
-				}
-				target[tarindex]   |=  (pos - B32_ar) << 1;
-			}
-			/*tarindex++;*/
-			state = 3;
-			break;
-		case 3:
-			if (target) {
-				if ((size_t)tarindex + 1 >= targsize) {
-					return (-5);
-				}
-				target[tarindex]   |=  (pos - B32_ar) >> 4;
-				target[tarindex+1]  = ((pos - B32_ar) & 0x0f) << 4 ;
-			}
-			tarindex++;
-			state = 4;
-			break;
-		case 4:
-			if (target) {
-				if ((size_t)tarindex + 1 >= targsize) {
-					return (-6);
-				}
-				target[tarindex]   |=  (pos - B32_ar) >> 1;
-				target[tarindex+1]  = ((pos - B32_ar) & 0x01)
-							<< 7 ;
-			}
-			tarindex++;
-			state = 5;
-			break;
-		case 5:
-			if (target) {
-				if ((size_t)tarindex + 1 >= targsize) {
-					return (-7);
-				}
-				target[tarindex]   |=  (pos - B32_ar) << 2;
-			}
-			state = 6;
-			break;
-		case 6:
-			if (target) {
-				if ((size_t)tarindex + 1 >= targsize) {
-					return (-8);
-				}
-				target[tarindex]   |=  (pos - B32_ar) >> 3;
-				target[tarindex+1]  = ((pos - B32_ar) & 0x07)
-							<< 5 ;
-			}
-			tarindex++;
-			state = 7;
-			break;
-		case 7:
-			if (target) {
-				if ((size_t)tarindex + 1 >= targsize) {
-					return (-9);
-				}
-				target[tarindex]   |=  (pos - B32_ar);
-			}
-			tarindex++;
-			state = 0;
-			break;
-		default:
-			abort();
-		}
-	}
+    if (ch == Pad32) {
+      break;
+      }
 
-	/*
-	 * We are done decoding Base-32 chars.  Let's see if we ended
-	 * on a byte boundary, and/or with erroneous trailing characters.
-	 */
+    pos = strchr (B32_ar, ch);
 
-	if (ch == Pad32) {		/* We got a pad char. */
-		ch = *src++;		/* Skip it, get next. */
-		switch (state) {
-		case 0:		/* Invalid = in first position */
-		case 1:		/* Invalid = in second position */
-			return (-10);
+    if (pos == 0) {
+      /* A non-base32 character. */
+      return (-ch);
+      }
 
-		case 2:		/* Valid, means one byte of info */
-		case 3:
-			/* Skip any number of spaces. */
-			for ((void)NULL; ch != '\0'; ch = *src++)
-				if (!isspace((unsigned char)ch))
-					break;
-			/* Make sure there is another trailing = sign. */
-			if (ch != Pad32) {
-				return (-11);
-			}
-			ch = *src++;		/* Skip the = */
-			/* Fall through to "single trailing =" case. */
-			/* FALLTHROUGH */
+    switch (state) {
+      case 0:
+        if (target) {
+          if ( (size_t) tarindex >= targsize) {
+            return (-2);
+            }
 
-		case 4:		/* Valid, means two bytes of info */
-		case 5:
-		case 6:
-			/*
-			 * We know this char is an =.  Is there anything but
-			 * whitespace after it?
-			 */
-			for ((void)NULL; ch != '\0'; ch = *src++)
-				if (!(isspace((unsigned char)ch) || ch == '=')) {
-					return (-12);
-				}
+          target[tarindex] = (pos - B32_ar) << 3;
+          }
 
-		case 7:		/* Valid, means three bytes of info */
-			/*
-			 * We know this char is an =.  Is there anything but
-			 * whitespace after it?
-			 */
-			for ((void)NULL; ch != '\0'; ch = *src++)
-				if (!isspace((unsigned char)ch)) {
-					return (-13);
-				}
+        state = 1;
+        break;
 
-			/*
-			 * Now make sure for cases 2 and 3 that the "extra"
-			 * bits that slopped past the last full byte were
-			 * zeros.  If we don't check them, they become a
-			 * subliminal channel.
-			 */
-			if (target && target[tarindex] != 0) {
-				return (-14);
-			}
-		}
-	} else {
-		/*
-		 * We ended by seeing the end of the string.  Make sure we
-		 * have no partial bytes lying around.
-		 */
-		if (state != 0)
-			return (-15);
-	}
+      case 1:
+        if (target) {
+          if ( (size_t) tarindex + 1 >= targsize) {
+            return (-3);
+            }
 
-	return (tarindex);
-}
+          target[tarindex]   |= (pos - B32_ar) >> 2;
+          target[tarindex + 1]  = ( (pos - B32_ar) & 0x03)
+                                  << 6 ;
+          }
+
+        tarindex++;
+        state = 2;
+        break;
+
+      case 2:
+        if (target) {
+          if ( (size_t) tarindex + 1 >= targsize) {
+            return (-4);
+            }
+
+          target[tarindex]   |= (pos - B32_ar) << 1;
+          }
+
+        /*tarindex++;*/
+        state = 3;
+        break;
+
+      case 3:
+        if (target) {
+          if ( (size_t) tarindex + 1 >= targsize) {
+            return (-5);
+            }
+
+          target[tarindex]   |= (pos - B32_ar) >> 4;
+          target[tarindex + 1]  = ( (pos - B32_ar) & 0x0f) << 4 ;
+          }
+
+        tarindex++;
+        state = 4;
+        break;
+
+      case 4:
+        if (target) {
+          if ( (size_t) tarindex + 1 >= targsize) {
+            return (-6);
+            }
+
+          target[tarindex]   |= (pos - B32_ar) >> 1;
+          target[tarindex + 1]  = ( (pos - B32_ar) & 0x01)
+                                  << 7 ;
+          }
+
+        tarindex++;
+        state = 5;
+        break;
+
+      case 5:
+        if (target) {
+          if ( (size_t) tarindex + 1 >= targsize) {
+            return (-7);
+            }
+
+          target[tarindex]   |= (pos - B32_ar) << 2;
+          }
+
+        state = 6;
+        break;
+
+      case 6:
+        if (target) {
+          if ( (size_t) tarindex + 1 >= targsize) {
+            return (-8);
+            }
+
+          target[tarindex]   |= (pos - B32_ar) >> 3;
+          target[tarindex + 1]  = ( (pos - B32_ar) & 0x07)
+                                  << 5 ;
+          }
+
+        tarindex++;
+        state = 7;
+        break;
+
+      case 7:
+        if (target) {
+          if ( (size_t) tarindex + 1 >= targsize) {
+            return (-9);
+            }
+
+          target[tarindex]   |= (pos - B32_ar);
+          }
+
+        tarindex++;
+        state = 0;
+        break;
+
+      default:
+        abort();
+      }
+    }
+
+  /*
+   * We are done decoding Base-32 chars.  Let's see if we ended
+   * on a byte boundary, and/or with erroneous trailing characters.
+   */
+
+  if (ch == Pad32) {    /* We got a pad char. */
+    ch = *src++;    /* Skip it, get next. */
+
+    switch (state) {
+      case 0:   /* Invalid = in first position */
+      case 1:   /* Invalid = in second position */
+        return (-10);
+
+      case 2:   /* Valid, means one byte of info */
+      case 3:
+
+        /* Skip any number of spaces. */
+        for ( (void) NULL; ch != '\0'; ch = *src++)
+          if (!isspace ( (unsigned char) ch)) {
+            break;
+            }
+
+        /* Make sure there is another trailing = sign. */
+        if (ch != Pad32) {
+          return (-11);
+          }
+
+        ch = *src++;    /* Skip the = */
+        /* Fall through to "single trailing =" case. */
+        /* FALLTHROUGH */
+
+      case 4:   /* Valid, means two bytes of info */
+      case 5:
+      case 6:
+
+        /*
+         * We know this char is an =.  Is there anything but
+         * whitespace after it?
+         */
+        for ( (void) NULL; ch != '\0'; ch = *src++)
+          if (! (isspace ( (unsigned char) ch) || ch == '=')) {
+            return (-12);
+            }
+
+      case 7:   /* Valid, means three bytes of info */
+
+        /*
+         * We know this char is an =.  Is there anything but
+         * whitespace after it?
+         */
+        for ( (void) NULL; ch != '\0'; ch = *src++)
+          if (!isspace ( (unsigned char) ch)) {
+            return (-13);
+            }
+
+        /*
+         * Now make sure for cases 2 and 3 that the "extra"
+         * bits that slopped past the last full byte were
+         * zeros.  If we don't check them, they become a
+         * subliminal channel.
+         */
+        if (target && target[tarindex] != 0) {
+          return (-14);
+          }
+      }
+    }
+
+  else {
+    /*
+     * We ended by seeing the end of the string.  Make sure we
+     * have no partial bytes lying around.
+     */
+    if (state != 0) {
+      return (-15);
+      }
+    }
+
+  return (tarindex);
+  }
 
 int
-ldns_b32_pton(char const *src, size_t hashed_owner_str_len, uint8_t *target, size_t targsize)
-{
-	return ldns_b32_pton_ar(src, hashed_owner_str_len, target, targsize, Base32);
-}
+ldns_b32_pton (char const* src, size_t hashed_owner_str_len, uint8_t* target, size_t targsize) {
+  return ldns_b32_pton_ar (src, hashed_owner_str_len, target, targsize, Base32);
+  }
 
 /* deprecated, here for backwards compatibility */
 int
-b32_pton(char const *src, size_t hashed_owner_str_len, uint8_t *target, size_t targsize)
-{
-	return ldns_b32_pton_ar(src, hashed_owner_str_len, target, targsize, Base32);
-}
+b32_pton (char const* src, size_t hashed_owner_str_len, uint8_t* target, size_t targsize) {
+  return ldns_b32_pton_ar (src, hashed_owner_str_len, target, targsize, Base32);
+  }
 
 int
-ldns_b32_pton_extended_hex(char const *src, size_t hashed_owner_str_len, uint8_t *target, size_t targsize)
-{
-	return ldns_b32_pton_ar(src, hashed_owner_str_len, target, targsize, Base32_extended_hex);
-}
+ldns_b32_pton_extended_hex (char const* src, size_t hashed_owner_str_len, uint8_t* target, size_t targsize) {
+  return ldns_b32_pton_ar (src, hashed_owner_str_len, target, targsize, Base32_extended_hex);
+  }
 
 /* deprecated, here for backwards compatibility */
 int
-b32_pton_extended_hex(char const *src, size_t hashed_owner_str_len, uint8_t *target, size_t targsize)
-{
-	return ldns_b32_pton_ar(src, hashed_owner_str_len, target, targsize, Base32_extended_hex);
-}
+b32_pton_extended_hex (char const* src, size_t hashed_owner_str_len, uint8_t* target, size_t targsize) {
+  return ldns_b32_pton_ar (src, hashed_owner_str_len, target, targsize, Base32_extended_hex);
+  }

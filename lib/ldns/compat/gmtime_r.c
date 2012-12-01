@@ -6,9 +6,8 @@
 #include <time.h>
 #endif
 
-struct tm *gmtime_r(const time_t *timep, struct tm *result)
-{
-	/* no thread safety. */
-	*result = *gmtime(timep);
-	return result;
-}
+struct tm* gmtime_r (const time_t* timep, struct tm* result) {
+  /* no thread safety. */
+  *result = *gmtime (timep);
+  return result;
+  }

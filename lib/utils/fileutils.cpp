@@ -47,9 +47,9 @@ using namespace std;
  *  description.
  */
 class CommandExecuteException : public std::runtime_error {
-    public:
-          CommandExecuteException() : std::runtime_error("Failed to execute the specified command") { }
-};
+  public:
+    CommandExecuteException() : std::runtime_error ("Failed to execute the specified command") { }
+  };
 
 /** Run the command, with the given arguments, under the system shell. If
  *  the command runs successfully, the output from \c stdout is returned
