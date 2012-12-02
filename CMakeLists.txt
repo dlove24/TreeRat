@@ -268,7 +268,7 @@ if ( BUILD_DOCUMENTATION )
 
   configure_file ( Doxyfile.in ${PROJECT_BINARY_DIR}/Doxyfile  @ONLY IMMEDIATE )
 
-  add_custom_target ( Docs ALL
+  add_custom_target ( Docs
                       COMMAND ${DOXYGEN_EXECUTABLE} ${PROJECT_BINARY_DIR}/Doxyfile
                       SOURCES ${PROJECT_BINARY_DIR}/Doxyfile)
 endif ()

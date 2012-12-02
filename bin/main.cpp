@@ -1,4 +1,7 @@
 /**
+*** Parses the command line arguments to the core \c treerat
+*** executable, and hands control to the relevant sub-command.
+***
 *** Copyright(c) 2011 David Love <d.love@shu.ac.uk>
 ***
 *** Permission to use, copy, modify, and/or distribute this software for any
@@ -13,8 +16,7 @@
 *** ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 *** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ***
-*** \brief  Parses the command line arguments to @treerat, and hands control
-***         to the relevant sub-command
+*** \file   main.cpp
 ***
 *** \author David Love
 *** \date   November 2012

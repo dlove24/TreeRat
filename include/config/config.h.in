@@ -1,4 +1,6 @@
 /**
+*** Provides defines for platform, compiler and header options from CMake.
+***
 *** Copyright (c) 2012 David Love <david@homeunix.org.uk>
 ***
 *** Permission to use, copy, modify, and/or distribute this software for any
@@ -14,7 +16,6 @@
 *** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ***
 *** \file config.h
-*** \brief Provides defines for platform, compiler and header options from CMake
 ***
 *** \author David Love
 *** \date November 2012

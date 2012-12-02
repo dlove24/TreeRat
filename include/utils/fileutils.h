@@ -1,4 +1,6 @@
 /**
+*** Test the core \c treerat options.
+***
 *** Copyright(c) 2011 David Love <d.love@shu.ac.uk>
 ***
 *** Permission to use, copy, modify, and/or distribute this software for any
@@ -13,7 +15,7 @@
 *** ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 *** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ***
-*** \brief  Test the core \c treerat options
+*** \file   fileutils.h
 ***
 *** \author David Love (david@homeunix.org.uk)
 ***  \date   December, 2012
