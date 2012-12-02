@@ -42,8 +42,11 @@ int main () {
   ldns_rr_list* mx;
   ldns_status s;
 
-  //domain = ldns_dname_new_frm_str("time.aaisp.net.uk");
-  domain = ldns_dname_new_frm_str("www.google.com");
+  plan (6);
+
+  // Try an A record lookup against a known target
+
+  domain = ldns_dname_new_frm_str("www.homeunix.org.uk");
   s = ldns_resolver_new_frm_file(&res, NULL);
   p = ldns_resolver_query(res, domain, LDNS_RR_TYPE_A, LDNS_RR_CLASS_IN, LDNS_RD);
   mx = ldns_pkt_rr_list_by_type(p, LDNS_RR_TYPE_A, LDNS_SECTION_ANSWER);
@@ -55,7 +58,47 @@ int main () {
   ldns_pkt_free(p);
   ldns_resolver_deep_free(res);
 
-  plan (2);
+  // Try an AAAA record lookup against a known target
+
+  domain = ldns_dname_new_frm_str("www.homeunix.org.uk");
+  s = ldns_resolver_new_frm_file(&res, NULL);
+  p = ldns_resolver_query(res, domain, LDNS_RR_TYPE_AAAA, LDNS_RR_CLASS_IN, LDNS_RD);
+  mx = ldns_pkt_rr_list_by_type(p, LDNS_RR_TYPE_AAAA, LDNS_SECTION_ANSWER);
+
+  ldns_rr_list_sort(mx);
+  ldns_rr_list_print(stdout, mx);
+
+  ldns_rr_list_deep_free(mx);
+  ldns_pkt_free(p);
+  ldns_resolver_deep_free(res);
+
+  // Try an MX record lookup against a known target
+
+  domain = ldns_dname_new_frm_str("homeunix.org.uk");
+  s = ldns_resolver_new_frm_file(&res, NULL);
+  p = ldns_resolver_query(res, domain, LDNS_RR_TYPE_MX, LDNS_RR_CLASS_IN, LDNS_RD);
+  mx = ldns_pkt_rr_list_by_type(p, LDNS_RR_TYPE_MX, LDNS_SECTION_ANSWER);
+
+  ldns_rr_list_sort(mx);
+  ldns_rr_list_print(stdout, mx);
+
+  ldns_rr_list_deep_free(mx);
+  ldns_pkt_free(p);
+  ldns_resolver_deep_free(res);
+
+  // Lookup a known invalid host
+
+  domain = ldns_dname_new_frm_str("invalid-host.homeunix.org.uk");
+  s = ldns_resolver_new_frm_file(&res, NULL);
+  p = ldns_resolver_query(res, domain, LDNS_RR_TYPE_MX, LDNS_RR_CLASS_IN, LDNS_RD);
+  mx = ldns_pkt_rr_list_by_type(p, LDNS_RR_TYPE_MX, LDNS_SECTION_ANSWER);
+
+  ldns_rr_list_sort(mx);
+  ldns_rr_list_print(stdout, mx);
+
+  ldns_rr_list_deep_free(mx);
+  ldns_pkt_free(p);
+  ldns_resolver_deep_free(res);
 
   //isnt (p, "", "No output when called with no arguments");
   //isnt (p, 0, "Exit status is zero when called with no arguments");
