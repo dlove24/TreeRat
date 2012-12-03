@@ -1,4 +1,6 @@
 /**
+*** Test the core functionality of the lDNS library.
+***
 *** Copyright(c) 2011 David Love <d.love@shu.ac.uk>
 ***
 *** Permission to use, copy, modify, and/or distribute this software for any
@@ -13,9 +15,10 @@
 *** ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 *** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ***
-*** Test the core functionality of the lDNS library. This ensure that we
-*** have built the library correctly, and that it is at least somewhat
-*** sane.
+*** This ensure that we have built the library correctly, and that it is at
+*** least somewhat sane.
+***
+*** \file   test_ldns_lookup.cpp
 ***
 *** \author David Love
 *** \date   December 2012
@@ -36,13 +39,17 @@ using namespace std;
 using namespace TAP;
 
 int main () {
+    char format_str[] = "address";
+  const ldns_output_format   test_dns_output_format_record = { LDNS_COMMENT_KEY | LDNS_COMMENT_BUBBLEBABBLE | LDNS_COMMENT_FLAGS, &format_str };
+  const ldns_output_format*  test_dns_output_format = &test_dns_output_format_record;
+
   ldns_resolver* res;
   ldns_rdf* domain;
   ldns_pkt* p;
   ldns_rr_list* mx;
   ldns_status s;
 
-  plan (6);
+  plan (4);
 
   // Try an A record lookup against a known target
 
@@ -52,7 +59,7 @@ int main () {
   mx = ldns_pkt_rr_list_by_type(p, LDNS_RR_TYPE_A, LDNS_SECTION_ANSWER);
 
   ldns_rr_list_sort(mx);
-  ldns_rr_list_print(stdout, mx);
+  is (ldns_rr_list2str_fmt(test_dns_output_format, mx), "www.homeunix.org.uk.	86400	IN	A	81.187.233.188", "Unexpected return for Homeunix A record");
 
   ldns_rr_list_deep_free(mx);
   ldns_pkt_free(p);
@@ -66,7 +73,7 @@ int main () {
   mx = ldns_pkt_rr_list_by_type(p, LDNS_RR_TYPE_AAAA, LDNS_SECTION_ANSWER);
 
   ldns_rr_list_sort(mx);
-  ldns_rr_list_print(stdout, mx);
+  is (ldns_rr_list2str_fmt(test_dns_output_format, mx), "www.homeunix.org.uk.	86400	IN	AAAA	2001:8b0:1698:cf71::50:0", "Unexpected return for Homeunix A record");
 
   ldns_rr_list_deep_free(mx);
   ldns_pkt_free(p);
@@ -80,7 +87,7 @@ int main () {
   mx = ldns_pkt_rr_list_by_type(p, LDNS_RR_TYPE_MX, LDNS_SECTION_ANSWER);
 
   ldns_rr_list_sort(mx);
-  ldns_rr_list_print(stdout, mx);
+  is (ldns_rr_list2str_fmt(test_dns_output_format, mx), "homeunix.org.uk.	86400	IN	MX	10 hotmail.homeunix.org.uk.", "Unexpected return for Homeunix A record");
 
   ldns_rr_list_deep_free(mx);
   ldns_pkt_free(p);
@@ -94,14 +101,11 @@ int main () {
   mx = ldns_pkt_rr_list_by_type(p, LDNS_RR_TYPE_MX, LDNS_SECTION_ANSWER);
 
   ldns_rr_list_sort(mx);
-  ldns_rr_list_print(stdout, mx);
+  is (ldns_rr_list2str_fmt(test_dns_output_format, mx), "", "Found record for an invalid host");
 
   ldns_rr_list_deep_free(mx);
   ldns_pkt_free(p);
   ldns_resolver_deep_free(res);
-
-  //isnt (p, "", "No output when called with no arguments");
-  //isnt (p, 0, "Exit status is zero when called with no arguments");
 
   return exit_status();
   }
