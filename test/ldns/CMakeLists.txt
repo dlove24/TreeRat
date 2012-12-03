@@ -40,6 +40,8 @@ target_link_Libraries ( test_ldns_00
 ## Run the tests
 ##
 
+# Tests the core resolver library. This works, but the output is not stable, so this test is
+# no linked to the build (otherwise it generates false warnings).
 add_test (
   NAME test_ldns
   COMMAND test_ldns_00
