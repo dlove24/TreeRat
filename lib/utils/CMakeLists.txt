@@ -20,9 +20,16 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ##
+## Header files
+##
+
+#include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/../../include )
+
+##
 ## Library Sources
 ##
 
 add_library ( utils STATIC
+  dnsutils.cpp
   fileutils.cpp
 ) 

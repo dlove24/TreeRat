@@ -25,9 +25,10 @@
 ***
 **/
 
+#include <utils/fileutils.h>
+
 #include <config/config.h>
 
-#include <stdexcept>
 #include <string>
 
 #ifdef HAVE_POPEN
@@ -42,15 +43,6 @@
 #endif
 
 using namespace std;
-
-/** Exception class for the file utility function that involve command execution. Usually indicates
- *  that a command could not be executed, or that the execution generated and error of some
- *  description.
- */
-class CommandExecuteException : public std::runtime_error {
-  public:
-    CommandExecuteException() : std::runtime_error ("Failed to execute the specified command") { }
-  };
 
 /** Run the command, with the given arguments, under the system shell. If
  *  the command runs successfully, the output from \c stdout is returned
@@ -81,7 +73,7 @@ string run (const string program_name, const string program_arguments) {
   string result = "";
 
   if (!cmd_pipe) {
-    throw CommandExecuteException();
+    throw CommandExecuteException ("Failed to execute the specified command");
     }
 
   // This can be a fixed size because we get the output

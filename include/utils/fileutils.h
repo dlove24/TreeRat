@@ -1,5 +1,5 @@
 /**
-*** Test the core \c treerat options.
+*** Portable utilities for manipulating processes and files.
 ***
 *** Copyright(c) 2011 David Love <d.love@shu.ac.uk>
 ***
@@ -18,7 +18,7 @@
 *** \file   fileutils.h
 ***
 *** \author David Love (david@homeunix.org.uk)
-***  \date   December, 2012
+*** \date   December, 2012
 ***
 *** Portable utilities for manipulating processes and files. These
 *** functions complement the Boost portatable file routines, filling in
@@ -26,7 +26,29 @@
 ***
 **/
 
+#include <string>
+#include <stdexcept>
+
 using namespace std;
+
+/***
+ *** Exception Class
+ ***
+ **/
+
+/** Exception class for the file utility function that involve command execution. Usually indicates
+ *  that a command could not be executed, or that the execution generated and error of some
+ *  description.
+ */
+class CommandExecuteException : public std::runtime_error {
+  public:
+    CommandExecuteException (const std::string&  exception_message);
+  };
+
+/***
+ *** Functions
+ ***
+ **/
 
 /** Run the command, with the given arguments, under the system shell. If
  *  the command runs successfully, the output from \c stdout is returned
@@ -40,10 +62,8 @@ using namespace std;
  *      program. These are not interpreted any further (e.g. expanding
  *      shell globs).
  *
- * \retval TRUE   The output from the command (may be empty: but will be
+ * \retval string The output from the command (may be empty: but will be
  *   a valid string).
- *
- * \retval FALSE  An empty string,
  *
  * Example Usage:
  *
@@ -64,7 +84,7 @@ string run (const string program_name, const string program_arguments);
  *      program. These are not interpreted any further (e.g. expanding
  *      shell globs).
  *
- * \retval Boolean If the command runs sucessfully, the function returns
+ * \retval bool If the command runs sucessfully, the function returns
  *   \c true, otheriwse the function returns \c false.
  *
 */
