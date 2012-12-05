@@ -40,6 +40,8 @@
 
 #include <ldns/host2str.h>
 
+using namespace boost::asio;
+
 /***
  *** DNSName Class Defition
  ***
@@ -196,6 +198,43 @@ const char* DNSName::to_c_str (void) const {
   }
 
 /**
+ * Convert the internal \tt DNS resource representation to a
+ * \c boost::ip::address. This does not modify the internal
+ * representation of the \tt DNS resource in any way.
+ *
+ * \note Only certain DNS names can be converted to an IP address
+ *    (namely those from A and AAAA records). If the address cannot
+ *    be converted this class will throw a \c DNSNameConversionException.
+ *    If you don't want to handle exceptions, check the type \em before
+ *    calling this method.
+ *
+ * \retval boost::asio::ip::address An \tt IPv4 or \tt IPv6 address record. We don't
+ *   actually care which style of IP address we return: it is up to the
+ *   caller to ensure they request the correct type.
+ *
+ * Example Usage:
+ *
+ * \code
+ *    DNSName dns_name(a_dns_resource);
+ *    char* a_string{dns_name.to_c_str()};
+ * \endcode
+ *
+ */
+const boost::asio::ip::address DNSName::to_ip (void) const {
+  ip::address return_address;
+
+  try {
+    return_address = ip::address::from_string (cv_dns_query_name);
+    }
+
+  catch (...) {
+    throw DNSNameConversionException ("Invalid address");
+    }
+
+  return return_address;
+  }
+
+/**
  * Convert the strongly typed \c DNSQueryType to the equivalent low-level
  * enumeration used by the \tt lDNS library. This both hides the low-level
  * (C-oriented) types, and ensures that the compiler can check verify the
@@ -326,10 +365,8 @@ DNSNameList* get_dns_names (const string dns_query_name, const DNSQueryType dns_
 
     for (size_t data_index = 0; data_index < data_count; data_index++) {
       ldns_rdf* resource_data {ldns_rr_rdf (resource_record, data_index) };
-      //printf("Data at %u: %s\n", data_index, ldns_rdf2str(resource_data));
       }
 
-    //printf("Found at %u: %s, TTL %u\n", index, ldns_rr2str(resource_record), ldns_rr_ttl(resource_record));
     DNSName* dns_name {new DNSName (resource_record) };
     dns_name_list->push_back (* (dns_name));
     }
