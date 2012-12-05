@@ -58,8 +58,8 @@ int main () {
   try {
     name_list = get_dns_names ("this-host-is-not-valid.homeunix.org.uk", DNSQueryType::A);
     }
-  catch (DNSException) {
-    pass ("DNSException raised on invalid record");
+  catch (DNSResolverException) {
+    pass ("DNSResolverException raised on invalid record");
     }
 
   return exit_status();
