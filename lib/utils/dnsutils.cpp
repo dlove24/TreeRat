@@ -356,20 +356,11 @@ DNSNameList* get_dns_names (const string dns_query_name, const DNSQueryType dns_
   // Order the list of resource records
   ldns_rr_list_sort (ldns_resource_list);
 
-  // Construct the list of names to return to the caller
-  size_t item_count {ldns_rr_list_rr_count (ldns_resource_list) };
-
-  for (size_t index = 0; index < item_count; index++) {
-    ldns_rr* resource_record {ldns_rr_list_rr (ldns_resource_list, index) };
-    size_t data_count = ldns_rr_rd_count (resource_record);
-
-    for (size_t data_index = 0; data_index < data_count; data_index++) {
-      ldns_rdf* resource_data {ldns_rr_rdf (resource_record, data_index) };
-      }
-
-    DNSName* dns_name {new DNSName (resource_record) };
-    dns_name_list->push_back (* (dns_name));
-    }
+  // Dig out the first record, and add the found dns name from that record
+  // to the dns_name_list
+  ldns_rr* resource_record {ldns_rr_list_rr (ldns_resource_list, 0) };
+  DNSName* dns_name {new DNSName (resource_record) };
+  dns_name_list->push_back (* (dns_name));
 
   // Clean-up the allocated resolver, packet buffers, and answer lists
   ldns_rr_list_deep_free (ldns_resource_list);
