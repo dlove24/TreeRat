@@ -98,7 +98,36 @@ class DNSName {
     /// Holds the internal \c DNSQueryType this object is representing.
     DNSQueryType cv_dns_query_type;
 
+    /// Holds the name (resource data) associated with \c cv_dns_query_type
+    std::string cv_dns_query_name;
+
   protected:
+
+    //
+    // Internal type conversions
+    //
+
+    /**
+     * Convert the weakly typed (\c enum) \c ldns_rr_type to the equivalent
+     * strongly-types \c \c DNSQueryType, as used by the \tt DNSUtils library.
+     *
+     * \note Use of this routine should be rare: ideally construct a complete
+     *     \c DNSName object from the \c ldns_rr_type. This makes it much easier
+     *     to manipulate the \tt lDNS library data within the wrapper, and avoids
+     *     depending on the low-level implementation of the \tt lDNS library.
+     *
+     *    \param [in] ldns_type The \tt lDNS library type (\c ldns_rr_type) to
+     *        lookup, and return as a \c DNSQueryType
+     *
+     * \retval DNSQueryType The \c DNSQueryType equivalent of the low-level type
+     *
+     * Example Usage:
+     *
+     * \code
+     *   cv_dns_query_type = convert_ldns_type_to_dns_type(ldns_resource->_rr_type);
+     * \endcode
+     */
+    DNSQueryType convert_ldns_type_to_dns_type (const ldns_rr_type ldns_type);
 
 
   public:
@@ -122,14 +151,19 @@ class DNSName {
      * Construct a \c DNSName class to hold the given \tt DNS resource
      * record.
      */
-    DNSName (const DNSQueryType dns_query_type) {
+    explicit DNSName (const DNSQueryType dns_query_type) {
       cv_dns_query_type = dns_query_type;
       }
 
     /** Construct a \c DNSName class from the low-level \c ldns_rr_type
      *  type returned by the \c lDNS library.
      */
-    DNSName (const ldns_rr_type ldns_resource_type);
+    explicit DNSName (const ldns_rr_type ldns_resource_type);
+
+    /** Construct a \c DNSName class from the low-level \c ldns_rr
+     *  type returned by the \c lDNS library.
+     */
+    explicit DNSName (const ldns_rr* ldns_resource);
 
     //
     // Type Conversions
@@ -170,7 +204,7 @@ class DNSName {
      *    char* a_string{dns_name()};
      * \endcode
      */
-    operator char* (void) const {
+    operator const char* (void) const {
       return to_c_str();
       }
 
@@ -190,7 +224,7 @@ class DNSName {
      * \endcode
      *
      */
-    std::string to_str (void) const;
+    const string to_str (void) const;
 
     /**
      * Convert the internal \tt DNS resource representation to a
@@ -210,7 +244,7 @@ class DNSName {
      * \endcode
      *
      */
-    char* to_c_str (void) const;
+    const char* to_c_str (void) const;
 
     /**
      * Convert the strongly typed \c DNSQueryType to the equivalent low-level

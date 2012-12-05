@@ -37,6 +37,7 @@ add_executable ( test_ldns_01 test_ldns_wrapper.cpp )
 target_link_Libraries ( test_ldns_01
   tap
   ldns
+  utils
 )
 
 ##
