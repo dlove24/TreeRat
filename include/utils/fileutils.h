@@ -42,7 +42,7 @@ using namespace std;
  */
 class CommandExecuteException : public std::runtime_error {
   public:
-    CommandExecuteException (const std::string&  exception_message);
+    CommandExecuteException (const std::string&  exception_message) : std::runtime_error (exception_message) {}
   };
 
 /***

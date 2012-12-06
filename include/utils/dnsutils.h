@@ -32,6 +32,8 @@
 #include <stdexcept>
 #include <string>
 
+#include <boost/asio.hpp>
+
 #include <ldns/ldns.h>
 
 using namespace std;
@@ -56,10 +58,17 @@ class DNSException : public std::runtime_error {
  *  failure would therefore only be a symptom. If this exception turn up 'randomly': check
  *  the network!
  */
-
 class DNSResolverException : public DNSException {
   public:
     DNSResolverException (const std::string&  exception_message) : DNSException (exception_message) {}
+  };
+
+/** Name to IP address failure exception, indicating the DNS name is not a valid IP address (although
+ *  it may still be a valid DNS Name).
+ */
+class DNSNameConversionException : public DNSException {
+  public:
+    DNSNameConversionException (const std::string&  exception_message) : DNSException (exception_message) {}
   };
 
 /***
@@ -98,7 +107,36 @@ class DNSName {
     /// Holds the internal \c DNSQueryType this object is representing.
     DNSQueryType cv_dns_query_type;
 
+    /// Holds the name (resource data) associated with \c cv_dns_query_type
+    std::string cv_dns_query_name;
+
   protected:
+
+    //
+    // Internal type conversions
+    //
+
+    /**
+     * Convert the weakly typed (\c enum) \c ldns_rr_type to the equivalent
+     * strongly-types \c \c DNSQueryType, as used by the \tt DNSUtils library.
+     *
+     * \note Use of this routine should be rare: ideally construct a complete
+     *     \c DNSName object from the \c ldns_rr_type. This makes it much easier
+     *     to manipulate the \tt lDNS library data within the wrapper, and avoids
+     *     depending on the low-level implementation of the \tt lDNS library.
+     *
+     *    \param [in] ldns_type The \tt lDNS library type (\c ldns_rr_type) to
+     *        lookup, and return as a \c DNSQueryType
+     *
+     * \retval DNSQueryType The \c DNSQueryType equivalent of the low-level type
+     *
+     * Example Usage:
+     *
+     * \code
+     *   cv_dns_query_type = convert_ldns_type_to_dns_type(ldns_resource->_rr_type);
+     * \endcode
+     */
+    DNSQueryType convert_ldns_type_to_dns_type (const ldns_rr_type ldns_type);
 
 
   public:
@@ -122,14 +160,19 @@ class DNSName {
      * Construct a \c DNSName class to hold the given \tt DNS resource
      * record.
      */
-    DNSName (const DNSQueryType dns_query_type) {
+    explicit DNSName (const DNSQueryType dns_query_type) {
       cv_dns_query_type = dns_query_type;
       }
 
     /** Construct a \c DNSName class from the low-level \c ldns_rr_type
      *  type returned by the \c lDNS library.
      */
-    DNSName (const ldns_rr_type ldns_resource_type);
+    explicit DNSName (const ldns_rr_type ldns_resource_type);
+
+    /** Construct a \c DNSName class from the low-level \c ldns_rr
+     *  type returned by the \c lDNS library.
+     */
+    explicit DNSName (const ldns_rr* ldns_resource);
 
     //
     // Type Conversions
@@ -170,7 +213,7 @@ class DNSName {
      *    char* a_string{dns_name()};
      * \endcode
      */
-    operator char* (void) const {
+    operator const char* (void) const {
       return to_c_str();
       }
 
@@ -190,7 +233,7 @@ class DNSName {
      * \endcode
      *
      */
-    std::string to_str (void) const;
+    const string to_str (void) const;
 
     /**
      * Convert the internal \tt DNS resource representation to a
@@ -210,7 +253,32 @@ class DNSName {
      * \endcode
      *
      */
-    char* to_c_str (void) const;
+    const char* to_c_str (void) const;
+
+    /**
+     * Convert the internal \tt DNS resource representation to a
+     * \c boost::ip::address. This does not modify the internal
+     * representation of the \tt DNS resource in any way.
+     *
+     * \note Only certain DNS names can be converted to an IP address
+     *    (namely those from A and AAAA records). If the address cannot
+     *    be converted this class will throw a \c DNSNameConversionException.
+     *    If you don't want to handle exceptions, check the type \em before
+     *    calling this method.
+     *
+     * \retval boost::asio::ip::address An \tt IPv4 or \tt IPv6 address record. We don't
+     *   actually care which style of IP address we return: it is up to the
+     *   caller to ensure they request the correct type.
+     *
+     * Example Usage:
+     *
+     * \code
+     *    DNSName dns_name(a_dns_resource);
+     *    char* a_string{dns_name.to_c_str()};
+     * \endcode
+     *
+     */
+    const boost::asio::ip::address to_ip (void) const;
 
     /**
      * Convert the strongly typed \c DNSQueryType to the equivalent low-level

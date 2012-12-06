@@ -116,9 +116,9 @@ find_package ( Boost 1.45.0 COMPONENTS
 #  chrono
 #  context
 #  date_time
-#  filesystem
+   filesystem
 #  graph
-#  iostreams
+   iostreams
 #  locale
 #  math_c99
 #  math_c99f
@@ -133,7 +133,7 @@ find_package ( Boost 1.45.0 COMPONENTS
 #  regex
 #  serialization
 #  signals
-#  system
+   system
 #  thread
 #  timer
    unit_test_framework
