@@ -122,7 +122,7 @@ extern "C" {
     LDNS_CERT_IACPKIX       = 8,
     LDNS_CERT_URI   = 253,
     LDNS_CERT_OID   = 254
-  };
+    };
   typedef enum ldns_enum_cert_algorithm ldns_cert_algorithm;
 
 

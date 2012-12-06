@@ -388,6 +388,7 @@ ldns_str2rdf_dname (ldns_rdf** d, const char* str) {
 
     switch (*s) {
       case '.':
+
         if (label_len > LDNS_MAX_LABELLEN) {
           return LDNS_STATUS_LABEL_OVERFLOW;
           }

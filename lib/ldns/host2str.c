@@ -118,20 +118,20 @@ ldns_lookup_table ldns_opcodes[] = {
 
 const ldns_output_format   ldns_output_format_nocomments_record = { 0, NULL };
 const ldns_output_format*  ldns_output_format_nocomments
-  = &ldns_output_format_nocomments_record;
+= &ldns_output_format_nocomments_record;
 const ldns_output_format   ldns_output_format_onlykeyids_record = {
   LDNS_COMMENT_KEY, NULL
   };
 const ldns_output_format*  ldns_output_format_onlykeyids
-  = &ldns_output_format_onlykeyids_record;
+= &ldns_output_format_onlykeyids_record;
 const ldns_output_format*  ldns_output_format_default
-  = &ldns_output_format_onlykeyids_record;
+= &ldns_output_format_onlykeyids_record;
 
 const ldns_output_format   ldns_output_format_bubblebabble_record = {
   LDNS_COMMENT_KEY | LDNS_COMMENT_BUBBLEBABBLE | LDNS_COMMENT_FLAGS, NULL
   };
 const ldns_output_format*  ldns_output_format_bubblebabble
-  = &ldns_output_format_bubblebabble_record;
+= &ldns_output_format_bubblebabble_record;
 
 ldns_status
 ldns_pkt_opcode2buffer_str (ldns_buffer* output, ldns_pkt_opcode opcode) {
@@ -1514,6 +1514,7 @@ ldns_rr2buffer_str_fmt (ldns_buffer* output,
         break;
 
       case LDNS_RR_TYPE_RRSIG:
+
         if ( (fmt->flags & LDNS_COMMENT_KEY)
              && (fmt->flags
                  & LDNS_COMMENT_RRSIGS)
@@ -1527,6 +1528,7 @@ ldns_rr2buffer_str_fmt (ldns_buffer* output,
         break;
 
       case LDNS_RR_TYPE_DS:
+
         if ( (fmt->flags & LDNS_COMMENT_BUBBLEBABBLE)
              && ldns_rr_rdf (rr, 3) != NULL) {
           uint8_t* data = ldns_rdf_data (
@@ -1547,6 +1549,7 @@ ldns_rr2buffer_str_fmt (ldns_buffer* output,
         break;
 
       case LDNS_RR_TYPE_NSEC3:
+
         if (! (fmt->flags & LDNS_COMMENT_FLAGS) &&
             ! (fmt->flags & LDNS_COMMENT_NSEC3_CHAIN)) {
           break;

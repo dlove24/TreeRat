@@ -686,6 +686,7 @@ ldns_key_rr2ds (const ldns_rr* key, ldns_hash h) {
 
     case LDNS_HASH_GOST:
 #ifdef USE_GOST
+
       if (!ldns_digest_evp ( (unsigned char*) ldns_buffer_begin (data_buf),
                              (unsigned int) ldns_buffer_position (data_buf),
                              (unsigned char*) digest, md)) {
@@ -1662,7 +1663,7 @@ ldns_dnssec_chain_nsec3_list (ldns_rr_list* nsec3_rrs) {
       if (next_nsec_owner_str[strlen (next_nsec_owner_str) - 1]
           == '.') {
         next_nsec_owner_str[strlen (next_nsec_owner_str) - 1]
-          = '\0';
+        = '\0';
         }
 
       status = ldns_str2rdf_b32_ext (&next_nsec_rdf,
@@ -1687,7 +1688,7 @@ ldns_dnssec_chain_nsec3_list (ldns_rr_list* nsec3_rrs) {
       if (next_nsec_owner_str[strlen (next_nsec_owner_str) - 1]
           == '.') {
         next_nsec_owner_str[strlen (next_nsec_owner_str) - 1]
-          = '\0';
+        = '\0';
         }
 
       status = ldns_str2rdf_b32_ext (&next_nsec_rdf,

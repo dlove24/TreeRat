@@ -143,7 +143,7 @@ enum Error {
   earroob,
   efound,
   enotfound
-};
+  };
 
 typedef std :: string String;
 typedef char Character;

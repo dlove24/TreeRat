@@ -21,6 +21,9 @@
 *** \date November 2012
 **/
 
+#ifndef CONFIG_H
+#define CONFIG_H 1
+
 /**
 *** Platform Checks
 **/
@@ -53,8 +56,15 @@
 #cmakedefine HAVE_BIG_ENDIAN
 #endif
 
-/**
-*** Function Declarations
+#ifdef HAVE_BIG_ENDIAN
+#  define BYTE_ORDER BIG_ENDIAN
+#else
+#  define BYTE_ORDER LITTLE_ENDIAN
+#endif
+
+/***
+**** Function Declarations
+****
 **/
 
 /* The location of popen varies a bit. These variables set both the
@@ -68,8 +78,19 @@
  */
 #cmakedefine HAVE_SSL 1
 
-/**
-*** Header Declarations
+/* Host to network conversion routines */
+#cmakedefine HAVE_B32_NTOP 1
+#cmakedefine HAVE_B32_PTON 1
+#cmakedefine HAVE_B64_NTOP 1
+#cmakedefine HAVE_B64_PTON 1
+
+/* BSD C Library functions
+ */
+#cmakedefine HAVE_STRLCPY 1
+
+/***
+**** Header Declarations
+****
 **/
 
 /* Look for the getopt library. If this is not available, routines
@@ -86,7 +107,9 @@
 #cmakedefine HAVE_NETDB_H 1
 #cmakedefine HAVE_RESOLV_H 1
 #cmakedefine HAVE_SOCKLEN_T 1
+#cmakedefine HAVE_STDDEF_H 1
 #cmakedefine HAVE_STDINT_H 1
+#cmakedefine HAVE_STDLIB_H 1
 #cmakedefine HAVE_UNISTD_H 1
 #cmakedefine HAVE_WINSOCK2_H 1
 
@@ -95,46 +118,22 @@
 #cmakedefine HAVE_SYS_SELECT_H 1
 #cmakedefine HAVE_SYS_TYPES_H 1
 
-/**
-*** Network to Host Conversion Functions. Principally used by the ldns library.
+/***
+ *** Type Defines
+ ***
+ **/
+
+#cmakedefine TYPEDEF___U_CHAR  1
+#cmakedefine TYPEDEF___U_INT   1
+#cmakedefine TYPEDEF___U_LONG  1
+#cmakedefine TYPEDEF___U_SHORT 1
+
+/***
+**** Compatability defines. These may also need addtional functions
+**** in the 'compat' library to be linked in if used.
+****
 **/
 
-#cmakedefine HAVE_B32_NTOP 1
-#cmakedefine HAVE_B32_PTON 1
-#cmakedefine HAVE_B64_NTOP 1
-#cmakedefine HAVE_B64_PTON 1
+#include <config/compat.h>
 
-#ifdef HAVE_B64_PTON
-#  define B64_PTON
-#  include <resolv.h>
-   int ldns_b64_ntop (uint8_t const* src, size_t srclength,
-                      char* target, size_t targsize);
-
-   /**
-    * calculates the size needed to store the result of b64_ntop
-    */
-   static inline size_t ldns_b64_ntop_calculate_size (size_t srcsize) {
-     return ( ( ( (srcsize + 2) / 3) * 4) + 1);
-     }
-#endif /* B64_PTON */
-
-#ifdef HAVE_B64_NTOP
-#  define B64_NTOP
-#  include <resolv.h>
-
-   int ldns_b64_pton (char const* src, uint8_t* target, size_t targsize);
-
-   /**
-    * calculates the size needed to store the result of ldns_b64_pton
-    */
-   static inline size_t ldns_b64_pton_calculate_size (size_t srcsize) {
-     return ( ( ( ( (srcsize + 3) / 4) * 3)) + 1);
-     }
-#endif /* B64_NTOP */
-
-/* detect if we need to cast to unsigned int for FD_SET to avoid warnings */
-#ifdef HAVE_WINSOCK2_H
-#  define FD_SET_T (u_int)
-#else
-#  define FD_SET_T
-#endif
+#endif /* config.h */

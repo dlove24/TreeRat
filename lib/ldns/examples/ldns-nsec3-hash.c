@@ -53,6 +53,7 @@ main (int argc, char* argv[]) {
         break;
 
       case 's':
+
         if (strlen (optarg) % 2 != 0) {
           fprintf (stderr, "Salt value is not valid hex data, not a multiple of 2 characters\n");
           exit (EXIT_FAILURE);

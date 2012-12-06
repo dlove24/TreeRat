@@ -83,14 +83,28 @@ Or you can just use the menu above to browse through the API docs.
 /**
  * \file ldns.h
  *
- * Including this file will include all ldns files, and define some lookup tables.
+ * Including this file will include all ldns files, and define some lookup tables
+ * and compatability functions.
+ *
  */
 
 #ifndef LDNS_DNS_H
 #define LDNS_DNS_H
 
+//
+// Standard and Platform includes common to all lDNS files
+//
+
 #include <stdio.h>
 #include <stdlib.h>
+
+#ifdef HAVE_ARPA_INET_H
+#   include <arpa/inet.h>
+#endif
+
+//
+// lDNS project headers
+//
 
 #include "util.h"
 #include "buffer.h"
@@ -122,6 +136,10 @@ Or you can just use the menu above to browse through the API docs.
 #include "rbtree.h"
 #include "sha1.h"
 #include "sha2.h"
+
+//
+// Type defines
+//
 
 #ifdef __cplusplus
 extern "C" {

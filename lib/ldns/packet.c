@@ -614,6 +614,7 @@ bool
 ldns_pkt_push_rr (ldns_pkt* packet, ldns_pkt_section section, ldns_rr* rr) {
   switch (section) {
     case LDNS_SECTION_QUESTION:
+
       if (!ldns_rr_list_push_rr (ldns_pkt_question (packet), rr)) {
         return false;
         }
@@ -622,6 +623,7 @@ ldns_pkt_push_rr (ldns_pkt* packet, ldns_pkt_section section, ldns_rr* rr) {
       break;
 
     case LDNS_SECTION_ANSWER:
+
       if (!ldns_rr_list_push_rr (ldns_pkt_answer (packet), rr)) {
         return false;
         }
@@ -630,6 +632,7 @@ ldns_pkt_push_rr (ldns_pkt* packet, ldns_pkt_section section, ldns_rr* rr) {
       break;
 
     case LDNS_SECTION_AUTHORITY:
+
       if (!ldns_rr_list_push_rr (ldns_pkt_authority (packet), rr)) {
         return false;
         }
@@ -638,6 +641,7 @@ ldns_pkt_push_rr (ldns_pkt* packet, ldns_pkt_section section, ldns_rr* rr) {
       break;
 
     case LDNS_SECTION_ADDITIONAL:
+
       if (!ldns_rr_list_push_rr (ldns_pkt_additional (packet), rr)) {
         return false;
         }

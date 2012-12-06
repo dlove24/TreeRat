@@ -218,6 +218,7 @@ main (int argc, char* argv[]) {
         break;
 
       case 'T':
+
         if (PURPOSE == DRILL_CHASE) {
           fprintf (stderr, "-T and -S cannot be used at the same time.\n");
           exit (EXIT_FAILURE);
@@ -228,6 +229,7 @@ main (int argc, char* argv[]) {
 #ifdef HAVE_SSL
 
       case 'S':
+
         if (PURPOSE == DRILL_TRACE) {
           fprintf (stderr, "-T and -S cannot be used at the same time.\n");
           exit (EXIT_FAILURE);
@@ -238,6 +240,7 @@ main (int argc, char* argv[]) {
 #endif /* HAVE_SSL */
 
       case 'V':
+
         if (strtok (optarg, "0123456789") != NULL) {
           fprintf (stderr, "-V expects an number as an argument.\n");
           exit (EXIT_FAILURE);
@@ -269,6 +272,7 @@ main (int argc, char* argv[]) {
         break;
 
       case 'r':
+
         if (global_dns_root) {
           fprintf (stderr, "There was already a series of root servers set\n");
           exit (EXIT_FAILURE);
@@ -405,6 +409,7 @@ main (int argc, char* argv[]) {
 
       case 'y':
 #ifdef HAVE_SSL
+
         if (strchr (optarg, ':')) {
           tsig_separator = (size_t) (strchr (optarg, ':') - optarg);
 
@@ -913,6 +918,7 @@ main (int argc, char* argv[]) {
 
     case DRILL_QUERY:
     default:
+
       if (query_file) {
         /* this old way, the query packet needed
            to be parseable, but we want to be able

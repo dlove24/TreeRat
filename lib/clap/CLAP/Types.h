@@ -21,7 +21,7 @@ enum Error {
   enotspec = 0,
   ecustom = 1,
   eunkopt = 2,
-};
+  };
 }
 }
 #endif

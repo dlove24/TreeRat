@@ -195,7 +195,7 @@ ldns_err (const char* s, ldns_status err) {
 
 ldns_status
 ssl_connect_and_get_cert_chain (
-  X509** cert, STACK_OF (X509)** extra_certs,
+  X509** cert, STACK_OF (X509)**  extra_certs,
   SSL* ssl, ldns_rdf* address, uint16_t port,
   ldns_dane_transport transport) {
   struct sockaddr_storage* a = NULL;
@@ -1659,6 +1659,7 @@ main (int argc, char* const* argv) {
 
   switch (mode) {
     case VERIFY:
+
       if (argc > 0) {
 
         print_usage ("ldns-dane");
@@ -1721,6 +1722,7 @@ main (int argc, char* const* argv) {
       break;
 
     case CREATE:
+
       if (argc > 0) {
         certificate_usage = dane_int_within_range_table (
                               *argv++, 3, "certificate usage",
@@ -1871,6 +1873,7 @@ main (int argc, char* const* argv) {
         break;
 
       case VERIFY:
+
         if (! dane_verify (tlsas, NULL,
                            cert, extra_certs, store,
                            verify_server_name, name)) {
@@ -1935,6 +1938,7 @@ main (int argc, char* const* argv) {
           break;
 
         case VERIFY:
+
           if (! dane_verify (tlsas, address,
                              cert, extra_certs, store,
                              verify_server_name, name)) {

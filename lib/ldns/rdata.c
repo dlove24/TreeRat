@@ -505,7 +505,7 @@ ldns_rdf_address_reverse (ldns_rdf* rd) {
                                                     nnibble));
 
         buf_6[ (LDNS_IP6ADDRLEN * 2 - 1) -
-               (octet * 2 + nnibble)] =
+               (octet * 2 + nnibble) ] =
                  (uint8_t) ldns_int_to_hexdigit ( (int) nibble);
         }
 
@@ -565,6 +565,7 @@ ldns_octet (char* word, size_t* length) {
   for (s = p = word; *s != '\0'; s++, p++) {
     switch (*s) {
       case '.':
+
         if (s[1] == '.') {
           return LDNS_STATUS_EMPTY_LABEL;
           }
@@ -574,6 +575,7 @@ ldns_octet (char* word, size_t* length) {
         break;
 
       case '\\':
+
         if ('0' <= s[1] && s[1] <= '9' &&
             '0' <= s[2] && s[2] <= '9' &&
             '0' <= s[3] && s[3] <= '9') {
@@ -678,13 +680,14 @@ ldns_str2period (const char* nptr, const char** endptr) {
   uint32_t i = 0;
   uint32_t seconds = 0;
 
-  for (*endptr = nptr;** endptr; (*endptr) ++) {
+  for (*endptr = nptr;**  endptr; (*endptr) ++) {
     switch (**endptr) {
       case ' ':
       case '\t':
         break;
 
       case '-':
+
         if (sign == 0) {
           sign = -1;
           }
@@ -696,6 +699,7 @@ ldns_str2period (const char* nptr, const char** endptr) {
         break;
 
       case '+':
+
         if (sign == 0) {
           sign = 1;
           }

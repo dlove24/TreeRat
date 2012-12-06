@@ -204,6 +204,7 @@ ldns_b32_pton_ar (char const* src, size_t hashed_owner_str_len, uint8_t* target,
 
     switch (state) {
       case 0:
+
         if (target) {
           if ( (size_t) tarindex >= targsize) {
             return (-2);
@@ -216,6 +217,7 @@ ldns_b32_pton_ar (char const* src, size_t hashed_owner_str_len, uint8_t* target,
         break;
 
       case 1:
+
         if (target) {
           if ( (size_t) tarindex + 1 >= targsize) {
             return (-3);
@@ -231,6 +233,7 @@ ldns_b32_pton_ar (char const* src, size_t hashed_owner_str_len, uint8_t* target,
         break;
 
       case 2:
+
         if (target) {
           if ( (size_t) tarindex + 1 >= targsize) {
             return (-4);
@@ -244,6 +247,7 @@ ldns_b32_pton_ar (char const* src, size_t hashed_owner_str_len, uint8_t* target,
         break;
 
       case 3:
+
         if (target) {
           if ( (size_t) tarindex + 1 >= targsize) {
             return (-5);
@@ -258,6 +262,7 @@ ldns_b32_pton_ar (char const* src, size_t hashed_owner_str_len, uint8_t* target,
         break;
 
       case 4:
+
         if (target) {
           if ( (size_t) tarindex + 1 >= targsize) {
             return (-6);
@@ -273,6 +278,7 @@ ldns_b32_pton_ar (char const* src, size_t hashed_owner_str_len, uint8_t* target,
         break;
 
       case 5:
+
         if (target) {
           if ( (size_t) tarindex + 1 >= targsize) {
             return (-7);
@@ -285,6 +291,7 @@ ldns_b32_pton_ar (char const* src, size_t hashed_owner_str_len, uint8_t* target,
         break;
 
       case 6:
+
         if (target) {
           if ( (size_t) tarindex + 1 >= targsize) {
             return (-8);
@@ -300,6 +307,7 @@ ldns_b32_pton_ar (char const* src, size_t hashed_owner_str_len, uint8_t* target,
         break;
 
       case 7:
+
         if (target) {
           if ( (size_t) tarindex + 1 >= targsize) {
             return (-9);

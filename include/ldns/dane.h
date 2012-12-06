@@ -48,7 +48,7 @@ extern "C" {
     LDNS_TLSA_USAGE_TRUST_ANCHOR_ASSERTION    = 2,
     /** Domain issued certificate */
     LDNS_TLSA_USAGE_DOMAIN_ISSUED_CERTIFICATE = 3
-    };
+        };
   typedef enum ldns_enum_tlsa_certificate_usage ldns_tlsa_certificate_usage;
 
   /**
@@ -66,7 +66,7 @@ extern "C" {
      * as defined in [RFC5280]
      */
     LDNS_TLSA_SELECTOR_SUBJECTPUBLICKEYINFO = 1
-  };
+    };
   typedef enum ldns_enum_tlsa_selector ldns_tlsa_selector;
 
   /**
@@ -79,7 +79,7 @@ extern "C" {
     LDNS_TLSA_MATCHING_TYPE_SHA256    = 1,
     /** SHA-512 hash of selected content [RFC6234] */
     LDNS_TLSA_MATCHING_TYPE_SHA512    = 2
-  };
+    };
   typedef enum ldns_enum_tlsa_matching_type ldns_tlsa_matching_type;
 
   /**
@@ -92,7 +92,7 @@ extern "C" {
     LDNS_DANE_TRANSPORT_UDP  = 1,
     /** SCTP */
     LDNS_DANE_TRANSPORT_SCTP = 2
-  };
+    };
   typedef enum ldns_enum_dane_transport ldns_dane_transport;
 
 

@@ -57,7 +57,7 @@ extern "C" {
     LDNS_INDIRECT           = 252,
     LDNS_PRIVATEDNS         = 253,
     LDNS_PRIVATEOID         = 254
-  };
+    };
   typedef enum ldns_enum_algorithm ldns_algorithm;
 
   /**
@@ -68,7 +68,7 @@ extern "C" {
     LDNS_SHA256             = 2,  /* RFC 4509 */
     LDNS_HASH_GOST          = 3,  /* RFC 5933 */
     LDNS_SHA384             = 4   /* RFC 6605 */
-  };
+    };
   typedef enum ldns_enum_hash ldns_hash;
 
   /**
@@ -88,7 +88,7 @@ extern "C" {
     LDNS_SIGN_HMACMD5  = 157, /* not official! This type is for TSIG, not DNSSEC */
     LDNS_SIGN_HMACSHA1   = 158, /* not official! This type is for TSIG, not DNSSEC */
     LDNS_SIGN_HMACSHA256 = 159  /* ditto */
-  };
+    };
   typedef enum ldns_enum_signing_algorithm ldns_signing_algorithm;
 
   /**

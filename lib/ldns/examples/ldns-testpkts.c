@@ -75,7 +75,7 @@ static bool str_keyword (char** str, const char* keyword) {
 
   *str += len;
 
-  while (isspace ( (int)** str)) {
+  while (isspace ( (int)**  str)) {
     (*str) ++;
     }
 
@@ -446,6 +446,7 @@ data_buffer2wire (ldns_buffer* data_buffer) {
 
     switch (state) {
       case 0:
+
         if ( (c >= '0' && c <= '9') ||
              (c >= 'a' && c <= 'f') ||
              (c >= 'A' && c <= 'F')) {
@@ -471,6 +472,7 @@ data_buffer2wire (ldns_buffer* data_buffer) {
         break;
 
       case 1:
+
         if (c == '\n' || c == EOF) {
           state = 0;
           }
@@ -478,6 +480,7 @@ data_buffer2wire (ldns_buffer* data_buffer) {
         break;
 
       case 2:
+
         if (hexbufpos >= LDNS_MAX_PACKETLEN) {
           error ("buffer overflow");
           LDNS_FREE (hexbuf);

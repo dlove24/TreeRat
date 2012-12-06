@@ -182,6 +182,7 @@ inet_aton (const char* cp, struct in_addr* addr) {
       break;
 
     case 2:       /* a.b -- 8.24 bits */
+
       if ( (val > 0xffffff) || (parts[0] > 0xff)) {
         return (0);
         }
@@ -190,6 +191,7 @@ inet_aton (const char* cp, struct in_addr* addr) {
       break;
 
     case 3:       /* a.b.c -- 8.8.16 bits */
+
       if ( (val > 0xffff) || (parts[0] > 0xff) || (parts[1] > 0xff)) {
         return (0);
         }
@@ -198,6 +200,7 @@ inet_aton (const char* cp, struct in_addr* addr) {
       break;
 
     case 4:       /* a.b.c.d -- 8.8.8.8 bits */
+
       if ( (val > 0xff) || (parts[0] > 0xff) || (parts[1] > 0xff) || (parts[2] > 0xff)) {
         return (0);
         }

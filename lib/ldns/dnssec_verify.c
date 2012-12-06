@@ -2312,6 +2312,7 @@ ldns_rrsig2rawsig_buffer (ldns_buffer* rawsig_buf, ldns_rr* rrsig) {
 #ifdef USE_GOST
     case LDNS_ECC_GOST:
 #endif
+
       if (ldns_rr_rdf (rrsig, 8) == NULL) {
         return LDNS_STATUS_MISSING_RDATA_FIELDS_RRSIG;
         }

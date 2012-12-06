@@ -951,6 +951,7 @@ main (int argc, char** argv) {
         break;
 
       case 't':
+
         if (strlen (optarg) == 14 &&
             sscanf (optarg, "%4d%2d%2d%2d%2d%2d",
                     &tm.tm_year, &tm.tm_mon,

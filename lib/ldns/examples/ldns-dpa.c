@@ -99,7 +99,7 @@ enum enum_match_ids {
   MATCH_AUTHORITY,
   MATCH_ADDITIONAL,
   MATCH_LAST
-};
+  };
 typedef enum enum_match_ids match_id;
 
 enum enum_counter_types {
@@ -113,7 +113,7 @@ enum enum_counter_types {
   TYPE_RR,
   TYPE_RR_TYPE,
   TYPE_LAST
-};
+  };
 typedef enum enum_counter_types counter_type;
 
 const ldns_lookup_table lt_types[] = {
@@ -137,7 +137,7 @@ enum enum_type_operators {
   OP_LESSEREQUAL,
   OP_CONTAINS,
   OP_LAST
-};
+  };
 typedef enum enum_type_operators type_operator;
 
 const ldns_lookup_table lt_operators[] = {
@@ -259,7 +259,7 @@ enum enum_match_expression_operators {
   MATCH_EXPR_OR,
   MATCH_EXPR_AND,
   MATCH_EXPR_LEAF
-};
+  };
 typedef enum enum_match_expression_operators match_expression_operator;
 
 struct struct_match_operation {
@@ -362,6 +362,7 @@ print_match_operation (FILE* output, match_operation* mc) {
           break;
 
         case TYPE_BOOL:
+
           if (strncmp (mc->value, "1", 2) == 0) {
             fprintf (output, "'true'");
             }
@@ -1434,6 +1435,7 @@ get_string_value (match_id id, ldns_pkt* pkt, ldns_rdf* src_addr, ldns_rdf* dst_
       break;
 
     case MATCH_QUERY:
+
       if (ldns_pkt_qdcount (pkt) > 0) {
         free (val);
         val = ldns_rr2str (ldns_rr_list_rr (ldns_pkt_question (pkt), 0));
@@ -1451,6 +1453,7 @@ get_string_value (match_id id, ldns_pkt* pkt, ldns_rdf* src_addr, ldns_rdf* dst_
       break;
 
     case MATCH_QNAME:
+
       if (ldns_pkt_qdcount (pkt) > 0) {
         free (val);
         val = ldns_rdf2str (ldns_rr_owner (ldns_rr_list_rr (ldns_pkt_question (pkt), 0)));
@@ -1468,6 +1471,7 @@ get_string_value (match_id id, ldns_pkt* pkt, ldns_rdf* src_addr, ldns_rdf* dst_
       break;
 
     case MATCH_QTYPE:
+
       if (ldns_pkt_qdcount (pkt) > 0) {
         free (val);
         val = ldns_rr_type2str (ldns_rr_get_type (ldns_rr_list_rr (ldns_pkt_question (pkt), 0)));
@@ -1480,6 +1484,7 @@ get_string_value (match_id id, ldns_pkt* pkt, ldns_rdf* src_addr, ldns_rdf* dst_
       break;
 
     case MATCH_ANSWER:
+
       if (ldns_pkt_ancount (pkt) > 0) {
         free (val);
         val = ldns_rr_list2str (ldns_pkt_answer (pkt));
@@ -1492,6 +1497,7 @@ get_string_value (match_id id, ldns_pkt* pkt, ldns_rdf* src_addr, ldns_rdf* dst_
       break;
 
     case MATCH_AUTHORITY:
+
       if (ldns_pkt_nscount (pkt) > 0) {
         free (val);
         val = ldns_rr_list2str (ldns_pkt_authority (pkt));
@@ -1504,6 +1510,7 @@ get_string_value (match_id id, ldns_pkt* pkt, ldns_rdf* src_addr, ldns_rdf* dst_
       break;
 
     case MATCH_ADDITIONAL:
+
       if (ldns_pkt_arcount (pkt) > 0) {
         free (val);
         val = ldns_rr_list2str (ldns_pkt_additional (pkt));
@@ -1648,6 +1655,7 @@ match_expression_compare (const void* a, const void* b) {
       switch (mea->op) {
         case MATCH_EXPR_AND:
         case MATCH_EXPR_OR:
+
           if (match_expression_compare (mea->left, meb->left) < 0) {
             return -1;
             }
@@ -2442,7 +2450,7 @@ handle_ether_packet (const u_char* data, struct pcap_pkthdr cur_hdr, match_count
     ip_len = ldns_read_uint16 (& (iptr->ip_len));
     ip_f_offset = (ip_flags & IP_OFFMASK) * 8;
 
-    if (ip_flags & IP_MF && ip_f_offset == 0) {
+    if (ip_flags& IP_MF && ip_f_offset == 0) {
       /*printf("First Frag id %u len\n", ip_id, ip_len);*/
       fragment_p->ip_id = ip_id;
       memset (fragment_p->data, 0, 65535);
@@ -2460,7 +2468,7 @@ handle_ether_packet (const u_char* data, struct pcap_pkthdr cur_hdr, match_count
       return 0;
       }
 
-    else if (ip_flags & IP_MF && ip_f_offset != 0) {
+    else if (ip_flags& IP_MF && ip_f_offset != 0) {
       /*printf("Next frag\n");*/
       if (ip_id == fragment_p->ip_id) {
         /*printf("add fragment to current id %u len %u offset %u\n", ip_id, ip_len, ip_f_offset);*/

@@ -72,6 +72,7 @@ main (int argc, char* argv[]) {
   while ( (c = getopt (argc, argv, "a:kb:r:v25")) != -1) {
     switch (c) {
       case 'a':
+
         if (algorithm != 0) {
           fprintf (stderr, "The -a argument can only be used once\n");
           exit (1);
@@ -146,6 +147,7 @@ main (int argc, char* argv[]) {
   switch (algorithm) {
     case LDNS_SIGN_RSAMD5:
     case LDNS_SIGN_RSASHA1:
+
       if (bits < 512 || bits > 4096) {
         fprintf (stderr, "For RSA, the key size must be between ");
         fprintf (stderr, " 512 and 4096 bytes. Aborting.\n");
@@ -155,6 +157,7 @@ main (int argc, char* argv[]) {
       break;
 
     case LDNS_SIGN_DSA:
+
       if (bits < 512 || bits > 4096) {
         fprintf (stderr, "For DSA, the key size must be between ");
         fprintf (stderr, " 512 and 1024 bytes. Aborting.\n");
@@ -165,6 +168,7 @@ main (int argc, char* argv[]) {
 #ifdef USE_GOST
 
     case LDNS_SIGN_ECC_GOST:
+
       if (!ldns_key_EVP_load_gost_id()) {
         fprintf (stderr, "error: libcrypto does not provide GOST\n");
         exit (EXIT_FAILURE);

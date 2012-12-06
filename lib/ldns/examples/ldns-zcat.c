@@ -146,6 +146,7 @@ main (int argc, char** argv) {
 
       switch (where) {
         case FIRST_ZONE:
+
           if (soa) {
             ldns_rr_print (stdout, soa);
             soa = NULL;

@@ -60,7 +60,7 @@ extern "C" {
     LDNS_RR_CLASS_FIRST     = 0,
     LDNS_RR_CLASS_LAST      = 65535,
     LDNS_RR_CLASS_COUNT     = LDNS_RR_CLASS_LAST - LDNS_RR_CLASS_FIRST + 1
-    };
+                              };
   typedef enum ldns_enum_rr_class ldns_rr_class;
 
   /**
@@ -70,7 +70,7 @@ extern "C" {
     /** compression is allowed */
     LDNS_RR_COMPRESS,
     LDNS_RR_NO_COMPRESS
-  };
+    };
   typedef enum ldns_enum_rr_compress ldns_rr_compress;
 
   /**
@@ -209,7 +209,7 @@ extern "C" {
     LDNS_RR_TYPE_FIRST = 0,
     LDNS_RR_TYPE_LAST  = 65535,
     LDNS_RR_TYPE_COUNT = LDNS_RR_TYPE_LAST - LDNS_RR_TYPE_FIRST + 1
-  };
+    };
   typedef enum ldns_enum_rr_type ldns_rr_type;
 
   /**

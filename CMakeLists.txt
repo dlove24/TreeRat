@@ -29,11 +29,14 @@ cmake_minimum_required ( VERSION 2.8 )
 # Add third-party modules
 set ( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/" )
 
-# Include the checks for library functions
-include ( CheckLibraryExists )
+# Include the checks for specific functions
+include ( CheckFunctionExists )
 
 # Include the checks for header files
 include ( CheckIncludeFiles )
+
+# Include the checks for library functions
+include ( CheckLibraryExists )
 
 # Include checks for specific prototypes
 include ( CheckPrototypeExists )
@@ -91,6 +94,10 @@ include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/include )
 # Look for the math library: on some platforms this is part of the C
 # library, on others it needs linking separately
 check_library_exists ( m floor "" SEPARATE_LIB_M ) 
+
+# Look for the 'strlcpy' function. Most BSD's have this as part of the standard
+# C library, but nmost other platforms do not
+check_function_exists ( strlcpy HAVE_STRLCPY )
 
 if ( SEPARATE_LIB_M )
   # If the math library is separate, then it needs to be included
@@ -164,7 +171,9 @@ endif ()
 
 check_include_files ( "inttypes.h"   HAVE_INTTYPES_H )
 check_include_files ( "netdb.h"      HAVE_NETDB_H )
+check_include_files ( "stddef.h"     HAVE_STDDEF_H )
 check_include_files ( "stdint.h"     HAVE_STDINT_H )
+check_include_files ( "stdlib.h"     HAVE_STDLIB_H )
 check_include_files ( "unistd.h"     HAVE_UNISTD_H )
 check_include_files ( "winsock2.h"   HAVE_WINSOCK2_H )
 
@@ -226,6 +235,26 @@ if( NOT APPLE )
     set ( HAVE_BIG_ENDIAN 0 )
   endif ()
 endif ()
+
+##
+## Symbol Defines
+##
+
+set ( CMAKE_EXTRA_INCLUDE_FILES bits/types.h )
+check_type_size ( "__u_char" TYPEDEF___U_CHAR )
+set ( CMAKE_EXTRA_INCLUDE_FILES )
+
+set ( CMAKE_EXTRA_INCLUDE_FILES bits/types.h )
+check_type_size ( "__u_int" TYPEDEF___U_INT )
+set ( CMAKE_EXTRA_INCLUDE_FILES )
+
+set ( CMAKE_EXTRA_INCLUDE_FILES bits/types.h )
+check_type_size ( "__u_long" TYPEDEF___U_LONG )
+set ( CMAKE_EXTRA_INCLUDE_FILES )
+
+set ( CMAKE_EXTRA_INCLUDE_FILES bits/types.h )
+check_type_size ( "__u_short" TYPEDEF___U_SHORT )
+set ( CMAKE_EXTRA_INCLUDE_FILES )
 
 ##
 ## Add Project Libraries

@@ -161,6 +161,7 @@ static void dopr (char* buffer, size_t maxlen, const char* format, va_list args)
 
     switch (state) {
       case DP_S_DEFAULT:
+
         if (ch == '%') {
           state = DP_S_FLAGS;
           }
@@ -173,6 +174,7 @@ static void dopr (char* buffer, size_t maxlen, const char* format, va_list args)
         break;
 
       case DP_S_FLAGS:
+
         switch (ch) {
           case '-':
             flags |= DP_F_MINUS;
@@ -207,6 +209,7 @@ static void dopr (char* buffer, size_t maxlen, const char* format, va_list args)
         break;
 
       case DP_S_MIN:
+
         if (isdigit ( (int) ch)) {
           min = 10 * min + char_to_int (ch);
           ch = *format++;
@@ -225,6 +228,7 @@ static void dopr (char* buffer, size_t maxlen, const char* format, va_list args)
         break;
 
       case DP_S_DOT:
+
         if (ch == '.') {
           state = DP_S_MAX;
           ch = *format++;
@@ -237,6 +241,7 @@ static void dopr (char* buffer, size_t maxlen, const char* format, va_list args)
         break;
 
       case DP_S_MAX:
+
         if (isdigit ( (int) ch)) {
           if (max < 0) {
             max = 0;
@@ -285,9 +290,11 @@ static void dopr (char* buffer, size_t maxlen, const char* format, va_list args)
         break;
 
       case DP_S_CONV:
+
         switch (ch) {
           case 'd':
           case 'i':
+
             if (cflags == DP_C_SHORT) {
               value = va_arg (args, int);
               }
@@ -361,6 +368,7 @@ static void dopr (char* buffer, size_t maxlen, const char* format, va_list args)
             break;
 
           case 'f':
+
             if (cflags == DP_C_LDOUBLE) {
               fvalue = va_arg (args, long double);
               }
@@ -377,6 +385,7 @@ static void dopr (char* buffer, size_t maxlen, const char* format, va_list args)
             flags |= DP_F_UP;
 
           case 'e':
+
             if (cflags == DP_C_LDOUBLE) {
               fvalue = va_arg (args, long double);
               }
@@ -391,6 +400,7 @@ static void dopr (char* buffer, size_t maxlen, const char* format, va_list args)
             flags |= DP_F_UP;
 
           case 'g':
+
             if (cflags == DP_C_LDOUBLE) {
               fvalue = va_arg (args, long double);
               }
@@ -421,6 +431,7 @@ static void dopr (char* buffer, size_t maxlen, const char* format, va_list args)
             break;
 
           case 'n':
+
             if (cflags == DP_C_SHORT) {
               short int* num;
               num = va_arg (args, short int*);

@@ -1056,6 +1056,7 @@ ldns_dnssec_remove_signatures (ldns_dnssec_rrs* signatures
         break;
 
       case LDNS_SIGNATURE_REMOVE_ADD_NEW:
+
         if (prev_rr) {
           prev_rr->next = next_rr;
           }

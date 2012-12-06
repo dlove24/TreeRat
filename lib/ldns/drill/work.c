@@ -115,6 +115,7 @@ packetbuffromfile (char* filename, uint8_t* wire) {
 
     switch (state) {
       case 0:
+
         if ( (c >= '0' && c <= '9') ||
              (c >= 'a' && c <= 'f') ||
              (c >= 'A' && c <= 'F')) {
@@ -133,6 +134,7 @@ packetbuffromfile (char* filename, uint8_t* wire) {
         break;
 
       case 1:
+
         if (c == '\n' || c == EOF) {
           state = 0;
           }

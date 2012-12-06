@@ -111,19 +111,19 @@ char* DNSName::to_c_str (void) const {
  * \endcode
  */
 ldns_rr_type DNSName::convert_to_ldns_resource() {
-    switch(cv_dns_query_type) {
+  switch (cv_dns_query_type) {
     case   DNSQueryType::NO_RECORD:
-        return LDNS_RR_TYPE_A;
+      return LDNS_RR_TYPE_A;
     case DNSQueryType::A:
-        return LDNS_RR_TYPE_A;
+      return LDNS_RR_TYPE_A;
     case DNSQueryType::AAAA:
-        return LDNS_RR_TYPE_AAAA;
+      return LDNS_RR_TYPE_AAAA;
     case DNSQueryType::MX:
-        return LDNS_RR_TYPE_MX;
+      return LDNS_RR_TYPE_MX;
     case DNSQueryType::SRV:
-        return LDNS_RR_TYPE_SRV;
+      return LDNS_RR_TYPE_SRV;
     }
-}
+  }
 
 /***
  *** DNS Helper Functions
@@ -159,7 +159,7 @@ ldns_rr_type DNSName::convert_to_ldns_resource() {
  * \endcode
 */
 DNSNameList* get_dns_names (const string dns_query_name, const DNSQueryType dns_query_type) {
-  DNSName dns_name{dns_query_type};                                 // Staging area for a \c DNSName record
+  DNSName dns_name {dns_query_type};                                // Staging area for a \c DNSName record
   DNSNameList* dns_name_list = new DNSNameList;     // A list of \c DNSName records, returned
   // to the caller
 

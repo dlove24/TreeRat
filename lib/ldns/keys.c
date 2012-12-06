@@ -1046,6 +1046,7 @@ ldns_key_new_frm_algorithm (ldns_signing_algorithm alg, uint16_t size) {
     case LDNS_SIGN_ECDSAP256SHA256:
     case LDNS_SIGN_ECDSAP384SHA384:
 #ifdef USE_ECDSA
+
       if (alg == LDNS_SIGN_ECDSAP256SHA256) {
         ec = EC_KEY_new_by_curve_name (NID_X9_62_prime256v1);
         }

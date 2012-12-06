@@ -164,6 +164,7 @@ ldns_b64_pton (char const* src, uint8_t* target, size_t targsize) {
 
     switch (state) {
       case 0:
+
         if (target) {
           if ( (size_t) tarindex >= targsize) {
             return (-1);
@@ -176,6 +177,7 @@ ldns_b64_pton (char const* src, uint8_t* target, size_t targsize) {
         break;
 
       case 1:
+
         if (target) {
           if ( (size_t) tarindex + 1 >= targsize) {
             return (-1);
@@ -191,6 +193,7 @@ ldns_b64_pton (char const* src, uint8_t* target, size_t targsize) {
         break;
 
       case 2:
+
         if (target) {
           if ( (size_t) tarindex + 1 >= targsize) {
             return (-1);
@@ -206,6 +209,7 @@ ldns_b64_pton (char const* src, uint8_t* target, size_t targsize) {
         break;
 
       case 3:
+
         if (target) {
           if ( (size_t) tarindex >= targsize) {
             return (-1);

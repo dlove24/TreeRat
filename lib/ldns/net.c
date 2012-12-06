@@ -871,6 +871,7 @@ ldns_sockaddr_storage2rdf (struct sockaddr_storage* sock, uint16_t* port) {
       break;
 
     default:
+
       if (port) {
         *port = 0;
         }

@@ -48,7 +48,7 @@ extern "C" {
     LDNS_PACKET_STATUS = 2, /* there is no 3?? DNS is weird */
     LDNS_PACKET_NOTIFY = 4,
     LDNS_PACKET_UPDATE = 5
-    };
+                         };
   typedef enum ldns_enum_pkt_opcode ldns_pkt_opcode;
 
   /* rcodes for pkts */
@@ -64,7 +64,7 @@ extern "C" {
     LDNS_RCODE_NXRRSET = 8,
     LDNS_RCODE_NOTAUTH = 9,
     LDNS_RCODE_NOTZONE = 10
-  };
+    };
   typedef enum ldns_enum_pkt_rcode ldns_pkt_rcode;
 
   /**
@@ -276,7 +276,7 @@ extern "C" {
     LDNS_SECTION_ANY = 4,
     /** used to get all non-question rrs from a packet */
     LDNS_SECTION_ANY_NOQUESTION = 5
-  };
+    };
   typedef enum ldns_enum_pkt_section ldns_pkt_section;
 
   /**
@@ -289,7 +289,7 @@ extern "C" {
     LDNS_PACKET_NXDOMAIN,
     LDNS_PACKET_NODATA,
     LDNS_PACKET_UNKNOWN
-  };
+    };
   typedef enum ldns_enum_pkt_type ldns_pkt_type;
 
   /* prototypes */
