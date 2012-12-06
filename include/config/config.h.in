@@ -24,8 +24,13 @@
 #ifndef CONFIG_H
 #define CONFIG_H 1
 
-/**
-*** Platform Checks
+/***
+ *** Standard library defines
+ **/
+
+/***
+**** Platform Checks
+****
 **/
 
 /* Look for the machine type on Apple platforms at compile (not configure). Apple platforms
@@ -84,8 +89,10 @@
 #cmakedefine HAVE_B64_NTOP 1
 #cmakedefine HAVE_B64_PTON 1
 
-/* BSD C Library functions
- */
+/* BSD C Library functions */
+#cmakedefine HAVE_ISASCII 1
+#cmakedefine HAVE_RANDOM 1
+#cmakedefine HAVE_STRDUP 1
 #cmakedefine HAVE_STRLCPY 1
 
 /***
@@ -107,9 +114,11 @@
 #cmakedefine HAVE_NETDB_H 1
 #cmakedefine HAVE_RESOLV_H 1
 #cmakedefine HAVE_SOCKLEN_T 1
+#cmakedefine HAVE_STDBOOL_H 1
 #cmakedefine HAVE_STDDEF_H 1
 #cmakedefine HAVE_STDINT_H 1
 #cmakedefine HAVE_STDLIB_H 1
+#cmakedefine HAVE_STRING_H 1
 #cmakedefine HAVE_UNISTD_H 1
 #cmakedefine HAVE_WINSOCK2_H 1
 

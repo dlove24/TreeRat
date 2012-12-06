@@ -16,6 +16,10 @@
 
 #include <limits.h>
 
+#ifdef HAVE_STRING_H
+#  include <string.h>
+#endif
+
 #ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
@@ -36,6 +40,10 @@
 #endif
 #ifndef INET6_ADDRSTRLEN
 #define INET6_ADDRSTRLEN 46
+#endif
+
+#ifdef HAVE_ISASCII
+extern int isascii (int c);
 #endif
 
 /* lookup tables for standard DNS stuff  */

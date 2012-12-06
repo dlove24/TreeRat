@@ -75,7 +75,7 @@ static bool str_keyword (char** str, const char* keyword) {
 
   *str += len;
 
-  while (isspace ( (int)**  str)) {
+  while (isspace ( (int)**   str)) {
     (*str) ++;
     }
 

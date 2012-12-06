@@ -23,7 +23,8 @@
 ## Library Sources
 ##
 
-add_library ( ldns STATIC
+# Core library sources
+set ( LDNS_SOURCES
   buffer.c
   dane.c
   dname.c
@@ -53,4 +54,16 @@ add_library ( ldns STATIC
   util.c
   wire2host.c
   zone.c
-) 
+)
+
+# Add needed compatability sources
+if ( !B64_NTOP )
+  set ( LDNS_SOURCES ${LDNS_SOURCES} compat/b64_ntop.c )
+endif ()
+
+if ( !B64_PTON )
+  set ( LDNS_SOURCES ${LDNS_SOURCES} compat/b64_pton.c )
+endif ()
+
+# Build the library
+add_library ( ldns STATIC ${LDNS_SOURCES} )

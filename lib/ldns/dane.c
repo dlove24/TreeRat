@@ -210,7 +210,7 @@ ldns_dane_pkix_validate (X509* cert, STACK_OF (X509) * extra_certs,
  * against the CA's in store, but also return the validation chain.
  */
 static ldns_status
-ldns_dane_pkix_validate_and_get_chain (STACK_OF (X509)**  chain, X509* cert,
+ldns_dane_pkix_validate_and_get_chain (STACK_OF (X509)**   chain, X509* cert,
                                        STACK_OF (X509) * extra_certs, X509_STORE* store) {
   ldns_status s;
   X509_STORE* empty_store = NULL;
@@ -269,7 +269,7 @@ exit_free_empty_store:
 /* Return the validation chain that can be build out of cert, with extra_certs.
  */
 static ldns_status
-ldns_dane_pkix_get_chain (STACK_OF (X509)**  chain,
+ldns_dane_pkix_get_chain (STACK_OF (X509)**   chain,
                           X509* cert, STACK_OF (X509) * extra_certs) {
   ldns_status s;
   X509_STORE* empty_store = NULL;

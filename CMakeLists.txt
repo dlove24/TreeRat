@@ -41,6 +41,9 @@ include ( CheckLibraryExists )
 # Include checks for specific prototypes
 include ( CheckPrototypeExists )
 
+# Include checks for particular symbols
+include ( CheckSymbolExists )
+
 # Include checks for particular types
 include ( CheckTypeSize )
 
@@ -95,10 +98,6 @@ include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/include )
 # library, on others it needs linking separately
 check_library_exists ( m floor "" SEPARATE_LIB_M ) 
 
-# Look for the 'strlcpy' function. Most BSD's have this as part of the standard
-# C library, but nmost other platforms do not
-check_function_exists ( strlcpy HAVE_STRLCPY )
-
 if ( SEPARATE_LIB_M )
   # If the math library is separate, then it needs to be included
   # in the global link flags
@@ -106,6 +105,15 @@ if ( SEPARATE_LIB_M )
   set ( CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -lm" )
   set ( CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -lm" )
 endif()
+
+# Look for functions that most BSD's have this as part of the standard
+# C library, but nmost other platforms do not
+check_function_exists ( random HAVE_RANDOM )
+check_function_exists ( strlcpy HAVE_STRLCPY )
+check_function_exists ( strdup HAVE_STRDUP )
+
+# Look for the 'isascii' function
+check_symbol_exists ( isascii "ctypes.h" HAVE_ISASCII )
 
 # Look for the Boost C++ library. This is fatal if we don't find it.
 set ( Boost_USE_STATIC_LIBS OFF)
@@ -171,9 +179,11 @@ endif ()
 
 check_include_files ( "inttypes.h"   HAVE_INTTYPES_H )
 check_include_files ( "netdb.h"      HAVE_NETDB_H )
+check_include_files ( "stdbool.h"    HAVE_STDBOOL_H )
 check_include_files ( "stddef.h"     HAVE_STDDEF_H )
 check_include_files ( "stdint.h"     HAVE_STDINT_H )
 check_include_files ( "stdlib.h"     HAVE_STDLIB_H )
+check_include_files ( "string.h"     HAVE_STRING_H )
 check_include_files ( "unistd.h"     HAVE_UNISTD_H )
 check_include_files ( "winsock2.h"   HAVE_WINSOCK2_H )
 

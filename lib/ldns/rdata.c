@@ -680,7 +680,7 @@ ldns_str2period (const char* nptr, const char** endptr) {
   uint32_t i = 0;
   uint32_t seconds = 0;
 
-  for (*endptr = nptr;**  endptr; (*endptr) ++) {
+  for (*endptr = nptr;**   endptr; (*endptr) ++) {
     switch (**endptr) {
       case ' ':
       case '\t':

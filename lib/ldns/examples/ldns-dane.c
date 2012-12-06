@@ -195,7 +195,7 @@ ldns_err (const char* s, ldns_status err) {
 
 ldns_status
 ssl_connect_and_get_cert_chain (
-  X509** cert, STACK_OF (X509)**  extra_certs,
+  X509** cert, STACK_OF (X509)**   extra_certs,
   SSL* ssl, ldns_rdf* address, uint16_t port,
   ldns_dane_transport transport) {
   struct sockaddr_storage* a = NULL;
