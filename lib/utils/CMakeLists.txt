@@ -30,6 +30,6 @@
 ##
 
 add_library ( utils STATIC
-  dnsutils.cpp
+  #  dnsutils.cpp
   fileutils.cpp
 ) 

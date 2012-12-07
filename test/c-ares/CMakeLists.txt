@@ -49,15 +49,14 @@ target_link_Libraries ( test_ldns_01
 ## Run the tests
 ##
 
-# Tests the core resolver library. This works, but the output is not stable, so this test is
-# no linked to the build (otherwise it generates false warnings).
-#add_test (
-#  NAME test_ldns_core
-#  COMMAND test_ldns_00
-#)
+# Tests the core resolver library.
+add_test (
+  NAME test_ldns_core
+  COMMAND test_ldns_00
+)
 
 # Tests the functionality of the C++ wrapper for the lDNS library
-add_test (
-  NAME test_ldns_wrapper
-  COMMAND test_ldns_01
-)
+#add_test (
+#  NAME test_ldns_wrapper
+#  COMMAND test_ldns_01
+#)

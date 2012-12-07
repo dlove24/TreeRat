@@ -32,7 +32,7 @@ add_subdirectory (tap)
 # Core treerat command
 add_subdirectory ( treerat )
 
-# lDNS library
-add_subdirectory ( ldns )
+# C-Ares DNS Resolver library
+add_subdirectory ( c-ares )
 
 
