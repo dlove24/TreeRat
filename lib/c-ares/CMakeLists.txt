@@ -75,15 +75,3 @@ add_library ( cares STATIC
   ares_version.c
   ares_writev.c
 )
-
-# Add needed compatability sources
-if ( !B64_NTOP )
-  set ( LDNS_SOURCES ${LDNS_SOURCES} compat/b64_ntop.c )
-endif ()
-
-if ( !B64_PTON )
-  set ( LDNS_SOURCES ${LDNS_SOURCES} compat/b64_pton.c )
-endif ()
-
-# Build the library
-add_library ( ldns STATIC ${LDNS_SOURCES} )

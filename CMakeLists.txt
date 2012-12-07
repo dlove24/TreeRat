@@ -271,7 +271,12 @@ endif ()
 ##
 
 if ( HAVE_SOCKET_H )
-  check_symbol_exists (AF_INET6 "sys/socket.h" HAVE_AF_INET6)
+  check_symbol_exists ( AF_INET6 "sys/socket.h" HAVE_AF_INET6)
+  check_symbol_exists ( PF_INET6 "sys/socket.h" HAVE_PF_INET6)
+endif ()
+
+if ( HAVE_SYS_TIME_H )
+  check_symbol_exists ( gettimeofday "sys/time.h" HAVE_GETTIMEOFDAY )
 endif ()
 
 # Work out the correct symbol for non-blocking sockets

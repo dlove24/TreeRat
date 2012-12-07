@@ -95,6 +95,9 @@
  **/
 
 #cmakedefine HAVE_AF_INET6 1
+#cmakedefine HAVE_PF_INET6 1
+
+#cmakedefine HAVE_GETTIMEOFDAY 1
 
 /* Work out the correct call for non-blocking sockets (if available) */
 #cmakedefine HAVE_FCNTL_O_NONBLOCK 1
@@ -141,6 +144,13 @@
 #    define RECV_TYPE_ARG4 int
 #    define RECV_TYPE_RETV ssize_t
 #  endif
+#  ifdef __linux__
+#    define RECV_TYPE_ARG1 int
+#    define RECV_TYPE_ARG2 void*
+#    define RECV_TYPE_ARG3 size_t
+#    define RECV_TYPE_ARG4 int
+#    define RECV_TYPE_RETV ssize_t
+#  endif
 #endif
 
 #cmakedefine HAVE_SEND 1
@@ -149,6 +159,14 @@
 #  ifdef __APPLE__
 #    define SEND_TYPE_ARG1 int
 #    define SEND_QUAL_ARG2 const
+#    define SEND_TYPE_ARG2 void*
+#    define SEND_TYPE_ARG3 size_t
+#    define SEND_TYPE_ARG4 int
+#    define SEND_TYPE_RETV ssize_t
+#  endif
+#  ifdef __linux__
+#    define SEND_TYPE_ARG1 int
+#    define SEND_QUAL_ARG2 __const
 #    define SEND_TYPE_ARG2 void*
 #    define SEND_TYPE_ARG3 size_t
 #    define SEND_TYPE_ARG4 int
