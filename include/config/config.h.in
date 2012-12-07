@@ -21,8 +21,9 @@
 *** \date November 2012
 **/
 
-/**
-*** Platform Checks
+/***
+**** Platform Checks
+****
 **/
 
 /* Look for the machine type on Apple platforms at compile (not configure). Apple platforms
@@ -53,8 +54,61 @@
 #cmakedefine HAVE_BIG_ENDIAN
 #endif
 
-/**
-*** Function Declarations
+/***
+**** Header Declarations
+****
+**/
+
+/* "Standard" headers files. Some or all of these should exist on
+ * a reasonably sane platform
+ */
+
+#cmakedefine HAVE_ERRNO_H 1
+#cmakedefine HAVE_FCNTL_H 1
+#cmakedefine HAVE_INTTYPES_H 1
+#cmakedefine HAVE_LIMITS_H 1
+#cmakedefine HAVE_NETDB_H 1
+#cmakedefine HAVE_RESOLV_H 1
+#cmakedefine HAVE_SOCKLEN_T 1
+#cmakedefine HAVE_STDINT_H 1
+#cmakedefine HAVE_STDLIB_H 1
+#cmakedefine HAVE_UNISTD_H 1
+#cmakedefine HAVE_WINSOCK2_H 1
+
+#cmakedefine HAVE_ARPA_INET_H 1
+#cmakedefine HAVE_NETINET_IN_H 1
+#cmakedefine HAVE_SYS_FCNTL_H 1
+#cmakedefine HAVE_SYS_SELECT_H 1
+#cmakedefine HAVE_SYS_TIME_H 1
+#cmakedefine HAVE_SYS_TYPES_H 1
+#cmakedefine HAVE_SYS_UIO_H 1
+
+/***
+ *** Symbols Defines
+ ***
+ **/
+
+#cmakedefine HAVE_AF_INET6 1
+
+/* Work out the correct call for non-blocking sockets (if available) */
+#cmakedefine HAVE_FCNTL_O_NONBLOCK 1
+#cmakedefine USE_BLOCKING_SOCKETS 1
+
+/***
+**** Type Declarations
+****
+**/
+#cmakedefine HAVE_STRUCT_ADDRINFO 1
+#cmakedefine HAVE_STRUCT_SOCKADDR_IN6 1
+#cmakedefine HAVE_STRUCT_TIMEVAL 1
+#cmakedefine HAVE_WRITEV 1
+
+#cmakedefine SIZEOF_INT ${SIZEOF_INT}
+#cmakedefine SIZEOF_SHORT ${SIZEOF_SHORT}
+
+/***
+**** Function Declarations
+****
 **/
 
 /* The location of popen varies a bit. These variables set both the
@@ -64,77 +118,34 @@
 #cmakedefine POPEN_PROTO_STDLIB 1
 #cmakedefine POPEN_PROTO_STDIO 1
 
+#cmakedefine HAVE_GETENV 1
+
 /* OpenSSL library defines.
  */
 #cmakedefine HAVE_SSL 1
 
-/**
-*** Header Declarations
-**/
+/* recv() and send() defines */
+#cmakedefine HAVE_RECV 1
 
-/* Look for the getopt library. If this is not available, routines
- * should use the provided implementation of the ArgTable library.
- * Even better, just use the ArgTable library...
- */
-#cmakedefine HAVE_GETOPT_H 1
+#ifdef HAVE_RECV
+#  ifdef __APPLE__
+#    define RECV_TYPE_ARG1 int
+#    define RECV_TYPE_ARG2 void*
+#    define RECV_TYPE_ARG3 size_t
+#    define RECV_TYPE_ARG4 int
+#    define RECV_TYPE_RETV ssize_t
+#  endif
+#endif
 
-/* "Standard" headers files. Some or all of these should exist on
- * a reasonably sane platform
- */
+#cmakedefine HAVE_SEND 1
 
-#cmakedefine HAVE_INTTYPES_H 1
-#cmakedefine HAVE_NETDB_H 1
-#cmakedefine HAVE_RESOLV_H 1
-#cmakedefine HAVE_SOCKLEN_T 1
-#cmakedefine HAVE_STDINT_H 1
-#cmakedefine HAVE_UNISTD_H 1
-#cmakedefine HAVE_WINSOCK2_H 1
-
-#cmakedefine HAVE_ARPA_INET_H 1
-#cmakedefine HAVE_NETINET_IN_H 1
-#cmakedefine HAVE_SYS_SELECT_H 1
-#cmakedefine HAVE_SYS_TYPES_H 1
-
-/**
-*** Network to Host Conversion Functions. Principally used by the ldns library.
-**/
-
-#cmakedefine HAVE_B32_NTOP 1
-#cmakedefine HAVE_B32_PTON 1
-#cmakedefine HAVE_B64_NTOP 1
-#cmakedefine HAVE_B64_PTON 1
-
-#ifdef HAVE_B64_PTON
-#  define B64_PTON
-#  include <resolv.h>
-   int ldns_b64_ntop (uint8_t const* src, size_t srclength,
-                      char* target, size_t targsize);
-
-   /**
-    * calculates the size needed to store the result of b64_ntop
-    */
-   static inline size_t ldns_b64_ntop_calculate_size (size_t srcsize) {
-     return ( ( ( (srcsize + 2) / 3) * 4) + 1);
-     }
-#endif /* B64_PTON */
-
-#ifdef HAVE_B64_NTOP
-#  define B64_NTOP
-#  include <resolv.h>
-
-   int ldns_b64_pton (char const* src, uint8_t* target, size_t targsize);
-
-   /**
-    * calculates the size needed to store the result of ldns_b64_pton
-    */
-   static inline size_t ldns_b64_pton_calculate_size (size_t srcsize) {
-     return ( ( ( ( (srcsize + 3) / 4) * 3)) + 1);
-     }
-#endif /* B64_NTOP */
-
-/* detect if we need to cast to unsigned int for FD_SET to avoid warnings */
-#ifdef HAVE_WINSOCK2_H
-#  define FD_SET_T (u_int)
-#else
-#  define FD_SET_T
+#ifdef HAVE_SEND
+#  ifdef __APPLE__
+#    define SEND_TYPE_ARG1 int
+#    define SEND_QUAL_ARG2 const
+#    define SEND_TYPE_ARG2 void*
+#    define SEND_TYPE_ARG3 size_t
+#    define SEND_TYPE_ARG4 int
+#    define SEND_TYPE_RETV ssize_t
+#  endif
 #endif
