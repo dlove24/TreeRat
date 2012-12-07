@@ -25,10 +25,6 @@
 #define CONFIG_H 1
 
 /***
- *** Standard library defines
- **/
-
-/***
 **** Platform Checks
 ****
 **/
@@ -61,56 +57,19 @@
 #cmakedefine HAVE_BIG_ENDIAN
 #endif
 
-#ifdef HAVE_BIG_ENDIAN
-#  define BYTE_ORDER BIG_ENDIAN
-#else
-#  define BYTE_ORDER LITTLE_ENDIAN
-#endif
-
-/***
-**** Function Declarations
-****
-**/
-
-/* The location of popen varies a bit. These variables set both the
- * existance of popen, and its location
- */
-#cmakedefine HAVE_POPEN 1
-#cmakedefine POPEN_PROTO_STDLIB 1
-#cmakedefine POPEN_PROTO_STDIO 1
-
-/* OpenSSL library defines.
- */
-#cmakedefine HAVE_SSL 1
-
-/* Host to network conversion routines */
-#cmakedefine HAVE_B32_NTOP 1
-#cmakedefine HAVE_B32_PTON 1
-#cmakedefine HAVE_B64_NTOP 1
-#cmakedefine HAVE_B64_PTON 1
-
-/* BSD C Library functions */
-#cmakedefine HAVE_ISASCII 1
-#cmakedefine HAVE_RANDOM 1
-#cmakedefine HAVE_STRDUP 1
-#cmakedefine HAVE_STRLCPY 1
-
 /***
 **** Header Declarations
 ****
 **/
 
-/* Look for the getopt library. If this is not available, routines
- * should use the provided implementation of the ArgTable library.
- * Even better, just use the ArgTable library...
- */
-#cmakedefine HAVE_GETOPT_H 1
-
 /* "Standard" headers files. Some or all of these should exist on
  * a reasonably sane platform
  */
 
+#cmakedefine HAVE_ERRNO_H 1
+#cmakedefine HAVE_FCNTL_H 1
 #cmakedefine HAVE_INTTYPES_H 1
+#cmakedefine HAVE_LIMITS_H 1
 #cmakedefine HAVE_NETDB_H 1
 #cmakedefine HAVE_RESOLV_H 1
 #cmakedefine HAVE_SOCKLEN_T 1
@@ -124,25 +83,77 @@
 
 #cmakedefine HAVE_ARPA_INET_H 1
 #cmakedefine HAVE_NETINET_IN_H 1
+#cmakedefine HAVE_SYS_FCNTL_H 1
 #cmakedefine HAVE_SYS_SELECT_H 1
+#cmakedefine HAVE_SYS_TIME_H 1
 #cmakedefine HAVE_SYS_TYPES_H 1
+#cmakedefine HAVE_SYS_UIO_H 1
 
 /***
- *** Type Defines
+ *** Symbols Defines
  ***
  **/
 
-#cmakedefine TYPEDEF___U_CHAR  1
-#cmakedefine TYPEDEF___U_INT   1
-#cmakedefine TYPEDEF___U_LONG  1
-#cmakedefine TYPEDEF___U_SHORT 1
+#cmakedefine HAVE_AF_INET6 1
+
+/* Work out the correct call for non-blocking sockets (if available) */
+#cmakedefine HAVE_FCNTL_O_NONBLOCK 1
+#cmakedefine USE_BLOCKING_SOCKETS 1
 
 /***
-**** Compatability defines. These may also need addtional functions
-**** in the 'compat' library to be linked in if used.
+**** Type Declarations
+****
+**/
+#cmakedefine HAVE_STRUCT_ADDRINFO 1
+#cmakedefine HAVE_STRUCT_SOCKADDR_IN6 1
+#cmakedefine HAVE_STRUCT_TIMEVAL 1
+#cmakedefine HAVE_WRITEV 1
+
+#cmakedefine SIZEOF_INT ${SIZEOF_INT}
+#cmakedefine SIZEOF_SHORT ${SIZEOF_SHORT}
+
+/***
+**** Function Declarations
 ****
 **/
 
-#include <config/compat.h>
+/* The location of popen varies a bit. These variables set both the
+ * existance of popen, and its location
+ */
+#cmakedefine HAVE_POPEN 1
+#cmakedefine POPEN_PROTO_STDLIB 1
+#cmakedefine POPEN_PROTO_STDIO 1
 
-#endif /* config.h */
+#cmakedefine HAVE_GETENV 1
+
+/* OpenSSL library defines.
+ */
+#cmakedefine HAVE_SSL 1
+
+/* recv() and send() defines */
+#cmakedefine HAVE_RECV 1
+
+#ifdef HAVE_RECV
+#  ifdef __APPLE__
+#    define RECV_TYPE_ARG1 int
+#    define RECV_TYPE_ARG2 void*
+#    define RECV_TYPE_ARG3 size_t
+#    define RECV_TYPE_ARG4 int
+#    define RECV_TYPE_RETV ssize_t
+#  endif
+#endif
+
+#cmakedefine HAVE_SEND 1
+
+#ifdef HAVE_SEND
+#  ifdef __APPLE__
+#    define SEND_TYPE_ARG1 int
+#    define SEND_QUAL_ARG2 const
+#    define SEND_TYPE_ARG2 void*
+#    define SEND_TYPE_ARG3 size_t
+#    define SEND_TYPE_ARG4 int
+#    define SEND_TYPE_RETV ssize_t
+#  endif
+#endif
+
+#endif

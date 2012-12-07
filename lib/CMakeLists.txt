@@ -27,7 +27,7 @@
 add_subdirectory ( clap )
 
 # DNS Resolver Library
-add_subdirectory ( ldns )
+add_subdirectory ( c-ares )
 
 # Utility Library
 add_subdirectory ( utils )

@@ -106,14 +106,10 @@ if ( SEPARATE_LIB_M )
   set ( CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -lm" )
 endif()
 
-# Look for functions that most BSD's have this as part of the standard
-# C library, but nmost other platforms do not
-check_function_exists ( random HAVE_RANDOM )
-check_function_exists ( strlcpy HAVE_STRLCPY )
-check_function_exists ( strdup HAVE_STRDUP )
+# Look for the recv() and send() functions
+check_prototype_exists ( recv "sys/socket.h" HAVE_RECV )
 
-# Look for the 'isascii' function
-check_symbol_exists ( isascii "ctypes.h" HAVE_ISASCII )
+check_prototype_exists ( send "sys/socket.h" HAVE_SEND )
 
 # Look for the Boost C++ library. This is fatal if we don't find it.
 set ( Boost_USE_STATIC_LIBS OFF)
@@ -173,13 +169,18 @@ if ( HAVE_POPEN )
   check_prototype_exists ( popen "stdio.h" POPEN_PROTO_STDIO )
 endif ()
 
+check_prototype_exists ( getenv "stdlib.h" HAVE_GETENV )
+
 ##
 ## Include Files Defines for the POSIX Platform
 ##
 
+check_include_files ( "errno.h"      HAVE_ERRNO_H )
+check_include_files ( "fcntl.h"      HAVE_FCNTL_H )
 check_include_files ( "inttypes.h"   HAVE_INTTYPES_H )
+check_include_files ( "limits.h"     HAVE_LIMITS_H )
 check_include_files ( "netdb.h"      HAVE_NETDB_H )
-check_include_files ( "stdbool.h"    HAVE_STDBOOL_H )
+check_include_files ( "resolv.h"     HAVE_RESOLV_H )
 check_include_files ( "stddef.h"     HAVE_STDDEF_H )
 check_include_files ( "stdint.h"     HAVE_STDINT_H )
 check_include_files ( "stdlib.h"     HAVE_STDLIB_H )
@@ -189,41 +190,16 @@ check_include_files ( "winsock2.h"   HAVE_WINSOCK2_H )
 
 check_include_files ( "arpa/inet.h"  HAVE_ARPA_INET_H )
 check_include_files ( "netinet/in.h" HAVE_NETINET_IN_H )
+check_include_files ( "sys/fcntl.h"  HAVE_SYS_FCNTL_H )
 check_include_files ( "sys/select.h" HAVE_SYS_SELECT_H )
-check_include_files ( "sys/types.h"  HAVE_SYS_TYPES_H )
-
 check_include_files ( "sys/socket.h" HAVE_SOCKET_H )
-if ( HAVE_SOCKET_H )
-  set ( CMAKE_EXTRA_INCLUDE_FILES sys/socket.h )
-  check_type_size ( "socklen_t" SOCKLEN_T )
-  set ( CMAKE_EXTRA_INCLUDE_FILES )
-endif ()
-
-check_include_files ( "resolv.h" HAVE_RESOLV_H )
-if ( HAVE_RESOLV_H )
-  set ( CMAKE_EXTRA_INCLUDE_FILES resolv.h )
-  check_type_size ( "b32_ntop" B32_NTOP )
-  set ( CMAKE_EXTRA_INCLUDE_FILES )
-
-  set ( CMAKE_EXTRA_INCLUDE_FILES resolv.h )
-  check_type_size ( "b32_pton" B32_PTON )
-  set ( CMAKE_EXTRA_INCLUDE_FILES )
-
-  set ( CMAKE_EXTRA_INCLUDE_FILES resolv.h )
-  check_type_size ( "b64_ntop" B64_NTOP )
-  set ( CMAKE_EXTRA_INCLUDE_FILES )
-
-  set ( CMAKE_EXTRA_INCLUDE_FILES resolv.h )
-  check_type_size ( "b64_pton" B64_PTON )
-  set ( CMAKE_EXTRA_INCLUDE_FILES )
-endif ()
+check_include_files ( "sys/time.h"   HAVE_SYS_TIME_H )
+check_include_files ( "sys/types.h"  HAVE_SYS_TYPES_H )
+check_include_files ( "sys/uio.h"    HAVE_SYS_UIO_H )
 
 ##
 ## Include File Defines for Other Features
 ##
-
-# Look for the getopt library headers
-check_include_files ( getopt.h HAVE_GETOPT_H )
 
 # Check whether we are on a 32-bit or a 64-bit platform for non-Apple
 # platforms: Apple platforms have to be checked at compile time
@@ -244,6 +220,67 @@ if( NOT APPLE )
   else ()
     set ( HAVE_BIG_ENDIAN 0 )
   endif ()
+endif ()
+
+##
+## Type defines
+##
+
+if ( HAVE_NETDB_H )
+  set ( CMAKE_EXTRA_INCLUDE_FILES netdb.h )
+  check_type_size ( "struct addrinfo" HAVE_STRUCT_ADDRINFO )
+  set ( CMAKE_EXTRA_INCLUDE_FILES )
+endif ()
+
+if ( HAVE_NETINET_IN_H  )
+  set ( CMAKE_EXTRA_INCLUDE_FILES netinet/in.h )
+  check_type_size ( "struct sockaddr_in6" HAVE_STRUCT_SOCKADDR_IN6 )
+  set ( CMAKE_EXTRA_INCLUDE_FILES )
+endif ()
+
+if ( HAVE_STDINT_H )
+  set ( CMAKE_EXTRA_INCLUDE_FILES stdint.h )
+  check_type_size ( "int" SIZEOF_INT )
+  set ( CMAKE_EXTRA_INCLUDE_FILES )
+
+  set ( CMAKE_EXTRA_INCLUDE_FILES stdint.h )
+  check_type_size ( "short" SIZEOF_SHORT )
+  set ( CMAKE_EXTRA_INCLUDE_FILES )
+endif ()
+
+if ( HAVE_SOCKET_H )
+  set ( CMAKE_EXTRA_INCLUDE_FILES sys/socket.h )
+  check_type_size ( "socklen_t" SOCKLEN_T )
+  set ( CMAKE_EXTRA_INCLUDE_FILES )
+
+  set ( CMAKE_EXTRA_INCLUDE_FILES sys/socket.h )
+  check_type_size ( "struct iovec" HAVE_WRITEV )
+  set ( CMAKE_EXTRA_INCLUDE_FILES )
+endif ()
+
+if ( HAVE_SYS_TIME_H )
+  set ( CMAKE_EXTRA_INCLUDE_FILES sys/time.h )
+  check_type_size ( "struct timeval" HAVE_STRUCT_TIMEVAL )
+  set ( CMAKE_EXTRA_INCLUDE_FILES )
+endif ()
+
+
+
+##
+## Symbol Defines
+##
+
+if ( HAVE_SOCKET_H )
+  check_symbol_exists (AF_INET6 "sys/socket.h" HAVE_AF_INET6)
+endif ()
+
+# Work out the correct symbol for non-blocking sockets
+if ( HAVE_FCNTL_H )
+  check_symbol_exists (O_NONBLOCK "fcntl.h" HAVE_FCNTL_O_NONBLOCK )
+elseif ( HAVE_SYS_FCNTL_H )
+  check_symbol_exists (O_NONBLOCK "sys/fcntl.h" HAVE_FCNTL_O_NONBLOCK )
+else ()
+  set ( USE_BLOCKING_SOCKETS 1 )
 endif ()
 
 ##
