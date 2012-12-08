@@ -21,9 +21,9 @@
 *** \author David Love (david@homeunix.org.uk)
 *** \date   December, 2012
 ***
-*** A C++ wrapper around the \c lDNS library, providing high level functions
-*** to query data held in the Domain Name System (DNS). This wrapper does not
-*** aim to expose the full functionality of the \c lDNS library: instead the
+*** A C++ wrapper around the \tt DNS library, providing high level functions
+*** to query data held in the Domain Name System (\tt DNS). This wrapper does not
+*** aim to expose the full functionality of the \tt DNS library: instead the
 *** focus is on ease-of-use and integration into C++ applications.
 ***
 **/
@@ -31,15 +31,14 @@
 #include <list>
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 #include <boost/asio.hpp>
-
-#include <ldns/ldns.h>
 
 using namespace std;
 
 /***
- *** Exception Class
+ *** Exception Classes
  ***
  **/
 
@@ -96,7 +95,25 @@ enum class DNSQueryType {
   SRV
 };
 
+/**
+ *  Utility typedef for creating a name, \c DNSQueryType pair.
+ *
+ */
+typedef pair<string, DNSQueryType> DNSPair;
+
+/***
+ *** Core Class
+ ***
+ **/
+
 /** Represents a named resource, held within the Domain Name System.
+ *
+ * \note The \tt DNS system provides a mapping of names to other names. Some
+ * of these 'names' can be interpreted as IP4/IP6 addresses (e.g. \tt A and
+ * \tt AAAA resource types): but the nature of the DNS system allows a much
+ * broader set of returned answers. The name of this class alludes to the
+ * intention of providing broad, high-level access to data held in the \tt DNS
+ * system.
  */
 class DNSName {
 
@@ -136,7 +153,7 @@ class DNSName {
      *   cv_dns_query_type = convert_ldns_type_to_dns_type(ldns_resource->_rr_type);
      * \endcode
      */
-    DNSQueryType convert_ldns_type_to_dns_type (const ldns_rr_type ldns_type);
+    DNSQueryType convert_to_dns_type (const int dns_type);
 
 
   public:
@@ -153,26 +170,32 @@ class DNSName {
      * which may produce strange output for conversion functions.
      */
     DNSName (void) {
+      cv_dns_query_name = "";
       cv_dns_query_type = DNSQueryType::NO_RECORD;
       }
 
     /**
-     * Construct a \c DNSName class to hold the given \tt DNS resource
-     * record.
+     * Construct a \c DNSName class to hold the given \tt name of the given
+     * \tt DNS resource record type.
      */
-    explicit DNSName (const DNSQueryType dns_query_type) {
+    explicit DNSName (const string dns_name, const DNSQueryType dns_query_type) {
+      cv_dns_query_name = dns_name;
       cv_dns_query_type = dns_query_type;
       }
 
-    /** Construct a \c DNSName class from the low-level \c ldns_rr_type
-     *  type returned by the \c lDNS library.
+    /**
+     * Construct a \c DNSName class to hold the given \tt name of the given
+     * \tt DNS resource record type, using a \c DNSPair.
      */
-    explicit DNSName (const ldns_rr_type ldns_resource_type);
+    explicit DNSName (const DNSPair dns_query) {
+      cv_dns_query_name = dns_query.first;
+      cv_dns_query_type = dns_query.second;
+      }
 
-    /** Construct a \c DNSName class from the low-level \c ldns_rr
-     *  type returned by the \c lDNS library.
+    /** Construct a \c DNSName class from the low-level \c dns_rr_type
+     *  type.
      */
-    explicit DNSName (const ldns_rr* ldns_resource);
+    explicit DNSName (const int dns_resource_type);
 
     //
     // Type Conversions
@@ -218,6 +241,25 @@ class DNSName {
       }
 
     /**
+     * Allow type conversion to a \c boost::asio::ip::address. Calls
+     * the public method \c to_ip() to handle the actual conversion.
+     *
+     * \retval boost::asio::ip::address An \tt IPv4 or \tt IPv6 address record. We don't
+     *   actually care which style of IP address we return: it is up to the
+     *   caller to ensure they request the correct type.
+     *
+     * Example Usage:
+     *
+     * \code
+     *    DNSName dns_name(a_dns_resource);
+     *    char* a_string{dns_name.to_c_str()};
+     * \endcode
+     */
+    operator const boost::asio::ip::address (void) const {
+      return to_ip();
+      }
+
+    /**
      * Convert the internal \tt DNS resource representation to a
      * \c std::string. This does not modify the internal
      * representation of the \tt DNS resource in any way.
@@ -257,14 +299,23 @@ class DNSName {
 
     /**
      * Convert the internal \tt DNS resource representation to a
-     * \c boost::ip::address. This does not modify the internal
-     * representation of the \tt DNS resource in any way.
+     * \c boost::ip::address.
      *
-     * \note Only certain DNS names can be converted to an IP address
-     *    (namely those from A and AAAA records). If the address cannot
-     *    be converted this class will throw a \c DNSNameConversionException.
-     *    If you don't want to handle exceptions, check the type \em before
-     *    calling this method.
+     * \note Only certain DNS names can be converted directly to an IP address
+     *    (namely those from A and AAAA records). If the \c recursive flag is
+     *    specified, this routine will attempt to continue the resolution, until
+     *    a convertible name is found. If the address cannot be converted this
+     *    class will throw a \c DNSNameConversionException. If you don't want to
+     *    handle exceptions, check the type \em before calling this method.
+     *
+     *    \param [in] recursive If the name cannot be directly converted to an
+     *      \tt IP address, perform additonal lookups to find a name that can
+     *      be converted. This is primarily useful if the original name is of
+     *      type \c DNSQueryType::MX or \c DNSQueryType::SVR.
+     *
+     *    \param [in] prefer_legacy If possible, return \tt IPv4 address instead of
+     *      \tt IPv6 addresses. By default the library will return \tt IPv6 addresses
+     *      if at all possible.
      *
      * \retval boost::asio::ip::address An \tt IPv4 or \tt IPv6 address record. We don't
      *   actually care which style of IP address we return: it is up to the
@@ -278,64 +329,6 @@ class DNSName {
      * \endcode
      *
      */
-    const boost::asio::ip::address to_ip (void) const;
-
-    /**
-     * Convert the strongly typed \c DNSQueryType to the equivalent low-level
-     * enumeration used by the \tt lDNS library. This both hides the low-level
-     * (C-oriented) types, and ensures that the compiler can check verify the
-     * type of the exposed \tt DNS routines.
-     *
-     * \retval ldns_rr_type The \tt lDNS equivalent of the high-level type
-     *
-     * Example Usage:
-     *
-     * \code
-     *    // USe the high-level type in a low-level \tt lDNS call
-     *    ldns_packet = ldns_resolver_query (ldns_resolver, ldns_query_name, dns_query_type.convert_to_ldns_resource(), LDNS_RR_CLASS_IN, LDNS_RD);
-     * \endcode
-     */
-    ldns_rr_type convert_to_ldns_resource();
+    const boost::asio::ip::address to_ip (bool recursive = true, bool prefer_legacy = false) const;
 
   };
-
-/**
- *  Holds a \c list of \c DNSName records, usually returned by one of
- *  the utility functions.
- */
-typedef list<DNSName> DNSNameList;
-
-/***
- *** Functions
- ***
- **/
-
-/**
- * Ask the \tt DNS system for a list of names, filtered by resource type,
- * associated with a given name in the \tt DNS system.
- *
- * \note The \tt DNS system provides a mapping of names to other names. Some
- * of these 'names' can be interpreted as IP4/IP6 addresses (e.g. \tt A and
- * \tt AAAA resource types): but the nature of the DNS system allows a much
- * broader set of returned answers. The name of this function alludes to the
- * intention of providing broad, high-level access to data held in the DNS
- * system.
- *
- *    \param [in] dns_query_name The name to query, or 'lookup' in the Domain
- *      Name System.
- *
- *    \param [in] dns_query_type Records returned from the Domain Name System
- *      are filtered, returning only resource records of this type.
- *
- * \retval DNSNameList The list of resource records obtained from the Domain Name
- *     System.
- *
- * Example Usage:
- *
- * \code
- *    // Return a list of IP(v4) addresses associated with a domain name. This
- *    // query is equivalent to the traditional 'gethostbyname' function call
- *    name_list = get_dns_names("www.homeunix.org.uk", DNS_RR_TYPE_A);
- * \endcode
-*/
-DNSNameList* get_dns_names (const std::string dns_query_name, const DNSQueryType dns_query_type);
