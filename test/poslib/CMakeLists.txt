@@ -32,8 +32,8 @@ include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/../tap/include )
 add_executable ( test_poslib_00 test_poslib_lookup.cpp )
 
 target_link_Libraries ( test_poslib_00
+  ${Boost_LIBRARIES}
   tap
-  poslib
 )
 
 #add_executable ( test_poslib_01 test_ldns_wrapper.cpp )
