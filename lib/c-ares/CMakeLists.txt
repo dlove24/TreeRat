@@ -74,4 +74,5 @@ add_library ( cares STATIC
   ares_timeout.c
   ares_version.c
   ares_writev.c
+  inet_net_pton.c
 ) 

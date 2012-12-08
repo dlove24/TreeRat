@@ -116,7 +116,7 @@ int main (int argc, char** argv) {
   auto globalStage = plan->Current();
 
   if (globalStage->Name() == "TreeRat") {
-    for (auto option : globalStage->Options()) {
+for (auto option : globalStage->Options()) {
       globalOptions[option.first] = true;
       }
     }
@@ -135,7 +135,7 @@ int main (int argc, char** argv) {
 
     // Refresh sub-command
     if (currentStage->Name() == "refresh") {
-      for (auto option : currentStage->Options()) {
+for (auto option : currentStage->Options()) {
         cout << "\toption: " << option.first << "=" <<  option.second->Value() << endl;
         }
       }

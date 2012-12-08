@@ -20,30 +20,30 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ##
-## Build the ldns test harness
+## Build the cares test harness
 ##
 
 include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/../tap/include )
 
-add_executable ( test_ldns_00 test_ldns_lookup.cpp )
+##
+## Build the cares tests
+##
 
-target_link_Libraries ( test_ldns_00
+add_executable ( test_cares_00 test_cares_lookup.cpp )
+
+target_link_Libraries ( test_cares_00
   tap
-  ldns
+  cares
 )
 
-add_executable ( test_ldns_01 test_ldns_wrapper.cpp )
-
-target_link_Libraries ( test_ldns_01
-  ${Boost_LIBRARIES}
-  tap
-  ldns
-  utils
-)
-
-##
-## Build the ldns tests
-##
+#add_executable ( test_cares_01 test_ldns_wrapper.cpp )
+#
+#target_link_Libraries ( test_cares_01
+#  ${Boost_LIBRARIES}
+#  tap
+#  cares
+#  utils
+#)
 
 ##
 ## Run the tests
@@ -51,12 +51,12 @@ target_link_Libraries ( test_ldns_01
 
 # Tests the core resolver library.
 add_test (
-  NAME test_ldns_core
-  COMMAND test_ldns_00
+  NAME test_cares_core
+  COMMAND test_cares_00
 )
 
 # Tests the functionality of the C++ wrapper for the lDNS library
 #add_test (
-#  NAME test_ldns_wrapper
-#  COMMAND test_ldns_01
+#  NAME test_cares_wrapper
+#  COMMAND test_cares_01
 #)
