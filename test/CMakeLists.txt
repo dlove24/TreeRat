@@ -33,6 +33,6 @@ add_subdirectory (tap)
 add_subdirectory ( treerat )
 
 # C-Ares DNS Resolver library
-add_subdirectory ( c-ares )
+add_subdirectory ( poslib )
 
 

@@ -20,59 +20,43 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ##
-## Header files
+## Build the poslib test harness
 ##
 
-include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/../../include/c-ares )
+include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/../tap/include )
 
 ##
-## Library Sources
+## Build the poslib tests
 ##
 
-add_library ( cares STATIC
-  ares__close_sockets.c
-  ares__get_hostent.c
-  ares__read_line.c
-  ares__timeval.c
-  ares_cancel.c
-  ares_data.c
-  ares_destroy.c
-  ares_expand_name.c
-  ares_expand_string.c
-  ares_fds.c
-  ares_free_hostent.c
-  ares_free_string.c
-  ares_getenv.c
-  ares_gethostbyaddr.c
-  ares_gethostbyname.c
-  ares_getnameinfo.c
-  ares_getopt.c
-  ares_getsock.c
-  ares_init.c
-  ares_library_init.c
-  ares_llist.c
-  ares_mkquery.c
-  ares_nowarn.c
-  ares_options.c
-  ares_parse_a_reply.c
-  ares_parse_aaaa_reply.c
-  ares_parse_mx_reply.c
-  ares_parse_naptr_reply.c
-  ares_parse_ns_reply.c
-  ares_parse_ptr_reply.c
-  ares_parse_soa_reply.c
-  ares_parse_srv_reply.c
-  ares_parse_txt_reply.c
-  ares_platform.c
-  ares_process.c
-  ares_query.c
-  ares_search.c
-  ares_send.c
-  ares_strcasecmp.c
-  ares_strdup.c
-  ares_strerror.c
-  ares_timeout.c
-  ares_version.c
-  ares_writev.c
-  inet_net_pton.c
-) 
+add_executable ( test_poslib_00 test_poslib_lookup.cpp )
+
+target_link_Libraries ( test_poslib_00
+  tap
+  poslib
+)
+
+#add_executable ( test_poslib_01 test_ldns_wrapper.cpp )
+#
+#target_link_Libraries ( test_poslib_01
+#  ${Boost_LIBRARIES}
+#  tap
+#  poslib
+#  utils
+#)
+
+##
+## Run the tests
+##
+
+# Tests the core resolver library.
+add_test (
+  NAME test_poslib_core
+  COMMAND test_poslib_00
+)
+
+# Tests the functionality of the C++ wrapper for the lDNS library
+#add_test (
+#  NAME test_poslib_wrapper
+#  COMMAND test_poslib_01
+#)
