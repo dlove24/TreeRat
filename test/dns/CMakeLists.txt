@@ -20,30 +20,21 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ##
-## Build the poslib test harness
+## Build the dns test harness
 ##
 
 include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/../tap/include )
 
 ##
-## Build the poslib tests
+## Build the dns tests
 ##
 
-add_executable ( test_poslib_00 test_poslib_lookup.cpp )
+add_executable ( test_dns_00 test_dns_wrapper.cpp )
 
-target_link_Libraries ( test_poslib_00
-  ${Boost_LIBRARIES}
+target_link_Libraries ( test_dns_00
   tap
+  utils
 )
-
-#add_executable ( test_poslib_01 test_ldns_wrapper.cpp )
-#
-#target_link_Libraries ( test_poslib_01
-#  ${Boost_LIBRARIES}
-#  tap
-#  poslib
-#  utils
-#)
 
 ##
 ## Run the tests
@@ -51,12 +42,6 @@ target_link_Libraries ( test_poslib_00
 
 # Tests the core resolver library.
 add_test (
-  NAME test_poslib_core
-  COMMAND test_poslib_00
+  NAME test_dns_core
+  COMMAND test_dns_00
 )
-
-# Tests the functionality of the C++ wrapper for the lDNS library
-#add_test (
-#  NAME test_poslib_wrapper
-#  COMMAND test_poslib_01
-#)
