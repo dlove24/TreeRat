@@ -132,7 +132,8 @@ void DNSNames::extract_resource_records (const DNSQueryBuffer* query_buffer, con
       }
 
     if (ns_rr_type (resource_list) == convert_to_ns_type (cv_dns_query_type)) {
-      char* tmp_resource_name;    // Temporary storage for the resource name
+      u_int tmp_resource_priority;    // Temporary storage for the resourece priority
+      char* tmp_resource_name;        // Temporary storage for the resource name
 
       //
       // Extract the data, according to the type of record
@@ -163,6 +164,30 @@ void DNSNames::extract_resource_records (const DNSQueryBuffer* query_buffer, con
           // Expand the resource name from data section of the resource list,
           // and add it to the record list
           inet_ntop (AF_INET6, ns_rr_rdata (resource_list), tmp_resource_name, INET6_ADDRSTRLEN);
+
+          break;
+
+        case DNSQueryType::MX:
+          // Allocate storage for the resource name
+          tmp_resource_name = (char*) malloc (NI_MAXHOST);
+
+          if (tmp_resource_name == nullptr) {
+            throw DNSResolverException ("Allocation of memory for resource data failed");
+            }
+
+          // Extract the priority of this resource
+          tmp_resource_priority = ns_get16 (ns_rr_rdata (resource_list));
+
+          // Extract the resource name, assuming an offset of size NS_INT16SZ from the priority
+          const u_char* message_end;
+          message_end = ns_msg_base (message_handle) + ns_msg_size (message_handle);
+
+          const u_char* data_start;
+          data_start = ns_rr_rdata (resource_list) + NS_INT16SZ;
+
+          dn_expand (ns_msg_base (message_handle), message_end, data_start, tmp_resource_name, NI_MAXHOST);
+
+          break;
         }
 
       cv_dns_record_list->push_back (tmp_resource_name);
@@ -298,6 +323,17 @@ const boost::asio::ip::address DNSNames::to_ip (bool recursive, bool prefer_lega
         //
         // Resolve a named resource held in an A record to an IP address
         //
+        return return_address.from_string (cv_dns_record_list->back());
+
+
+      case DNSQueryType::AAAA:
+        //
+        // Resolve a named resource held in an AAAA record to an IP address
+        //
+        return return_address.from_string (cv_dns_record_list->back());
+
+
+      default:
         return return_address.from_string (cv_dns_record_list->back());
       }
     }
