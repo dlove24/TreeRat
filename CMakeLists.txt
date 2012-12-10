@@ -108,6 +108,9 @@ check_prototype_exists ( recv "sys/socket.h" HAVE_RECV )
 
 check_prototype_exists ( send "sys/socket.h" HAVE_SEND )
 
+# Look for the operating system name server resolver functions
+# check_prototype_exists ( ns_init_parse
+
 # Look for the Boost C++ library. This is fatal if we don't find it.
 set ( Boost_USE_STATIC_LIBS OFF)
 set ( Boost_USE_MULTITHREADED ON)
@@ -184,6 +187,8 @@ check_include_files ( "unistd.h"     HAVE_UNISTD_H )
 check_include_files ( "winsock2.h"   HAVE_WINSOCK2_H )
 
 check_include_files ( "arpa/inet.h"  HAVE_ARPA_INET_H )
+check_include_files ( "arpa/nameser.h" HAVE_ARPA_NAMESER_H )
+check_include_files ( "arpa/nameser_compat.h" HAVE_ARAPA_NAMESER_COMPAT_H )
 check_include_files ( "netinet/in.h" HAVE_NETINET_IN_H )
 check_include_files ( "sys/fcntl.h"  HAVE_SYS_FCNTL_H )
 check_include_files ( "sys/select.h" HAVE_SYS_SELECT_H )
