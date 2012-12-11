@@ -60,6 +60,23 @@ int DNSNames::convert_to_ns_type (const DNSQueryType dns_query_type) {
     }
   }
 
+/**
+ * Package the current \tt DNS data held in the internal class variables as a \tt DNS query, and
+ * send the query to the local \tt DNS resolver. In asyncronous useage, this call forms the future
+ * \c std::promise, later accessed by the routines relying on the \c cv_dns_record_list.
+ *
+ * Example Usage:
+ *
+ * Example Usage:
+ *
+ * \code
+ *  cv_dns_query_name = dns_name;
+ *  cv_dns_query_type = dns_query_type;
+ *  cv_dns_record_list = new list<string>;
+ *
+ *  send_dns_query();
+ * \endcode
+ */
 void DNSNames::send_dns_query (void) {
   DNSQueryBuffer buffer;         // The buffer for the DNS response
   int buffer_length { -1};       // The length of the DNS response in the buffer
@@ -89,19 +106,13 @@ void DNSNames::send_dns_query (void) {
  *      \c res_search or \c res_query.
  *    \param [in] buffer_length The size of the \c query_buffer: usually found as
  *      as the return code for \c res_search or \c res_query.
- *    \param [in] buffer_length The size of the \c query_buffer: usually found as
- *      as the return code for \c res_search or \c res_query.
  *
  * Example Usage:
  *
  * \code
- *   // If the list of DNS records is empty, send a query for the A records
- *   // of the named resource
- *   buffer_length = res_search (cv_dns_query_name.c_str(), C_IN, T_A, (u_char*) &buffer, sizeof (buffer));
- *
- *   // Parse the returned buffer, to create the list of names. The list of names itself
- *   // is placed in cv_dns_record_list
- *   extract_resource_records (&buffer, buffer_length, DNSQueryType::A);
+ *  // Parse the returned buffer, to create the list of names. The list of names itself
+ *  // is placed in cv_dns_record_list
+ *  extract_resource_records (&buffer, buffer_length);
  * \endcode
  */
 void DNSNames::extract_resource_records (const DNSQueryBuffer* query_buffer, const int buffer_length) {

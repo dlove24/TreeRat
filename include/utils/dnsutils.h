@@ -204,15 +204,11 @@ class DNSNames {
     //
 
     /**
-     * Convert the weakly typed (\c enum) \c ldns_rr_type to the equivalent
-     * strongly-types \c \c DNSQueryType, as used by the \tt DNSUtils library.
+     * Convert the weakly typed (C-Style \c enum) representing the \tt DNS
+     * resource type, to the equivalent strongly-types \c \c DNSQueryType
+     * used by the \tt DNSUtils library.
      *
-     * \note Use of this routine should be rare: ideally construct a complete
-     *     \c DNSName object from the \c ldns_rr_type. This makes it much easier
-     *     to manipulate the \tt lDNS library data within the wrapper, and avoids
-     *     depending on the low-level implementation of the \tt lDNS library.
-     *
-     *    \param [in] ldns_type The \tt lDNS library type (\c ldns_rr_type) to
+     *    \param [in] dns_type The \tt DNS library type (\c ldns_rr_type) to
      *        lookup, and return as a \c DNSQueryType
      *
      * \retval DNSQueryType The \c DNSQueryType equivalent of the low-level type
@@ -226,27 +222,44 @@ class DNSNames {
     DNSQueryType convert_to_dns_type (const int dns_type);
 
     /**
-     * Convert the weakly typed (\c enum) \c ldns_rr_type to the equivalent
-     * strongly-types \c \c DNSQueryType, as used by the \tt DNSUtils library.
+     * Convert the strongly typed \c DNSQueryType (used in all public interfaces)
+     * to the low-level C-style \c enum used by the operating system resolver
+     * libraries.
      *
-     * \note Use of this routine should be rare: ideally construct a complete
-     *     \c DNSName object from the \c ldns_rr_type. This makes it much easier
-     *     to manipulate the \tt lDNS library data within the wrapper, and avoids
-     *     depending on the low-level implementation of the \tt lDNS library.
+     *    \param [in] dns_query_type The \c DNSQueryType to lookup, and return as
+     *      the equivalent \tt DNS library type.
      *
-     *    \param [in] ldns_type The \tt lDNS library type (\c ldns_rr_type) to
-     *        lookup, and return as a \c DNSQueryType
-     *
-     * \retval DNSQueryType The \c DNSQueryType equivalent of the low-level type
+     * \retval int An integer corresponding to the resource type constant in the
+     *  low-level resolver routines.
      *
      * Example Usage:
      *
      * \code
-     *   cv_dns_query_type = convert_ldns_type_to_dns_type(ldns_resource->_rr_type);
+     *   // If the list of DNS records is empty, send a query for the A records
+     *   // of the named resource
+     *   buffer_length = res_search (cv_dns_query_name.c_str(), C_IN, convert_to_ns_type (cv_dns_query_type),
+     *                               (u_char*) &buffer, sizeof (buffer));
      * \endcode
      */
     int convert_to_ns_type (const DNSQueryType dns_query_type);
 
+    /**
+     * Package the current \tt DNS data held in the internal class variables as a \tt DNS query, and
+     * send the query to the local \tt DNS resolver. In asyncronous useage, this call forms the future
+     * \c std::promise, later accessed by the routines relying on the \c cv_dns_record_list.
+     *
+     * Example Usage:
+     *
+     * Example Usage:
+     *
+     * \code
+     *  cv_dns_query_name = dns_name;
+     *  cv_dns_query_type = dns_query_type;
+     *  cv_dns_record_list = new list<string>;
+     *
+     *  send_dns_query();
+     * \endcode
+     */
     void send_dns_query (void);
 
     /**
@@ -264,13 +277,9 @@ class DNSNames {
      * Example Usage:
      *
      * \code
-     *   // If the list of DNS records is empty, send a query for the A records
-     *   // of the named resource
-     *   buffer_length = res_search (cv_dns_query_name.c_str(), C_IN, T_A, (u_char*) &buffer, sizeof (buffer));
-     *
-     *   // Parse the returned buffer, to create the list of names. The list of names itself
-     *   // is placed in cv_dns_record_list
-     *   extract_resource_records (&buffer, buffer_length);
+     *  // Parse the returned buffer, to create the list of names. The list of names itself
+     *  // is placed in cv_dns_record_list
+     *  extract_resource_records (&buffer, buffer_length);
      * \endcode
      */
     void extract_resource_records (const DNSQueryBuffer* query_buffer, const int buffer_length);
