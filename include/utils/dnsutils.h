@@ -37,32 +37,11 @@
 
 #include <boost/asio.hpp>
 
-#ifdef HAVE_RESOLV_H
+#ifdef HAVE_RESOLV_LIB
 #  include <resolv.h>
-#else
-#  error "Core nameserver resolver undefined"
-#endif
-
-#ifdef HAVE_ARPA_INET_H
-# include <arpa/inet.h>
-#else
-#  error "Core ARPA header type is undefined"
-#endif
-
-#ifdef HAVE_ARPA_NAMESER_H
-# include <arpa/nameser.h>
-#else
-#  error "Core nameserver header type is undefined"
-#endif
-
-#ifdef HAVE_ARAPA_NAMESER_COMPAT_H
+#  include <arpa/inet.h>
 #  include <arpa/nameser_compat.h>
-#endif
-
-#ifdef HAVE_NETINET_IN_H
 #  include <netinet/in.h>
-#else
-#  error "Core INET type library is undefined"
 #endif
 
 #ifdef HAVE_SYS_TYPES_H
