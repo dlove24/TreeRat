@@ -298,7 +298,7 @@ class DNSNames {
      * \tt DNS resource record.
      */
     DNSNames (const string dns_name) {
-      cv_dns_query_name = "";
+      cv_dns_query_name = dns_name;
       cv_dns_query_type = DNSQueryType::AAAA;
       cv_dns_record_list = new list<string>;
       }

@@ -273,8 +273,17 @@ const char* DNSNames::to_c_str (void) const {
       case DNSQueryType::A:
         return_string = cv_dns_record_list->back();
         return return_string.c_str();
+
+      case DNSQueryType::AAAA:
+        return_string = cv_dns_record_list->back();
+        return return_string.c_str();
+
+      default:
+        return_string = cv_dns_record_list->back();
+        return return_string.c_str();
       }
     }
+
 
   catch (DNSResolverException) {
     throw DNSNameConversionException ("Invalid address");
