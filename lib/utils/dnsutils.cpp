@@ -33,6 +33,11 @@
 using namespace boost::asio;
 
 /***
+ *** Types
+ ***
+ **/
+
+/***
  *** DNSName Class Defition
  ***
  */

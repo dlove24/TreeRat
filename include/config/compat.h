@@ -106,27 +106,25 @@ size_t strlcpy (char* dst, const char* src, size_t siz);
 #endif
 
 #ifndef B64_PTON
-int ldns_b64_ntop(uint8_t const *src, size_t srclength,
-      char *target, size_t targsize);
+int ldns_b64_ntop (uint8_t const* src, size_t srclength,
+                   char* target, size_t targsize);
 /**
  * calculates the size needed to store the result of b64_ntop
  */
 /*@unused@*/
-static inline size_t ldns_b64_ntop_calculate_size(size_t srcsize)
-{
-  return ((((srcsize + 2) / 3) * 4) + 1);
-}
+static inline size_t ldns_b64_ntop_calculate_size (size_t srcsize) {
+  return ( ( ( (srcsize + 2) / 3) * 4) + 1);
+  }
 #endif /* !B64_PTON */
 #ifndef B64_NTOP
-int ldns_b64_pton(char const *src, uint8_t *target, size_t targsize);
+int ldns_b64_pton (char const* src, uint8_t* target, size_t targsize);
 /**
  * calculates the size needed to store the result of ldns_b64_pton
  */
 /*@unused@*/
-static inline size_t ldns_b64_pton_calculate_size(size_t srcsize)
-{
-  return (((((srcsize + 3) / 4) * 3)) + 1);
-}
+static inline size_t ldns_b64_pton_calculate_size (size_t srcsize) {
+  return ( ( ( ( (srcsize + 3) / 4) * 3)) + 1);
+  }
 #endif /* !B64_NTOP */
 
 /* Detect if we need to cast to unsigned int for FD_SET to avoid warnings */

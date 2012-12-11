@@ -58,6 +58,13 @@
 #endif
 
 /***
+**** Library Declarations
+****
+**/
+
+#cmakedefine HAVE_RESOLV_LIB
+
+/***
 **** Header Declarations
 ****
 **/
@@ -92,32 +99,6 @@
 #cmakedefine HAVE_SYS_UIO_H 1
 
 /***
- *** Symbols Defines
- ***
- **/
-
-#cmakedefine HAVE_AF_INET6 1
-#cmakedefine HAVE_PF_INET6 1
-
-#cmakedefine HAVE_GETTIMEOFDAY 1
-
-/* Work out the correct call for non-blocking sockets (if available) */
-#cmakedefine HAVE_FCNTL_O_NONBLOCK 1
-#cmakedefine USE_BLOCKING_SOCKETS 1
-
-/***
-**** Type Declarations
-****
-**/
-#cmakedefine HAVE_STRUCT_ADDRINFO 1
-#cmakedefine HAVE_STRUCT_SOCKADDR_IN6 1
-#cmakedefine HAVE_STRUCT_TIMEVAL 1
-#cmakedefine HAVE_WRITEV 1
-
-#cmakedefine SIZEOF_INT ${SIZEOF_INT}
-#cmakedefine SIZEOF_SHORT ${SIZEOF_SHORT}
-
-/***
 **** Function Declarations
 ****
 **/
@@ -129,51 +110,7 @@
 #cmakedefine POPEN_PROTO_STDLIB 1
 #cmakedefine POPEN_PROTO_STDIO 1
 
-#cmakedefine HAVE_GETENV 1
-
-/* OpenSSL library defines.
- */
-#cmakedefine HAVE_SSL 1
-
 /* recv() and send() defines */
 #cmakedefine HAVE_RECV 1
 
-#ifdef HAVE_RECV
-#  ifdef __APPLE__
-#    define RECV_TYPE_ARG1 int
-#    define RECV_TYPE_ARG2 void*
-#    define RECV_TYPE_ARG3 size_t
-#    define RECV_TYPE_ARG4 int
-#    define RECV_TYPE_RETV ssize_t
-#  endif
-#  ifdef __linux__
-#    define RECV_TYPE_ARG1 int
-#    define RECV_TYPE_ARG2 void*
-#    define RECV_TYPE_ARG3 size_t
-#    define RECV_TYPE_ARG4 int
-#    define RECV_TYPE_RETV ssize_t
-#  endif
-#endif
-
-#cmakedefine HAVE_SEND 1
-
-#ifdef HAVE_SEND
-#  ifdef __APPLE__
-#    define SEND_TYPE_ARG1 int
-#    define SEND_QUAL_ARG2 const
-#    define SEND_TYPE_ARG2 void*
-#    define SEND_TYPE_ARG3 size_t
-#    define SEND_TYPE_ARG4 int
-#    define SEND_TYPE_RETV ssize_t
-#  endif
-#  ifdef __linux__
-#    define SEND_TYPE_ARG1 int
-#    define SEND_QUAL_ARG2 __const
-#    define SEND_TYPE_ARG2 void*
-#    define SEND_TYPE_ARG3 size_t
-#    define SEND_TYPE_ARG4 int
-#    define SEND_TYPE_RETV ssize_t
-#  endif
-#endif
-
-#endif
+#endif /* config.h */

@@ -84,10 +84,10 @@ endif ()
 ## Project Configuration
 ##
 
-# Set the global configure file
+# Set the project configure file
 configure_file ( ${CMAKE_CURRENT_SOURCE_DIR}/include/config/config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/config/config.h )
 
-# Add the global includes to the search path
+# Add the project includes to the search path
 include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/include )
 
 ##
@@ -106,13 +106,8 @@ if ( SEPARATE_LIB_M )
   set ( CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -lm" )
 endif()
 
-# Look for the recv() and send() functions
-check_prototype_exists ( recv "sys/socket.h" HAVE_RECV )
-
-check_prototype_exists ( send "sys/socket.h" HAVE_SEND )
-
 # Look for the operating system name server resolver functions
-# check_prototype_exists ( ns_init_parse
+check_library_exists ( resolv res_search "" HAVE_RESOLV_LIB )
 
 # Look for the Boost C++ library. This is fatal if we don't find it.
 set ( Boost_USE_STATIC_LIBS OFF)
@@ -150,16 +145,6 @@ find_package ( Boost 1.45.0 COMPONENTS
   REQUIRED
 )
 
-# Look for the OpenSSL library. This is not fatal if we cannot find
-# it as lDNS can work around the problem
-
-find_package ( OpenSSL )
-
-if ( _OPENSSL_FOUND )
-  set ( HAVE_SSL 1 )
-  include_directories ( ${OPENSSL_INCLUDE_DIR} )
-endif ()
-
 ##
 ## Include Files Defines for the C Standard Library
 ##
@@ -171,8 +156,6 @@ if ( HAVE_POPEN )
   check_prototype_exists ( popen "stdlib.h" POPEN_PROTO_STDLIB )
   check_prototype_exists ( popen "stdio.h" POPEN_PROTO_STDIO )
 endif ()
-
-check_prototype_exists ( getenv "stdlib.h" HAVE_GETENV )
 
 ##
 ## Include Files Defines for the POSIX Platform
@@ -226,92 +209,6 @@ if( NOT APPLE )
     set ( HAVE_BIG_ENDIAN 0 )
   endif ()
 endif ()
-
-##
-## Type defines
-##
-
-if ( HAVE_NETDB_H )
-  set ( CMAKE_EXTRA_INCLUDE_FILES netdb.h )
-  check_type_size ( "struct addrinfo" HAVE_STRUCT_ADDRINFO )
-  set ( CMAKE_EXTRA_INCLUDE_FILES )
-endif ()
-
-if ( HAVE_NETINET_IN_H  )
-  set ( CMAKE_EXTRA_INCLUDE_FILES netinet/in.h )
-  check_type_size ( "struct sockaddr_in6" HAVE_STRUCT_SOCKADDR_IN6 )
-  set ( CMAKE_EXTRA_INCLUDE_FILES )
-endif ()
-
-if ( HAVE_STDINT_H )
-  set ( CMAKE_EXTRA_INCLUDE_FILES stdint.h )
-  check_type_size ( "int" SIZEOF_INT )
-  set ( CMAKE_EXTRA_INCLUDE_FILES )
-
-  set ( CMAKE_EXTRA_INCLUDE_FILES stdint.h )
-  check_type_size ( "short" SIZEOF_SHORT )
-  set ( CMAKE_EXTRA_INCLUDE_FILES )
-endif ()
-
-if ( HAVE_SOCKET_H )
-  set ( CMAKE_EXTRA_INCLUDE_FILES sys/socket.h )
-  check_type_size ( "socklen_t" SOCKLEN_T )
-  set ( CMAKE_EXTRA_INCLUDE_FILES )
-
-  set ( CMAKE_EXTRA_INCLUDE_FILES sys/socket.h )
-  check_type_size ( "struct iovec" HAVE_WRITEV )
-  set ( CMAKE_EXTRA_INCLUDE_FILES )
-endif ()
-
-if ( HAVE_SYS_TIME_H )
-  set ( CMAKE_EXTRA_INCLUDE_FILES sys/time.h )
-  check_type_size ( "struct timeval" HAVE_STRUCT_TIMEVAL )
-  set ( CMAKE_EXTRA_INCLUDE_FILES )
-endif ()
-
-
-
-##
-## Symbol Defines
-##
-
-if ( HAVE_SOCKET_H )
-  check_symbol_exists ( AF_INET6 "sys/socket.h" HAVE_AF_INET6)
-  check_symbol_exists ( PF_INET6 "sys/socket.h" HAVE_PF_INET6)
-endif ()
-
-if ( HAVE_SYS_TIME_H )
-  check_symbol_exists ( gettimeofday "sys/time.h" HAVE_GETTIMEOFDAY )
-endif ()
-
-# Work out the correct symbol for non-blocking sockets
-if ( HAVE_FCNTL_H )
-  check_symbol_exists (O_NONBLOCK "fcntl.h" HAVE_FCNTL_O_NONBLOCK )
-elseif ( HAVE_SYS_FCNTL_H )
-  check_symbol_exists (O_NONBLOCK "sys/fcntl.h" HAVE_FCNTL_O_NONBLOCK )
-else ()
-  set ( USE_BLOCKING_SOCKETS 1 )
-endif ()
-
-##
-## Symbol Defines
-##
-
-set ( CMAKE_EXTRA_INCLUDE_FILES bits/types.h )
-check_type_size ( "__u_char" TYPEDEF___U_CHAR )
-set ( CMAKE_EXTRA_INCLUDE_FILES )
-
-set ( CMAKE_EXTRA_INCLUDE_FILES bits/types.h )
-check_type_size ( "__u_int" TYPEDEF___U_INT )
-set ( CMAKE_EXTRA_INCLUDE_FILES )
-
-set ( CMAKE_EXTRA_INCLUDE_FILES bits/types.h )
-check_type_size ( "__u_long" TYPEDEF___U_LONG )
-set ( CMAKE_EXTRA_INCLUDE_FILES )
-
-set ( CMAKE_EXTRA_INCLUDE_FILES bits/types.h )
-check_type_size ( "__u_short" TYPEDEF___U_SHORT )
-set ( CMAKE_EXTRA_INCLUDE_FILES )
 
 ##
 ## Add Project Libraries

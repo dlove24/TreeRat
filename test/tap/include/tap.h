@@ -292,7 +292,7 @@ void skip_todo (const std::string& reason) throw (details::Todo_exception);
     if(_current_message) TAP::fail(_current_message);\
     }\
   return TAP::exit_status();\
-           }
+    }
 
 #define BLOCK_START(planned) \
   try {\

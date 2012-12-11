@@ -134,10 +134,12 @@ enum class DNSQueryType {
 /** Low-Level DNS Buffer Type. Used to collect the resources from the
  *  operating system resolver library.
  */
+#ifdef HAVE_RESOLV_LIB
 typedef union {
   HEADER hdr;
   u_char buf[NS_PACKETSZ];
   } DNSQueryBuffer;
+#endif
 
 /**
  *  Utility typedef for creating a name, \c DNSQueryType pair.
