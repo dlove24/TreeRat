@@ -20,44 +20,30 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ##
-## Build the ldns test harness
+## Build the dns test harness
 ##
 
 include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/../tap/include )
 
-add_executable ( test_ldns_00 test_ldns_lookup.cpp )
+##
+## Build the dns tests
+##
 
-target_link_Libraries ( test_ldns_00
-  tap
-  ldns
-)
+add_executable ( test_dns_00 test_dns_wrapper.cpp )
 
-add_executable ( test_ldns_01 test_ldns_wrapper.cpp )
-
-target_link_Libraries ( test_ldns_01
+target_link_Libraries ( test_dns_00
   ${Boost_LIBRARIES}
+  resolv
   tap
-  ldns
   utils
 )
-
-##
-## Build the ldns tests
-##
 
 ##
 ## Run the tests
 ##
 
-# Tests the core resolver library. This works, but the output is not stable, so this test is
-# no linked to the build (otherwise it generates false warnings).
-#add_test (
-#  NAME test_ldns_core
-#  COMMAND test_ldns_00
-#)
-
-# Tests the functionality of the C++ wrapper for the lDNS library
+# Tests the core resolver library.
 add_test (
-  NAME test_ldns_wrapper
-  COMMAND test_ldns_01
+  NAME test_dns_core
+  COMMAND test_dns_00
 )

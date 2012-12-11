@@ -30,6 +30,7 @@
 ##
 
 add_library ( utils STATIC
+  ${Boost_LIBRARIES}
   dnsutils.cpp
   fileutils.cpp
 ) 

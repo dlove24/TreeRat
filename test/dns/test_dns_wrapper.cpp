@@ -38,7 +38,7 @@ using namespace TAP;
 using namespace boost::asio;
 
 int main () {
-  DNSNameList* name_list; //Holds the list of DNS names returned from the lookup
+  DNSNames dns_name; //Holds the list of DNS names returned from the lookup
   string name;
 
   plan (7);
@@ -49,30 +49,51 @@ int main () {
   //
 
   // Try an A record lookup against a known target
-  name_list = get_dns_names ("www.homeunix.org.uk", DNSQueryType::A);
-  is (name_list->front().to_str(), "81.187.233.188", "Expected return for Homeunix A record");
+  try {
+    dns_name = DNSNames ("www.homeunix.org.uk", DNSQueryType::A);
+    is (dns_name.to_str(), "81.187.233.188", "Expected return for Homeunix A record");
+    }
+
+  catch (const std::exception& caught_exception) {
+    std::cerr << caught_exception.what() << endl;
+    bail_out ("Caught exception on Test 1");
+    }
 
   // Try an AAAA record lookup against a known target
-  name_list = get_dns_names ("www.homeunix.org.uk", DNSQueryType::AAAA);
-  is (name_list->front().to_str(), "2001:8b0:1698:cf71::50:0", "Expected return for Homeunix AAAA record");
+  try {
+    dns_name = DNSNames ("www.homeunix.org.uk", DNSQueryType::AAAA);
+    is (dns_name.to_str(), "2001:8b0:1698:cf71::50:0", "Expected return for Homeunix AAAA record");
+    }
+
+  catch (const std::exception& caught_exception) {
+    std::cerr << caught_exception.what() << endl;
+    bail_out ("Caught exception on Test 2");
+    }
 
   // Try an MX record lookup against a known target
-  name_list = get_dns_names ("homeunix.org.uk", DNSQueryType::MX);
-  is (name_list->front().to_str(), "hotmail.homeunix.org.uk.", "Expected return for Homeunix MX record");
+  try {
+    dns_name = DNSNames ("homeunix.org.uk", DNSQueryType::MX);
+    is (dns_name.to_str(), "hotmail.homeunix.org.uk", "Expected return for Homeunix MX record");
+    }
+
+  catch (const std::exception& caught_exception) {
+    std::cerr << caught_exception.what() << endl;
+    bail_out ("Caught exception on Test 3");
+    }
 
   // Lookup a known invalid host. This should throw an exception.
   try {
-    name_list = get_dns_names ("this-host-is-not-valid.homeunix.org.uk", DNSQueryType::A);
+    dns_name = DNSNames ("this-host-is-not-valid.homeunix.org.uk", DNSQueryType::A);
     fail ("DNSResolverException has not been raised on an invalid record");
     }
 
-  catch (DNSResolverException) {
-    pass ("DNSResolverException raised on invalid record");
+  catch (DNSException) {
+    pass ("DNSException raised on invalid record");
     }
 
   //
   // In the most common cases (A and AAAA records), we interpret the name returned by the
-  // DNS as a IPv4 or IPv6 address. This next set of tests ensures we can handle cohersion
+  // DNS as a IPv4 or IPv6 address. This next set of tests ensures we can handle conversion
   // of the returned name to the appropriate type.
   //
 
@@ -80,15 +101,15 @@ int main () {
   ip::address test_address;
 
   // Test the resolution of an A record to an IPv4 address
-  name_list = get_dns_names ("www.homeunix.org.uk", DNSQueryType::A);
-  resolved_address = name_list->front().to_ip();
+  dns_name = DNSNames ("www.homeunix.org.uk", DNSQueryType::A);
+  resolved_address = dns_name;
   test_address =  boost::asio::ip::address::from_string ("81.187.233.188");
 
   ok (resolved_address == test_address, "Conversion to IP address for Homeunix A record");
 
   // Test the resolution of an AAAA record to an IPv6 address
-  name_list = get_dns_names ("www.homeunix.org.uk", DNSQueryType::AAAA);
-  resolved_address = name_list->front().to_ip();
+  dns_name = DNSNames ("www.homeunix.org.uk", DNSQueryType::AAAA);
+  resolved_address = dns_name;
   test_address = boost::asio::ip::address::from_string ("2001:8b0:1698:cf71::50:0");
 
   ok (test_address == resolved_address, "Conversion to IP address for Homeunix AAAA record");
@@ -97,15 +118,15 @@ int main () {
   // throw an exception, as the name will not be a valid IP address (although
   // will be a valid DNS name)
   try {
-    name_list = get_dns_names ("homeunix.org.uk", DNSQueryType::MX);
+    dns_name = DNSNames ("homeunix.org.uk", DNSQueryType::MX);
 #   pragma GCC diagnostic ignored "-Wunused-variable"
-    ip::address resolved_address {name_list->front().to_ip() };
+    ip::address resolved_address {dns_name.to_ip() };
 
-    fail ("DNSNameConversionException has not been raised on an invalid address conversion");
+    fail ("Exception has not been raised on an invalid address conversion");
     }
 
-  catch (DNSNameConversionException) {
-    pass ("DNSNameConversionException raised on invalid address conversion");
+  catch (const std::exception& caught_exception) {
+    pass ("DNSException raised on invalid address conversion");
     }
 
   return exit_status();

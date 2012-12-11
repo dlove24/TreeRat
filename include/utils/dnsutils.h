@@ -21,25 +21,60 @@
 *** \author David Love (david@homeunix.org.uk)
 *** \date   December, 2012
 ***
-*** A C++ wrapper around the \c lDNS library, providing high level functions
-*** to query data held in the Domain Name System (DNS). This wrapper does not
-*** aim to expose the full functionality of the \c lDNS library: instead the
+*** A C++ wrapper around the \tt DNS library, providing high level functions
+*** to query data held in the Domain Name System (\tt DNS). This wrapper does not
+*** aim to expose the full functionality of the \tt DNS library: instead the
 *** focus is on ease-of-use and integration into C++ applications.
 ***
 **/
 
+#include <config/config.h>
+
 #include <list>
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 #include <boost/asio.hpp>
 
-#include <ldns/ldns.h>
+#ifdef HAVE_RESOLV_H
+#  include <resolv.h>
+#else
+#  error "Core nameserver resolver undefined"
+#endif
+
+#ifdef HAVE_ARPA_INET_H
+# include <arpa/inet.h>
+#else
+#  error "Core ARPA header type is undefined"
+#endif
+
+#ifdef HAVE_ARPA_NAMESER_H
+# include <arpa/nameser.h>
+#else
+#  error "Core nameserver header type is undefined"
+#endif
+
+#ifdef HAVE_ARAPA_NAMESER_COMPAT_H
+#  include <arpa/nameser_compat.h>
+#endif
+
+#ifdef HAVE_NETINET_IN_H
+#  include <netinet/in.h>
+#else
+#  error "Core INET type library is undefined"
+#endif
+
+#ifdef HAVE_SYS_TYPES_H
+#  include <sys/types.h>
+#else
+#  error "Core system types are undefined"
+#endif
 
 using namespace std;
 
 /***
- *** Exception Class
+ *** Exception Classes
  ***
  **/
 
@@ -96,9 +131,57 @@ enum class DNSQueryType {
   SRV
 };
 
-/** Represents a named resource, held within the Domain Name System.
+/** Low-Level DNS Buffer Type. Used to collect the resources from the
+ *  operating system resolver library.
  */
-class DNSName {
+typedef union {
+  HEADER hdr;
+  u_char buf[NS_PACKETSZ];
+  } DNSQueryBuffer;
+
+/**
+ *  Utility typedef for creating a name, \c DNSQueryType pair.
+ *
+ */
+typedef pair<string, DNSQueryType> DNSPair;
+
+/**
+ *  Defines the list of DNS records, used as the return type by many
+ *  of the wrapper functions.
+ *
+ */
+typedef list<string>* DNSList;
+
+/***
+ *** Core Class
+ ***
+ **/
+
+/**
+ * Represents a list named resources, of a type specified as a \c DNSQueryType, held
+ * within the Domain Name System (\tt DNS). In essence this class holds the response
+ * of a \em single \tt DNS query: for instance the \tt IP addresses associated with a
+ * given domain name, or the list of mail servers for a particular domain.
+ *
+ * Although this class assumes that many names may be associated with a given resource
+ * name, in practice many names only have one association. For example a query for the
+ * \tt A record of a domain name will typically yield a single \tt IPv4 address. Where
+ * only one name is found, that name will always be used (and returned) by the
+ * conversion methods of this class.
+ *
+ * In cases where multiple names are found, the class will return the names according
+ * the \c DNSQueryType as follows
+ *
+ *   + \c DNSQueryType::A A random name is selected from the list of names.
+ *
+ * \note The \tt DNS system provides a mapping of names to other names. Some
+ * of these 'names' can be interpreted as IP4/IP6 addresses (e.g. \tt A and
+ * \tt AAAA resource types): but the nature of the DNS system allows a much
+ * broader set of returned answers. The name of this class alludes to the
+ * intention of providing broad, high-level access to data held in the \tt DNS
+ * system.
+ */
+class DNSNames {
 
   private:
 
@@ -110,6 +193,10 @@ class DNSName {
     /// Holds the name (resource data) associated with \c cv_dns_query_type
     std::string cv_dns_query_name;
 
+    /// The internal list of DNS records. Usually this is only used by the
+    /// internal type conversion routines
+    DNSList cv_dns_record_list;
+
   protected:
 
     //
@@ -117,15 +204,11 @@ class DNSName {
     //
 
     /**
-     * Convert the weakly typed (\c enum) \c ldns_rr_type to the equivalent
-     * strongly-types \c \c DNSQueryType, as used by the \tt DNSUtils library.
+     * Convert the weakly typed (C-Style \c enum) representing the \tt DNS
+     * resource type, to the equivalent strongly-types \c \c DNSQueryType
+     * used by the \tt DNSUtils library.
      *
-     * \note Use of this routine should be rare: ideally construct a complete
-     *     \c DNSName object from the \c ldns_rr_type. This makes it much easier
-     *     to manipulate the \tt lDNS library data within the wrapper, and avoids
-     *     depending on the low-level implementation of the \tt lDNS library.
-     *
-     *    \param [in] ldns_type The \tt lDNS library type (\c ldns_rr_type) to
+     *    \param [in] dns_type The \tt DNS library type (\c ldns_rr_type) to
      *        lookup, and return as a \c DNSQueryType
      *
      * \retval DNSQueryType The \c DNSQueryType equivalent of the low-level type
@@ -133,11 +216,73 @@ class DNSName {
      * Example Usage:
      *
      * \code
-     *   cv_dns_query_type = convert_ldns_type_to_dns_type(ldns_resource->_rr_type);
+     *   cv_dns_query_type = convert_to_dns_type(dns_resource->_rr_type);
      * \endcode
      */
-    DNSQueryType convert_ldns_type_to_dns_type (const ldns_rr_type ldns_type);
+    DNSQueryType convert_to_dns_type (const int dns_type);
 
+    /**
+     * Convert the strongly typed \c DNSQueryType (used in all public interfaces)
+     * to the low-level C-style \c enum used by the operating system resolver
+     * libraries.
+     *
+     *    \param [in] dns_query_type The \c DNSQueryType to lookup, and return as
+     *      the equivalent \tt DNS library type.
+     *
+     * \retval int An integer corresponding to the resource type constant in the
+     *  low-level resolver routines.
+     *
+     * Example Usage:
+     *
+     * \code
+     *   // If the list of DNS records is empty, send a query for the A records
+     *   // of the named resource
+     *   buffer_length = res_search (cv_dns_query_name.c_str(), C_IN, convert_to_ns_type (cv_dns_query_type),
+     *                               (u_char*) &buffer, sizeof (buffer));
+     * \endcode
+     */
+    int convert_to_ns_type (const DNSQueryType dns_query_type);
+
+    /**
+     * Package the current \tt DNS data held in the internal class variables as a \tt DNS query, and
+     * send the query to the local \tt DNS resolver. In asyncronous useage, this call forms the future
+     * \c std::promise, later accessed by the routines relying on the \c cv_dns_record_list.
+     *
+     * Example Usage:
+     *
+     * Example Usage:
+     *
+     * \code
+     *  cv_dns_query_name = dns_name;
+     *  cv_dns_query_type = dns_query_type;
+     *  cv_dns_record_list = new list<string>;
+     *
+     *  send_dns_query();
+     * \endcode
+     */
+    void send_dns_query (void);
+
+    /**
+     * Extract the named resources from a \c DNSQueryBuffer of type \c ns_query_type,
+     * returned by the low-level, operating system resolver routines. Even if more than
+     * one record type is present, only those of \c ns_query_type will be considered.
+     * All valid records of that type will then be parsed, and added to the internal
+     * \c cv_dns_record_list.
+     *
+     *    \param [in] query_buffer The \tt DNS response buffer, returned by a call to
+     *      \c res_search or \c res_query.
+     *    \param [in] buffer_length The size of the \c query_buffer: usually found as
+     *      as the return code for \c res_search or \c res_query.
+     *
+     * Example Usage:
+     *
+     * \code
+     *  // Parse the returned buffer, to create the list of names. The list of names itself
+     *  // is placed in cv_dns_record_list
+     *  extract_resource_records (&buffer, buffer_length);
+     * \endcode
+     */
+    void extract_resource_records (const DNSQueryBuffer* query_buffer, const int buffer_length);
 
   public:
 
@@ -146,33 +291,61 @@ class DNSName {
     //
 
     /**
-     * Construct a \c DNSName class, defined as holding no \tt DNS resource
-     * record.
+     * Construct a \c DNSName class, but leave the class unconfigured.
      *
      * \warning Internally the resource type will be \c DNSQueryType::NO_RECORD,
      * which may produce strange output for conversion functions.
      */
-    DNSName (void) {
+    DNSNames () {
+      cv_dns_query_name = "";
       cv_dns_query_type = DNSQueryType::NO_RECORD;
+      cv_dns_record_list = new list<string>;
       }
 
     /**
-     * Construct a \c DNSName class to hold the given \tt DNS resource
-     * record.
+     * Construct a \c DNSName class, defaulting to the storage of a \c DNSNames::AAAA
+     * \tt DNS resource record.
      */
-    explicit DNSName (const DNSQueryType dns_query_type) {
-      cv_dns_query_type = dns_query_type;
+    DNSNames (const string dns_name) {
+      cv_dns_query_name = dns_name;
+      cv_dns_query_type = DNSQueryType::AAAA;
+      cv_dns_record_list = new list<string>;
       }
 
-    /** Construct a \c DNSName class from the low-level \c ldns_rr_type
-     *  type returned by the \c lDNS library.
+    /**
+     * Construct a \c DNSName class to hold the given \tt name of the given
+     * \tt DNS resource record type.
      */
-    explicit DNSName (const ldns_rr_type ldns_resource_type);
+    explicit DNSNames (const string dns_name, const DNSQueryType dns_query_type) {
+      cv_dns_query_name = dns_name;
+      cv_dns_query_type = dns_query_type;
+      cv_dns_record_list = new list<string>;
 
-    /** Construct a \c DNSName class from the low-level \c ldns_rr
-     *  type returned by the \c lDNS library.
+      send_dns_query();
+      }
+
+    /**
+     * Construct a \c DNSName class to hold the given \tt name of the given
+     * \tt DNS resource record type, using a \c DNSPair.
      */
-    explicit DNSName (const ldns_rr* ldns_resource);
+    explicit DNSNames (const DNSPair dns_query) {
+      cv_dns_query_name = dns_query.first;
+      cv_dns_query_type = dns_query.second;
+      cv_dns_record_list = new list<string>;
+
+      send_dns_query();
+      }
+
+    /** Construct a \c DNSName class from the low-level \c dns_rr_type
+     *  type.
+     */
+    explicit DNSNames (const string dns_name, const int dns_resource_type) {
+      cv_dns_query_name = dns_name;
+      cv_dns_query_type = convert_to_dns_type (dns_resource_type);
+      cv_dns_record_list = new list<string>;
+
+      send_dns_query();
+      }
 
     //
     // Type Conversions
@@ -218,6 +391,25 @@ class DNSName {
       }
 
     /**
+     * Allow type conversion to a \c boost::asio::ip::address. Calls
+     * the public method \c to_ip() to handle the actual conversion.
+     *
+     * \retval boost::asio::ip::address An \tt IPv4 or \tt IPv6 address record. We don't
+     *   actually care which style of IP address we return: it is up to the
+     *   caller to ensure they request the correct type.
+     *
+     * Example Usage:
+     *
+     * \code
+     *    DNSName dns_name(a_dns_resource);
+     *    char* a_string{dns_name.to_c_str()};
+     * \endcode
+     */
+    operator const boost::asio::ip::address (void) {
+      return to_ip();
+      }
+
+    /**
      * Convert the internal \tt DNS resource representation to a
      * \c std::string. This does not modify the internal
      * representation of the \tt DNS resource in any way.
@@ -257,14 +449,23 @@ class DNSName {
 
     /**
      * Convert the internal \tt DNS resource representation to a
-     * \c boost::ip::address. This does not modify the internal
-     * representation of the \tt DNS resource in any way.
+     * \c boost::ip::address.
      *
-     * \note Only certain DNS names can be converted to an IP address
-     *    (namely those from A and AAAA records). If the address cannot
-     *    be converted this class will throw a \c DNSNameConversionException.
-     *    If you don't want to handle exceptions, check the type \em before
-     *    calling this method.
+     * \note Only certain DNS names can be converted directly to an IP address
+     *    (namely those from A and AAAA records). If the \c recursive flag is
+     *    specified, this routine will attempt to continue the resolution, until
+     *    a convertible name is found. If the address cannot be converted this
+     *    class will throw a \c DNSNameConversionException. If you don't want to
+     *    handle exceptions, check the type \em before calling this method.
+     *
+     *    \param [in] recursive If the name cannot be directly converted to an
+     *      \tt IP address, perform additonal lookups to find a name that can
+     *      be converted. This is primarily useful if the original name is of
+     *      type \c DNSQueryType::MX or \c DNSQueryType::SVR.
+     *
+     *    \param [in] prefer_legacy If possible, return \tt IPv4 address instead of
+     *      \tt IPv6 addresses. By default the library will return \tt IPv6 addresses
+     *      if at all possible.
      *
      * \retval boost::asio::ip::address An \tt IPv4 or \tt IPv6 address record. We don't
      *   actually care which style of IP address we return: it is up to the
@@ -278,64 +479,6 @@ class DNSName {
      * \endcode
      *
      */
-    const boost::asio::ip::address to_ip (void) const;
-
-    /**
-     * Convert the strongly typed \c DNSQueryType to the equivalent low-level
-     * enumeration used by the \tt lDNS library. This both hides the low-level
-     * (C-oriented) types, and ensures that the compiler can check verify the
-     * type of the exposed \tt DNS routines.
-     *
-     * \retval ldns_rr_type The \tt lDNS equivalent of the high-level type
-     *
-     * Example Usage:
-     *
-     * \code
-     *    // USe the high-level type in a low-level \tt lDNS call
-     *    ldns_packet = ldns_resolver_query (ldns_resolver, ldns_query_name, dns_query_type.convert_to_ldns_resource(), LDNS_RR_CLASS_IN, LDNS_RD);
-     * \endcode
-     */
-    ldns_rr_type convert_to_ldns_resource();
+    const boost::asio::ip::address to_ip (bool recursive = true, bool prefer_legacy = false);
 
   };
-
-/**
- *  Holds a \c list of \c DNSName records, usually returned by one of
- *  the utility functions.
- */
-typedef list<DNSName> DNSNameList;
-
-/***
- *** Functions
- ***
- **/
-
-/**
- * Ask the \tt DNS system for a list of names, filtered by resource type,
- * associated with a given name in the \tt DNS system.
- *
- * \note The \tt DNS system provides a mapping of names to other names. Some
- * of these 'names' can be interpreted as IP4/IP6 addresses (e.g. \tt A and
- * \tt AAAA resource types): but the nature of the DNS system allows a much
- * broader set of returned answers. The name of this function alludes to the
- * intention of providing broad, high-level access to data held in the DNS
- * system.
- *
- *    \param [in] dns_query_name The name to query, or 'lookup' in the Domain
- *      Name System.
- *
- *    \param [in] dns_query_type Records returned from the Domain Name System
- *      are filtered, returning only resource records of this type.
- *
- * \retval DNSNameList The list of resource records obtained from the Domain Name
- *     System.
- *
- * Example Usage:
- *
- * \code
- *    // Return a list of IP(v4) addresses associated with a domain name. This
- *    // query is equivalent to the traditional 'gethostbyname' function call
- *    name_list = get_dns_names("www.homeunix.org.uk", DNS_RR_TYPE_A);
- * \endcode
-*/
-DNSNameList* get_dns_names (const std::string dns_query_name, const DNSQueryType dns_query_type);

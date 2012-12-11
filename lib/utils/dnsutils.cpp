@@ -28,17 +28,7 @@
 ***
 **/
 
-#include <config/config.h>
 #include <utils/dnsutils.h>
-
-#include <string>
-#include <iostream>
-
-#ifdef HAVE_TYPES_H
-#  include <types.h>
-#endif
-
-#include <ldns/host2str.h>
 
 using namespace boost::asio;
 
@@ -48,106 +38,174 @@ using namespace boost::asio;
  */
 
 //
-// Class Constructors
+// Protected Methods
 //
 
-/** Construct a \c DNSName class from the low-level \c ldns_rr_type
- *  type returned by the \c lDNS library.
- */
-DNSName::DNSName (const ldns_rr_type ldns_resource_type) {
-  cv_dns_query_type = convert_ldns_type_to_dns_type (ldns_resource_type);
-  cv_dns_query_name = "";
-  }
+int DNSNames::convert_to_ns_type (const DNSQueryType dns_query_type) {
+  switch (dns_query_type) {
+    case DNSQueryType::A:
+      return T_A;
 
-/** Construct a \c DNSName class from the low-level \c ldns_rr
- *  type returned by the \c lDNS library.
- */
-DNSName::DNSName (const ldns_rr* ldns_resource) {
-  ldns_rdf* raw_resource {nullptr};
-  char* raw_data {nullptr};
-  ldns_struct_buffer* buffer;
+    case DNSQueryType::AAAA:
+      return T_AAAA;
 
-  buffer = (ldns_struct_buffer*) malloc (2048);
+    case DNSQueryType::MX:
+      return T_MX;
 
-  // Record the type of the resource we are going to create
-  cv_dns_query_type = convert_ldns_type_to_dns_type (ldns_resource->_rr_type);
+    case DNSQueryType::SRV:
+      return T_SRV;
 
-  // Get the first resource data field from the resource
-  // record
-  raw_resource = ldns_rr_rdf (ldns_resource, 0);
-
-  if (raw_resource == nullptr) {
-    //throw
-    }
-
-  // Convert the raw data field into a formatted string (the exact nature of
-  // the string depends on the underlying resource type. See the lDNS library
-  // for more details).
-  if (raw_resource->_type == LDNS_RDF_TYPE_A ||
-      raw_resource->_type == LDNS_RDF_TYPE_AAAA) {
-    raw_data = ldns_rdf2str (raw_resource);
-    }
-
-  else {
-    // We assume the actual data is in the second member of the data list
-    size_t data_count = ldns_rr_rd_count (ldns_resource);
-
-    if (data_count < 2) {
-      throw DNSException ("Malformed DNS packet");
-      }
-
-    ldns_rdf* resource_data {ldns_rr_rdf (ldns_resource, 1) };
-    raw_data = ldns_rdf2str (resource_data);
-    }
-
-  cv_dns_query_name = raw_data;
-
-  // Clean-up
-  if (raw_data != nullptr) {
-    free (raw_data);
+    default:
+      return T_A;
     }
   }
-
-//
-// Protected Class Methods
-//
 
 /**
- * Convert the weakly typed (\c enum) \c ldns_rr_type to the equivalent
- * strongly-types \c \c DNSQueryType, as used by the \tt DNSUtils library.
+ * Package the current \tt DNS data held in the internal class variables as a \tt DNS query, and
+ * send the query to the local \tt DNS resolver. In asyncronous useage, this call forms the future
+ * \c std::promise, later accessed by the routines relying on the \c cv_dns_record_list.
  *
- * \note Use of this routine should be rare: ideally construct a complete
- *     \c DNSName object from the \c ldns_rr_type. This makes it much easier
- *     to manipulate the \tt lDNS library data within the wrapper, and avoids
- *     depending on the low-level implementation of the \tt lDNS library.
- *
- *    \param [in] ldns_type The \tt lDNS library type (\c ldns_rr_type) to
- *        lookup, and return as a \c DNSQueryType
- *
- * \retval DNSQueryType The \c DNSQueryType equivalent of the low-level type
+ * Example Usage:
  *
  * Example Usage:
  *
  * \code
- *   cv_dns_query_type = convert_ldns_type_to_dns_type(ldns_resource->_rr_type);
+ *  cv_dns_query_name = dns_name;
+ *  cv_dns_query_type = dns_query_type;
+ *  cv_dns_record_list = new list<string>;
+ *
+ *  send_dns_query();
  * \endcode
  */
-DNSQueryType DNSName::convert_ldns_type_to_dns_type (const ldns_rr_type ldns_type) {
-  switch (ldns_type) {
-    case LDNS_RR_TYPE_A:
-      return DNSQueryType::A;
+void DNSNames::send_dns_query (void) {
+  DNSQueryBuffer buffer;         // The buffer for the DNS response
+  int buffer_length { -1};       // The length of the DNS response in the buffer
 
-    case LDNS_RR_TYPE_AAAA:
-      return DNSQueryType::AAAA;
+  // If the list of DNS records is empty, send a query for the A records
+  // of the named resource
+  buffer_length = res_search (cv_dns_query_name.c_str(), C_IN, convert_to_ns_type (cv_dns_query_type),
+                              (u_char*) &buffer, sizeof (buffer));
 
-    case LDNS_RR_TYPE_MX:
-      return DNSQueryType::MX;
+  if (buffer_length < 0) {
+    throw DNSException ("Failed to reach a valid DNS source");
+    }
 
-    case LDNS_RR_TYPE_SRV:
-      return DNSQueryType::SRV;
+  // Parse the returned buffer, to create the list of names. The list of names itself
+  // is placed in cv_dns_record_list
+  extract_resource_records (&buffer, buffer_length);
+  }
 
-    default:
-      return DNSQueryType::NO_RECORD;
+/**
+ * Extract the named resources from a \c DNSQueryBuffer of type \c ns_query_type,
+ * returned by the low-level, operating system resolver routines. Even if more than
+ * one record type is present, only those of \c ns_query_type will be considered.
+ * All valid records of that type will then be parsed, and added to the internal
+ * \c cv_dns_record_list.
+ *
+ *    \param [in] query_buffer The \tt DNS response buffer, returned by a call to
+ *      \c res_search or \c res_query.
+ *    \param [in] buffer_length The size of the \c query_buffer: usually found as
+ *      as the return code for \c res_search or \c res_query.
+ *
+ * Example Usage:
+ *
+ * \code
+ *  // Parse the returned buffer, to create the list of names. The list of names itself
+ *  // is placed in cv_dns_record_list
+ *  extract_resource_records (&buffer, buffer_length);
+ * \endcode
+ */
+void DNSNames::extract_resource_records (const DNSQueryBuffer* query_buffer, const int buffer_length) {
+  ns_msg message_handle;         // Handle for the DNS response parsing structures
+  ns_rr resource_list;           // List of resource records
+
+  int resource_index;            // Index of resource records in the resource list
+
+  // Attempt to create a parser for the response from the DNS server. Not all resolver libraries require
+  // this call
+  if (ns_initparse (query_buffer->buf, buffer_length, &message_handle) < 0) {
+    throw DNSResolverException ("Failed to create a parser for the DNS response");
+    }
+
+  // Walk the list of resource records, looking for those of the specified
+  // type. If we find a needed record, add it to the list of records to return
+  for (resource_index = 0; resource_index < ns_msg_count (message_handle, ns_s_an); resource_index++) {
+
+    // Extract resource at the given index, and attempt to create a resource record
+    // for that resource
+    if (ns_parserr (&message_handle, ns_s_an, resource_index, &resource_list)) {
+      throw DNSResolverException ("Unable to extract the resource record from the listed index");
+      }
+
+    // Do we have at least one record in the answer section?
+    if (ns_msg_count (message_handle, ns_s_an) < 1) {
+      throw DNSResolverException ("No records returned in the DNS answer section");
+      }
+
+    if (ns_rr_type (resource_list) == convert_to_ns_type (cv_dns_query_type)) {
+      u_int tmp_resource_priority;    // Temporary storage for the resourece priority
+      char* tmp_resource_name;        // Temporary storage for the resource name
+
+      //
+      // Extract the data, according to the type of record
+      //
+      switch (cv_dns_query_type) {
+        case DNSQueryType::A:
+          // Allocate storage for the resource name
+          tmp_resource_name = (char*) malloc (INET_ADDRSTRLEN);
+
+          if (tmp_resource_name == nullptr) {
+            throw DNSResolverException ("Allocation of memory for resource data failed");
+            }
+
+          // Expand the resource name from data section of the resource list,
+          // and add it to the record list
+          inet_ntop (AF_INET, ns_rr_rdata (resource_list), tmp_resource_name, INET_ADDRSTRLEN);
+
+          break;
+
+        case DNSQueryType::AAAA:
+          // Allocate storage for the resource name
+          tmp_resource_name = (char*) malloc (INET6_ADDRSTRLEN);
+
+          if (tmp_resource_name == nullptr) {
+            throw DNSResolverException ("Allocation of memory for resource data failed");
+            }
+
+          // Expand the resource name from data section of the resource list,
+          // and add it to the record list
+          inet_ntop (AF_INET6, ns_rr_rdata (resource_list), tmp_resource_name, INET6_ADDRSTRLEN);
+
+          break;
+
+        case DNSQueryType::MX:
+          // Allocate storage for the resource name
+          tmp_resource_name = (char*) malloc (NI_MAXHOST);
+
+          if (tmp_resource_name == nullptr) {
+            throw DNSResolverException ("Allocation of memory for resource data failed");
+            }
+
+          // Extract the priority of this resource
+          tmp_resource_priority = ns_get16 (ns_rr_rdata (resource_list));
+
+          // Extract the resource name, assuming an offset of size NS_INT16SZ from the priority
+          const u_char* message_end;
+          message_end = ns_msg_base (message_handle) + ns_msg_size (message_handle);
+
+          const u_char* data_start;
+          data_start = ns_rr_rdata (resource_list) + NS_INT16SZ;
+
+          dn_expand (ns_msg_base (message_handle), message_end, data_start, tmp_resource_name, NI_MAXHOST);
+
+          break;
+        }
+
+      cv_dns_record_list->push_back (tmp_resource_name);
+
+      // Clean-up
+      free (tmp_resource_name);
+      }
     }
   }
 
@@ -171,8 +229,28 @@ DNSQueryType DNSName::convert_ldns_type_to_dns_type (const ldns_rr_type ldns_typ
  * \endcode
  *
  */
-const std::string DNSName::to_str (void) const {
-  return cv_dns_query_name;
+const std::string DNSNames::to_str (void) const {
+  try {
+
+    //
+    // Return the string representing the name, picked according to the
+    // resource type
+    //
+    switch (cv_dns_query_type) {
+      case DNSQueryType::A:
+        return cv_dns_record_list->back();
+
+      case DNSQueryType::AAAA:
+        return cv_dns_record_list->back();
+
+      default:
+        return cv_dns_record_list->back();
+      }
+    }
+
+  catch (DNSResolverException) {
+    throw DNSNameConversionException ("Invalid address");
+    }
   }
 
 /**
@@ -193,20 +271,55 @@ const std::string DNSName::to_str (void) const {
  * \endcode
  *
  */
-const char* DNSName::to_c_str (void) const {
-  return cv_dns_query_name.c_str();
+const char* DNSNames::to_c_str (void) const {
+  string return_string;
+
+  try {
+
+    //
+    // Return the string representing the name, picked according to the
+    // resource type
+    //
+    switch (cv_dns_query_type) {
+      case DNSQueryType::A:
+        return_string = cv_dns_record_list->back();
+        return return_string.c_str();
+
+      case DNSQueryType::AAAA:
+        return_string = cv_dns_record_list->back();
+        return return_string.c_str();
+
+      default:
+        return_string = cv_dns_record_list->back();
+        return return_string.c_str();
+      }
+    }
+
+
+  catch (DNSResolverException) {
+    throw DNSNameConversionException ("Invalid address");
+    }
   }
 
 /**
  * Convert the internal \tt DNS resource representation to a
- * \c boost::ip::address. This does not modify the internal
- * representation of the \tt DNS resource in any way.
+ * \c boost::ip::address.
  *
- * \note Only certain DNS names can be converted to an IP address
- *    (namely those from A and AAAA records). If the address cannot
- *    be converted this class will throw a \c DNSNameConversionException.
- *    If you don't want to handle exceptions, check the type \em before
- *    calling this method.
+ * \note Only certain DNS names can be converted directly to an IP address
+ *    (namely those from A and AAAA records). If the \c recursive flag is
+ *    specified, this routine will attempt to continue the resolution, until
+ *    a convertible name is found. If the address cannot be converted this
+ *    class will throw a \c DNSNameConversionException. If you don't want to
+ *    handle exceptions, check the type \em before calling this method.
+ *
+ *    \param [in] recursive If the name cannot be directly converted to an
+ *      \tt IP address, perform additonal lookups to find a name that can
+ *      be converted. This is primarily useful if the original name is of
+ *      type \c DNSQueryType::MX or \c DNSQueryType::SVR.
+ *
+ *    \param [in] prefer_legacy If possible, return \tt IPv4 address instead of
+ *      \tt IPv6 addresses. By default the library will return \tt IPv6 addresses
+ *      if at all possible.
  *
  * \retval boost::asio::ip::address An \tt IPv4 or \tt IPv6 address record. We don't
  *   actually care which style of IP address we return: it is up to the
@@ -220,154 +333,34 @@ const char* DNSName::to_c_str (void) const {
  * \endcode
  *
  */
-const boost::asio::ip::address DNSName::to_ip (void) const {
-  ip::address return_address;
+const boost::asio::ip::address DNSNames::to_ip (bool recursive, bool prefer_legacy)  {
+  ip::address return_address;    // The IP(4/6) address to return to the caller
 
   try {
-    return_address = ip::address::from_string (cv_dns_query_name);
+
+    switch (cv_dns_query_type) {
+      case DNSQueryType::A:
+        //
+        // Resolve a named resource held in an A record to an IP address
+        //
+        return return_address.from_string (cv_dns_record_list->back());
+
+
+      case DNSQueryType::AAAA:
+        //
+        // Resolve a named resource held in an AAAA record to an IP address
+        //
+        return return_address.from_string (cv_dns_record_list->back());
+
+
+      default:
+        return return_address.from_string (cv_dns_record_list->back());
+      }
     }
 
-  catch (...) {
+  catch (DNSResolverException) {
     throw DNSNameConversionException ("Invalid address");
     }
 
   return return_address;
   }
-
-/**
- * Convert the strongly typed \c DNSQueryType to the equivalent low-level
- * enumeration used by the \tt lDNS library. This both hides the low-level
- * (C-oriented) types, and ensures that the compiler can check verify the
- * type of the exposed \tt DNS routines.
- *
- *    \param [in] dns_query_type The high-level, stringly typed, name of the
- *      resource type.
- *
- * \retval ldns_rr_type The \tt lDNS equivalent of the high-level type
- *
- * Example Usage:
- *
- * \code
- *    // USe the high-level type in a low-level \tt lDNS call
- *    ldns_packet = ldns_resolver_query (ldns_resolver, ldns_query_name, convert_dns_type_to_ldns_resource(dns_query_type), LDNS_RR_CLASS_IN, LDNS_RD);
- * \endcode
- */
-ldns_rr_type DNSName::convert_to_ldns_resource() {
-  switch (cv_dns_query_type) {
-    case   DNSQueryType::NO_RECORD:
-      return LDNS_RR_TYPE_A;
-
-    case DNSQueryType::A:
-      return LDNS_RR_TYPE_A;
-
-    case DNSQueryType::AAAA:
-      return LDNS_RR_TYPE_AAAA;
-
-    case DNSQueryType::MX:
-      return LDNS_RR_TYPE_MX;
-
-    case DNSQueryType::SRV:
-      return LDNS_RR_TYPE_SRV;
-    }
-  }
-
-/***
- *** DNS Helper Functions
- ***
- */
-
-/**
- * Ask the \tt DNS system for a list of names, filtered by resource type,
- * associated with a given name in the \tt DNS system.
- *
- * \note The \tt DNS system provides a mapping of names to other names. Some
- * of these 'names' can be interpreted as IP4/IP6 addresses (e.g. \tt A and
- * \tt AAAA resource types): but the nature of the DNS system allows a much
- * broader set of returned answers. The name of this function alludes to the
- * intention of providing broad, high-level access to data held in the DNS
- * system.
- *
- *    \param [in] dns_query_name The name to query, or 'lookup' in the Domain
- *      Name System.
- *
- *    \param [in] dns_query_type Records returned from the Domain Name System
- *      are filtered, returning only resource records of this type.
- *
- * \retval DNSNameList The list of resource records obtained from the Domain Name
- *     System.
- *
- * Example Usage:
- *
- * \code
- *    // Return a list of IP(v4) addresses associated with a domain name. This
- *    // query is equivalent to the traditional 'gethostbyname' function call
- *    name_list = get_dns_names("www.homeunix.org.uk", DNS_RR_TYPE_A);
- * \endcode
-*/
-DNSNameList* get_dns_names (const string dns_query_name, const DNSQueryType dns_query_type) {
-  DNSName dns_name_lookup {dns_query_type};        // Staging area for a \c DNSName record
-  DNSNameList* dns_name_list {new DNSNameList};    // A list of \c DNSName records, returned
-  // to the caller
-
-  ldns_resolver* ldns_resolver;     // Points to the low-level structure holding the status
-  // and internal state of the DNS resolver
-  ldns_rdf* ldns_query_name;        // The resource to lookup
-  ldns_pkt* ldns_packet;            // Staging area for the packet being built to service
-  // the resource lookup request
-  ldns_rr_list* ldns_resource_list; // Low-level list of resource records, returned by the
-  // lDNS library
-
-  ldns_status lookup_status;        // Result code returned by the lDNS library
-
-  // Create the query structure from the \c dns_query_name, passed in as the name
-  // of the resource to lookup
-  ldns_query_name = ldns_dname_new_frm_str (dns_query_name.c_str());
-
-  if (!ldns_query_name) {
-    throw DNSResolverException ("DNS resolution failed");
-    }
-
-  // Attempt to create a resolver, ready to answer the callers query. If this fails
-  // then we need to abort (after cleaning up), as we will not be able to either fufill
-  // the request, or return a valid list of \c DNSName's
-  lookup_status = ldns_resolver_new_frm_file (&ldns_resolver, NULL);
-
-  if (lookup_status != LDNS_STATUS_OK) {
-    throw DNSResolverException ("DNS resolution failed");
-    }
-
-  // We should now have a valid resolver. The next step is to use the resolver to obtain the requested
-  // resource record from the Domain Name System (assuming we are using the Internet class)
-  ldns_packet = ldns_resolver_query (ldns_resolver, ldns_query_name, dns_name_lookup.convert_to_ldns_resource(), LDNS_RR_CLASS_IN, LDNS_RD);
-
-  if (!ldns_packet) {
-    throw DNSResolverException ("Invalid DNS packet");
-    }
-
-  // We can now release the original query structure
-  ldns_rdf_deep_free (ldns_query_name);
-
-  ldns_resource_list = ldns_pkt_rr_list_by_type (ldns_packet, dns_name_lookup.convert_to_ldns_resource(), LDNS_SECTION_ANSWER);
-
-  if (!ldns_resource_list) {
-    throw DNSResolverException ("No resources in DNS packet");
-    }
-
-  // Order the list of resource records
-  ldns_rr_list_sort (ldns_resource_list);
-
-  // Dig out the first record, and add the found dns name from that record
-  // to the dns_name_list
-  ldns_rr* resource_record {ldns_rr_list_rr (ldns_resource_list, 0) };
-  DNSName* dns_name {new DNSName (resource_record) };
-  dns_name_list->push_back (* (dns_name));
-
-  // Clean-up the allocated resolver, packet buffers, and answer lists
-  ldns_rr_list_deep_free (ldns_resource_list);
-  ldns_pkt_free (ldns_packet);
-  ldns_resolver_deep_free (ldns_resolver);
-
-  return dns_name_list;
-
-  }
-
