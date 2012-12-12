@@ -104,10 +104,24 @@ if ( SEPARATE_LIB_M )
   set ( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lm")
   set ( CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -lm" )
   set ( CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -lm" )
-endif()
+endif ()
 
 # Look for the operating system name server resolver functions
-check_library_exists ( resolv res_search "" HAVE_RESOLV_LIB )
+check_library_exists ( resolv gethostbyname "" HAVE_RESOLV_LIB )
+
+if ( HAVE_RESOLV_LIB )
+  set ( LINK_RESOLV_LIB resolv )
+endif ()
+
+# Look for the ptherad library (only required on some platforms)
+check_library_exists ( pthread pthread_join "" HAVE_PTHREAD_LIB )
+
+if ( HAVE_PTHREAD_LIB )
+  if ( HAVE_RESOLV_LIB AND (${CMAKE_SYSTEM_NAME} MATCHES "Linux"))
+    # On GNU/Linux the DNS resolv library requires pthreads as well
+    set ( LINK_RESOLV_LIB ${LINK_RESOLV_LIB} pthread )
+  endif ()
+endif ()
 
 # Look for the Boost C++ library. This is fatal if we don't find it.
 set ( Boost_USE_STATIC_LIBS OFF)

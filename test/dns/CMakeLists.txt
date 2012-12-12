@@ -33,9 +33,9 @@ add_executable ( test_dns_00 test_dns_wrapper.cpp )
 
 target_link_Libraries ( test_dns_00
   ${Boost_LIBRARIES}
-  resolv
-  tap
+  ${LINK_RESOLV_LIB}
   utils
+  tap
 )
 
 ##

@@ -20,17 +20,43 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ##
-## Header files
+## Variable holding the required libraries to link the utility
+## functions
 ##
 
-#include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/../../include )
+set ( UTIL_LIBRARY_LINK )
 
 ##
-## Library Sources
+## Set-up the library sources for the DNS utility functions
+##
+
+if ( HAVE_RESOLV_LIB )
+
+  set ( UTIL_LIBRARY_SOURCES dnsutils-resolv.cpp )
+  set ( UTIL_LIBRARY_LINK ${UTIL_LIBRARY_LINK} resolv )
+
+  # On linux, the resolv library requires the pthread library as well
+  if ( __linux__ )
+    set ( UTIL_LIBRARY_LINK ${UTIL_LIBRARY_LINK} pthread )
+  endif ()
+
+endif ()
+
+##
+## Set-up the library sources for the file utility functions
+##
+
+set ( UTIL_LIBRARY_SOURCES ${UTIL_LIBRARY_SOURCES} fileutils.cpp )
+
+##
+## Link the utility functions library
 ##
 
 add_library ( utils STATIC
   ${Boost_LIBRARIES}
-  dnsutils.cpp
-  fileutils.cpp
+  ${UTIL_LIBRARY_SOURCES}
 ) 
+
+target_link_Libraries ( utils
+  ${UTIL_LIBRARY_LINK}
+)
