@@ -1,0 +1,9 @@
+<map id="lib/clap/CLAP/Switch.h" name="lib/clap/CLAP/Switch.h">
+<area shape="rect" id="node2" href="$_c_l_i_8h.html" title="Implements a CLI client class as a parser to parse arguments from the command line." alt="" coords="134,155,271,181"/>
+<area shape="rect" id="node6" href="$_sub_command_8h.html" title="Defines a SubCommand class as a sub&#45;command passed as an argument." alt="" coords="240,80,443,107"/>
+<area shape="rect" id="node8" href="$_switch_8cpp.html" title="Implements a Switch class as a switch passed as an argument." alt="" coords="467,80,637,107"/>
+<area shape="rect" id="node3" href="$main_8cpp.html" title="Parses the command line arguments to the core treerat executable, and hands control to the relevant s..." alt="" coords="5,229,101,256"/>
+<area shape="rect" id="node4" href="$_c_l_i_8cpp_source.html" title="lib/clap/CLAP/CLI.cpp" alt="" coords="127,229,279,256"/>
+<area shape="rect" id="node5" href="$_c_l_i_test_8cpp_source.html" title="lib/clap/test/CLITest.cpp" alt="" coords="303,229,467,256"/>
+<area shape="rect" id="node7" href="$_sub_command_8cpp.html" title="Defines a SubCommand class as a sub&#45;command passed as an argument." alt="" coords="296,155,512,181"/>
+</map>
