@@ -21,9 +21,9 @@
 *** \author David Love (david@homeunix.org.uk)
 *** \date   December, 2012
 ***
-*** A C++ wrapper around the \tt DNS library, providing high level functions
-*** to query data held in the Domain Name System (\tt DNS). This wrapper does not
-*** aim to expose the full functionality of the \tt DNS library: instead the
+*** A C++ wrapper around the \p DNS library, providing high level functions
+*** to query data held in the Domain Name System (\p DNS). This wrapper does not
+*** aim to expose the full functionality of the \p DNS library: instead the
 *** focus is on ease-of-use and integration into C++ applications.
 ***
 **/
@@ -57,7 +57,7 @@ using namespace std;
  ***
  **/
 
-/** Generic exception class for \tt DNS errors. Where possible more specific exceptions
+/** Generic exception class for \p DNS errors. Where possible more specific exceptions
  *  will be raised by the helper functions and classes.
  */
 class DNSException : public std::runtime_error {
@@ -95,7 +95,7 @@ class DNSNameConversionException : public DNSException {
  *  \note This is not an exhaustive list of all possible DNS resouce
  *        records: \em only those which can be processed by this
  *        wrapper. If new types are added to this list, the wrapper
- *        code \bold must be modified to match.
+ *        code \b must be modified to match.
  */
 enum class DNSQueryType {
   /** No Valid Resource Record Held */
@@ -140,13 +140,13 @@ typedef list<string>* DNSList;
 
 /**
  * Represents a list named resources, of a type specified as a \c DNSQueryType, held
- * within the Domain Name System (\tt DNS). In essence this class holds the response
- * of a \em single \tt DNS query: for instance the \tt IP addresses associated with a
+ * within the Domain Name System (\p DNS). In essence this class holds the response
+ * of a \em single \p DNS query: for instance the \p IP addresses associated with a
  * given domain name, or the list of mail servers for a particular domain.
  *
  * Although this class assumes that many names may be associated with a given resource
  * name, in practice many names only have one association. For example a query for the
- * \tt A record of a domain name will typically yield a single \tt IPv4 address. Where
+ * \p A record of a domain name will typically yield a single \p IPv4 address. Where
  * only one name is found, that name will always be used (and returned) by the
  * conversion methods of this class.
  *
@@ -155,11 +155,11 @@ typedef list<string>* DNSList;
  *
  *   + \c DNSQueryType::A A random name is selected from the list of names.
  *
- * \note The \tt DNS system provides a mapping of names to other names. Some
- * of these 'names' can be interpreted as IP4/IP6 addresses (e.g. \tt A and
- * \tt AAAA resource types): but the nature of the DNS system allows a much
+ * \note The \p DNS system provides a mapping of names to other names. Some
+ * of these 'names' can be interpreted as IP4/IP6 addresses (e.g. \p A and
+ * \p AAAA resource types): but the nature of the DNS system allows a much
  * broader set of returned answers. The name of this class alludes to the
- * intention of providing broad, high-level access to data held in the \tt DNS
+ * intention of providing broad, high-level access to data held in the \p DNS
  * system.
  */
 class DNSNames {
@@ -185,11 +185,11 @@ class DNSNames {
     //
 
     /**
-     * Convert the weakly typed (C-Style \c enum) representing the \tt DNS
+     * Convert the weakly typed (C-Style \c enum) representing the \p DNS
      * resource type, to the equivalent strongly-types \c \c DNSQueryType
-     * used by the \tt DNSUtils library.
+     * used by the \p DNSUtils library.
      *
-     *    \param [in] dns_type The \tt DNS library type (\c ldns_rr_type) to
+     *    \param [in] dns_type The \p DNS library type (\c ldns_rr_type) to
      *        lookup, and return as a \c DNSQueryType
      *
      * \retval DNSQueryType The \c DNSQueryType equivalent of the low-level type
@@ -208,7 +208,7 @@ class DNSNames {
      * libraries.
      *
      *    \param [in] dns_query_type The \c DNSQueryType to lookup, and return as
-     *      the equivalent \tt DNS library type.
+     *      the equivalent \p DNS library type.
      *
      * \retval int An integer corresponding to the resource type constant in the
      *  low-level resolver routines.
@@ -225,8 +225,8 @@ class DNSNames {
     int convert_to_ns_type (const DNSQueryType dns_query_type);
 
     /**
-     * Package the current \tt DNS data held in the internal class variables as a \tt DNS query, and
-     * send the query to the local \tt DNS resolver. In asyncronous useage, this call forms the future
+     * Package the current \p DNS data held in the internal class variables as a \p DNS query, and
+     * send the query to the local \p DNS resolver. In asyncronous useage, this call forms the future
      * \c std::promise, later accessed by the routines relying on the \c cv_dns_record_list.
      *
      * Example Usage:
@@ -250,7 +250,7 @@ class DNSNames {
      * All valid records of that type will then be parsed, and added to the internal
      * \c cv_dns_record_list.
      *
-     *    \param [in] query_buffer The \tt DNS response buffer, returned by a call to
+     *    \param [in] query_buffer The \p DNS response buffer, returned by a call to
      *      \c res_search or \c res_query.
      *    \param [in] buffer_length The size of the \c query_buffer: usually found as
      *      as the return code for \c res_search or \c res_query.
@@ -285,7 +285,7 @@ class DNSNames {
 
     /**
      * Construct a \c DNSName class, defaulting to the storage of a \c DNSNames::AAAA
-     * \tt DNS resource record.
+     * \p DNS resource record.
      */
     DNSNames (const string dns_name) {
       cv_dns_query_name = dns_name;
@@ -294,8 +294,8 @@ class DNSNames {
       }
 
     /**
-     * Construct a \c DNSName class to hold the given \tt name of the given
-     * \tt DNS resource record type.
+     * Construct a \c DNSName class to hold the given \p name of the given
+     * \p DNS resource record type.
      */
     explicit DNSNames (const string dns_name, const DNSQueryType dns_query_type) {
       cv_dns_query_name = dns_name;
@@ -306,8 +306,8 @@ class DNSNames {
       }
 
     /**
-     * Construct a \c DNSName class to hold the given \tt name of the given
-     * \tt DNS resource record type, using a \c DNSPair.
+     * Construct a \c DNSName class to hold the given \p name of the given
+     * \p DNS resource record type, using a \c DNSPair.
      */
     explicit DNSNames (const DNSPair dns_query) {
       cv_dns_query_name = dns_query.first;
@@ -352,12 +352,12 @@ class DNSNames {
       }
 
     /**
-     * Allow type conversion to a \tt C-style (\c char*) string. Calls
+     * Allow type conversion to a \p C-style (\c char*) string. Calls
      * the public method \c to_c_str() to handle the actual conversion.
      *
-     * \warning the allocated \tt C string must be freed by the caller.
+     * \warning the allocated \p C string must be freed by the caller.
      *
-     * \retval char* A \tt C-style string, representing the internal
+     * \retval char* A \p C-style string, representing the internal
      *   resource name held by the object.
      *
      * Example Usage:
@@ -375,7 +375,7 @@ class DNSNames {
      * Allow type conversion to a \c boost::asio::ip::address. Calls
      * the public method \c to_ip() to handle the actual conversion.
      *
-     * \retval boost::asio::ip::address An \tt IPv4 or \tt IPv6 address record. We don't
+     * \retval boost::asio::ip::address An \p IPv4 or \p IPv6 address record. We don't
      *   actually care which style of IP address we return: it is up to the
      *   caller to ensure they request the correct type.
      *
@@ -391,9 +391,9 @@ class DNSNames {
       }
 
     /**
-     * Convert the internal \tt DNS resource representation to a
+     * Convert the internal \p DNS resource representation to a
      * \c std::string. This does not modify the internal
-     * representation of the \tt DNS resource in any way.
+     * representation of the \p DNS resource in any way.
      *
      * \retval std::string A \c std::string, representing the internal
      *   resource name held by the object.
@@ -409,13 +409,13 @@ class DNSNames {
     const string to_str (void) const;
 
     /**
-     * Convert the internal \tt DNS resource representation to a
-     * \tt C-style (\c char*) string. This does not modify the internal
-     * representation of the \tt DNS resource in any way.
+     * Convert the internal \p DNS resource representation to a
+     * \p C-style (\c char*) string. This does not modify the internal
+     * representation of the \p DNS resource in any way.
      *
-     * \warning the allocated \tt C string must be freed by the caller.
+     * \warning the allocated \p C string must be freed by the caller.
      *
-     * \retval char* A \tt C-style string, representing the internal
+     * \retval char* A \p C-style string, representing the internal
      *   resource name held by the object.
      *
      * Example Usage:
@@ -429,7 +429,7 @@ class DNSNames {
     const char* to_c_str (void) const;
 
     /**
-     * Convert the internal \tt DNS resource representation to a
+     * Convert the internal \p DNS resource representation to a
      * \c boost::ip::address.
      *
      * \note Only certain DNS names can be converted directly to an IP address
@@ -440,15 +440,15 @@ class DNSNames {
      *    handle exceptions, check the type \em before calling this method.
      *
      *    \param [in] recursive If the name cannot be directly converted to an
-     *      \tt IP address, perform additonal lookups to find a name that can
+     *      \p IP address, perform additonal lookups to find a name that can
      *      be converted. This is primarily useful if the original name is of
      *      type \c DNSQueryType::MX or \c DNSQueryType::SVR.
      *
-     *    \param [in] prefer_legacy If possible, return \tt IPv4 address instead of
-     *      \tt IPv6 addresses. By default the library will return \tt IPv6 addresses
+     *    \param [in] prefer_legacy If possible, return \p IPv4 address instead of
+     *      \p IPv6 addresses. By default the library will return \p IPv6 addresses
      *      if at all possible.
      *
-     * \retval boost::asio::ip::address An \tt IPv4 or \tt IPv6 address record. We don't
+     * \retval boost::asio::ip::address An \p IPv4 or \p IPv6 address record. We don't
      *   actually care which style of IP address we return: it is up to the
      *   caller to ensure they request the correct type.
      *

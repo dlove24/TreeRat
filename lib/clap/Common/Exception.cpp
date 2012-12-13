@@ -1,5 +1,5 @@
 /*!
- * \file Exception.cpp
+ * \file Common/Exception.cpp
  * \brief Implements the Exception class.
  */
 

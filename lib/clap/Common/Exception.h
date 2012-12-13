@@ -1,5 +1,5 @@
 /*!
- * \file Exception.h
+ * \file Common/Exception.h
  * \brief Defines the Exception class.
  */
 

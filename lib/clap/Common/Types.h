@@ -1,5 +1,6 @@
 /*!
- * \file Types.h
+ * \file Common/Types.h
+ *
  * \brief Defines Types for the Common namespace.
  */
 

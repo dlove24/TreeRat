@@ -29,8 +29,6 @@
 #include <string>
 #include <stdexcept>
 
-using namespace std;
-
 /***
  *** Exception Class
  ***
@@ -53,7 +51,7 @@ class CommandExecuteException : public std::runtime_error {
 /** Run the command, with the given arguments, under the system shell. If
  *  the command runs successfully, the output from \c stdout is returned
  *  to the caller. Otherwise the function raises the exception ?? and
- *  retuns an empty string to the caller.
+ *  retuns an empty std::string to the caller.
  *
  *    \param [in] program_name The name (and path if needed) of the
  *      program to execute.
@@ -62,8 +60,8 @@ class CommandExecuteException : public std::runtime_error {
  *      program. These are not interpreted any further (e.g. expanding
  *      shell globs).
  *
- * \retval string The output from the command (may be empty: but will be
- *   a valid string).
+ * \retval std::string The output from the command (may be empty: but will be
+ *   a valid std::string).
  *
  * Example Usage:
  *
@@ -71,7 +69,7 @@ class CommandExecuteException : public std::runtime_error {
  *    example_nada(3); // Do nothing 3 times.
  * \endcode
 */
-string run (const string program_name, const string program_arguments);
+std::string run (const std::string program_name, const std::string program_arguments);
 
 /** Run the command, with the given arguments, and test the return
  *  value. All the output from the command is discarded by this
@@ -88,4 +86,4 @@ string run (const string program_name, const string program_arguments);
  *   \c true, otheriwse the function returns \c false.
  *
 */
-bool check_status (const string program_name, const string program_arguments);
+bool check_status (const std::string program_name, const std::string program_arguments);

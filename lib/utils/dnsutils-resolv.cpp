@@ -16,15 +16,20 @@
 *** ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 *** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ***
-*** \file   dnsutils.cpp
+*** \file   dnsutils-resolv.cpp
 ***
 *** \author David Love (david@homeunix.org.uk)
 *** \date   December, 2012
 ***
-*** A C++ wrapper around the \c lDNS library, providing high level functions
+*** A C++ wrapper around the Bind \p DNS library, providing high level functions
 *** to query data held in the Domain Name System (DNS). This wrapper does not
-*** aim to expose the full functionality of the \c lDNS library: instead the
+*** aim to expose the full functionality of the \p DNS library: instead the
 *** focus is on ease-of-use and integration into C++ applications.
+***
+*** \note This file contains \em only those routines that allow implementation
+***   of the wrapper header file against the Bind \p resolv library. Implementations
+***   for other libraries are available, and \em must be used if the Bind \p resolv
+***   library is not available.
 ***
 **/
 
@@ -66,8 +71,8 @@ int DNSNames::convert_to_ns_type (const DNSQueryType dns_query_type) {
   }
 
 /**
- * Package the current \tt DNS data held in the internal class variables as a \tt DNS query, and
- * send the query to the local \tt DNS resolver. In asyncronous useage, this call forms the future
+ * Package the current \p DNS data held in the internal class variables as a \p DNS query, and
+ * send the query to the local \p DNS resolver. In asyncronous useage, this call forms the future
  * \c std::promise, later accessed by the routines relying on the \c cv_dns_record_list.
  *
  * Example Usage:
@@ -107,7 +112,7 @@ void DNSNames::send_dns_query (void) {
  * All valid records of that type will then be parsed, and added to the internal
  * \c cv_dns_record_list.
  *
- *    \param [in] query_buffer The \tt DNS response buffer, returned by a call to
+ *    \param [in] query_buffer The \p DNS response buffer, returned by a call to
  *      \c res_search or \c res_query.
  *    \param [in] buffer_length The size of the \c query_buffer: usually found as
  *      as the return code for \c res_search or \c res_query.
@@ -219,9 +224,9 @@ void DNSNames::extract_resource_records (const DNSQueryBuffer* query_buffer, con
 //
 
 /**
- * Convert the internal \tt DNS resource representation to a
+ * Convert the internal \p DNS resource representation to a
  * \c std::string. This does not modify the internal
- * representation of the \tt DNS resource in any way.
+ * representation of the \p DNS resource in any way.
  *
  * \retval std::string A \c std::string, representing the internal
  *   resource name held by the object.
@@ -259,13 +264,13 @@ const std::string DNSNames::to_str (void) const {
   }
 
 /**
- * Convert the internal \tt DNS resource representation to a
- * \tt C-style (\c char*) string. This does not modify the internal
- * representation of the \tt DNS resource in any way.
+ * Convert the internal \p DNS resource representation to a
+ * \p C-style (\c char*) string. This does not modify the internal
+ * representation of the \p DNS resource in any way.
  *
- * \warning the allocated \tt C string must be freed by the caller.
+ * \warning the allocated \p C string must be freed by the caller.
  *
- * \retval char* A \tt C-style string, representing the internal
+ * \retval char* A \p C-style string, representing the internal
  *   resource name held by the object.
  *
  * Example Usage:
@@ -307,7 +312,7 @@ const char* DNSNames::to_c_str (void) const {
   }
 
 /**
- * Convert the internal \tt DNS resource representation to a
+ * Convert the internal \p DNS resource representation to a
  * \c boost::ip::address.
  *
  * \note Only certain DNS names can be converted directly to an IP address
@@ -318,15 +323,15 @@ const char* DNSNames::to_c_str (void) const {
  *    handle exceptions, check the type \em before calling this method.
  *
  *    \param [in] recursive If the name cannot be directly converted to an
- *      \tt IP address, perform additonal lookups to find a name that can
+ *      \p IP address, perform additonal lookups to find a name that can
  *      be converted. This is primarily useful if the original name is of
  *      type \c DNSQueryType::MX or \c DNSQueryType::SVR.
  *
- *    \param [in] prefer_legacy If possible, return \tt IPv4 address instead of
- *      \tt IPv6 addresses. By default the library will return \tt IPv6 addresses
+ *    \param [in] prefer_legacy If possible, return \p IPv4 address instead of
+ *      \p IPv6 addresses. By default the library will return \p IPv6 addresses
  *      if at all possible.
  *
- * \retval boost::asio::ip::address An \tt IPv4 or \tt IPv6 address record. We don't
+ * \retval boost::asio::ip::address An \p IPv4 or \p IPv6 address record. We don't
  *   actually care which style of IP address we return: it is up to the
  *   caller to ensure they request the correct type.
  *
