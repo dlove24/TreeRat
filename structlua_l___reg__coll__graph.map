@@ -1,0 +1,23 @@
+<map id="luaL_Reg" name="luaL_Reg">
+<area shape="rect" id="node2" href="$structlua___state.html" title="lua_State" alt="" coords="630,135,705,161"/>
+<area shape="rect" id="node9" href="$structglobal___state.html" title="global_State" alt="" coords="757,595,851,621"/>
+<area shape="rect" id="node18" href="$union_g_c_object.html" title="GCObject" alt="" coords="777,249,857,276"/>
+<area shape="rect" id="node32" href="$struct_c_closure.html" title="CClosure" alt="" coords="253,249,327,276"/>
+<area shape="rect" id="node72" href="$struct_call_info.html" title="CallInfo" alt="" coords="504,249,568,276"/>
+<area shape="rect" id="node4" href="$structlua___t_value.html" title="lua_TValue" alt="" coords="330,5,416,32"/>
+<area shape="rect" id="node11" href="$struct_up_val.html" title="UpVal" alt="" coords="1001,135,1059,161"/>
+<area shape="rect" id="node21" href="$struct_proto.html" title="Proto" alt="" coords="1312,423,1363,449"/>
+<area shape="rect" id="node48" href="$struct_table.html" title="Table" alt="" coords="338,423,392,449"/>
+<area shape="rect" id="node50" href="$struct_node.html" title="Node" alt="" coords="110,135,161,161"/>
+<area shape="rect" id="node53" href="$union_t_key.html" title="TKey" alt="" coords="87,249,139,276"/>
+<area shape="rect" id="node6" href="$structlua__longjmp.html" title="lua_longjmp" alt="" coords="1533,5,1624,32"/>
+<area shape="rect" id="node36" href="$struct_l_closure.html" title="LClosure" alt="" coords="1192,595,1264,621"/>
+<area shape="rect" id="node16" href="$structstringtable.html" title="stringtable" alt="" coords="765,423,843,449"/>
+<area shape="rect" id="node25" href="$struct_loc_var.html" title="LocVar" alt="" coords="1238,249,1300,276"/>
+<area shape="rect" id="node27" href="$union_t_string.html" title="TString" alt="" coords="1239,135,1299,161"/>
+<area shape="rect" id="node41" href="$struct_upvaldesc.html" title="Upvaldesc" alt="" coords="1415,249,1496,276"/>
+<area shape="rect" id="node30" href="$union_closure.html" title="Closure" alt="" coords="661,685,725,712"/>
+<area shape="rect" id="node46" href="$struct_g_cheader.html" title="GCheader" alt="" coords="872,135,953,161"/>
+<area shape="rect" id="node60" href="$union_udata.html" title="Udata" alt="" coords="383,595,440,621"/>
+<area shape="rect" id="node68" href="$struct_mbuffer.html" title="Mbuffer" alt="" coords="868,423,932,449"/>
+</map>

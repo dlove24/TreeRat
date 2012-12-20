@@ -1,0 +1,4 @@
+<map id="DNSRecord::operator int" name="DNSRecord::operator int">
+<area shape="rect" id="node3" href="$class_d_n_s_record.html#a4698c51b4c7a7f9b874d1cd51732cc30" title="Convert the strongly typed DNSRecordType (used in all public interfaces) to the low&#45;level C&#45;style enu..." alt="" coords="214,12,373,39"/>
+<area shape="rect" id="node5" href="$class_d_n_s_record.html#a54b648b3bc352d843917e4b5cf9f088e" title="Convert the strongly typed DNSQueryType (used in all public interfaces) to the low&#45;level C&#45;style enum..." alt="" coords="421,5,557,46"/>
+</map>

@@ -1,0 +1,32 @@
+<map id="FuncState" name="FuncState">
+<area shape="rect" id="node77" href="$struct_lex_state.html" title="LexState" alt="" coords="1243,973,1316,1000"/>
+<area shape="rect" id="node2" href="$struct_proto.html" title="Proto" alt="" coords="125,201,176,228"/>
+<area shape="rect" id="node32" href="$union_g_c_object.html" title="GCObject" alt="" coords="353,308,433,335"/>
+<area shape="rect" id="node69" href="$struct_l_closure.html" title="LClosure" alt="" coords="53,308,125,335"/>
+<area shape="rect" id="node4" href="$structlua___t_value.html" title="lua_TValue" alt="" coords="741,96,827,123"/>
+<area shape="rect" id="node14" href="$struct_c_closure.html" title="CClosure" alt="" coords="169,881,243,908"/>
+<area shape="rect" id="node17" href="$structlua___state.html" title="lua_State" alt="" coords="689,776,764,803"/>
+<area shape="rect" id="node23" href="$structglobal___state.html" title="global_State" alt="" coords="680,671,773,697"/>
+<area shape="rect" id="node25" href="$struct_up_val.html" title="UpVal" alt="" coords="392,201,449,228"/>
+<area shape="rect" id="node40" href="$struct_table.html" title="Table" alt="" coords="798,497,852,524"/>
+<area shape="rect" id="node42" href="$struct_node.html" title="Node" alt="" coords="894,201,945,228"/>
+<area shape="rect" id="node45" href="$union_t_key.html" title="TKey" alt="" coords="927,308,979,335"/>
+<area shape="rect" id="node64" href="$struct_call_info.html" title="CallInfo" alt="" coords="848,881,912,908"/>
+<area shape="rect" id="node7" href="$struct_loc_var.html" title="LocVar" alt="" coords="119,96,181,123"/>
+<area shape="rect" id="node9" href="$union_t_string.html" title="TString" alt="" coords="450,5,509,32"/>
+<area shape="rect" id="node74" href="$struct_upvaldesc.html" title="Upvaldesc" alt="" coords="12,96,93,123"/>
+<area shape="rect" id="node83" href="$struct_labeldesc.html" title="Labeldesc" alt="" coords="970,96,1051,123"/>
+<area shape="rect" id="node90" href="$union_sem_info.html" title="SemInfo" alt="" coords="1193,96,1260,123"/>
+<area shape="rect" id="node12" href="$union_closure.html" title="Closure" alt="" coords="74,973,139,1000"/>
+<area shape="rect" id="node94" href="$struct_zio.html" title="Zio" alt="" coords="707,881,745,908"/>
+<area shape="rect" id="node20" href="$structlua__longjmp.html" title="lua_longjmp" alt="" coords="319,671,409,697"/>
+<area shape="rect" id="node30" href="$structstringtable.html" title="stringtable" alt="" coords="542,497,620,524"/>
+<area shape="rect" id="node38" href="$struct_g_cheader.html" title="GCheader" alt="" coords="528,201,609,228"/>
+<area shape="rect" id="node52" href="$union_udata.html" title="Udata" alt="" coords="581,671,637,697"/>
+<area shape="rect" id="node60" href="$struct_mbuffer.html" title="Mbuffer" alt="" coords="1064,497,1128,524"/>
+<area shape="rect" id="node79" href="$struct_dyndata.html" title="Dyndata" alt="" coords="1351,308,1423,335"/>
+<area shape="rect" id="node81" href="$struct_labellist.html" title="Labellist" alt="" coords="1353,201,1420,228"/>
+<area shape="rect" id="node86" href="$struct_vardesc.html" title="Vardesc" alt="" coords="1259,201,1328,228"/>
+<area shape="rect" id="node88" href="$struct_token.html" title="Token" alt="" coords="1437,255,1492,281"/>
+<area shape="rect" id="node102" href="$struct_block_cnt.html" title="BlockCnt" alt="" coords="1235,497,1307,524"/>
+</map>

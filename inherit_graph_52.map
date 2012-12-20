@@ -1,0 +1,12 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title="STL class." alt="" coords="5,81,104,108"/>
+<area shape="rect" id="node3" title="STL class." alt="" coords="164,56,279,83"/>
+<area shape="rect" id="node19" href="$class_t_a_p_1_1fatal__exception.html" title="TAP::fatal_exception" alt="" coords="152,107,291,133"/>
+<area shape="rect" id="node5" href="$class_command_execute_exception.html" title="Exception class for the file utility function that involve command execution." alt="" coords="339,5,522,32"/>
+<area shape="rect" id="node7" href="$class_d_n_s_exception.html" title="Generic exception class for DNS errors." alt="" coords="377,56,484,83"/>
+<area shape="rect" id="node13" href="$classutility_1_1dns_1_1_d_n_s_exception.html" title="Generic exception class for DNS errors." alt="" coords="348,115,513,141"/>
+<area shape="rect" id="node9" href="$class_d_n_s_name_conversion_exception.html" title="Name to IP address failure exception, indicating the DNS name is not a valid IP address (although it ..." alt="" coords="573,5,777,32"/>
+<area shape="rect" id="node11" href="$class_d_n_s_resolver_exception.html" title="Resolver exception class, indicating either a failure to contact a valid resolver or an internal fail..." alt="" coords="597,56,753,83"/>
+<area shape="rect" id="node15" href="$classutility_1_1dns_1_1_d_n_s_name_conversion_exception.html" title="Name to IP address failure exception, indicating the DNS name is not a valid IP address (although it ..." alt="" coords="571,107,778,149"/>
+<area shape="rect" id="node17" href="$classutility_1_1dns_1_1_d_n_s_resolver_exception.html" title="Resolver exception class, indicating either a failure to contact a valid resolver or an internal fail..." alt="" coords="595,173,754,214"/>
+</map>

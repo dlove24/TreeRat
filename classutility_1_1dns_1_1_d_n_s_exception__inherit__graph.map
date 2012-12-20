@@ -1,0 +1,6 @@
+<map id="utility::dns::DNSException" name="utility::dns::DNSException">
+<area shape="rect" id="node7" href="$classutility_1_1dns_1_1_d_n_s_name_conversion_exception.html" title="Name to IP address failure exception, indicating the DNS name is not a valid IP address (although it ..." alt="" coords="5,230,211,271"/>
+<area shape="rect" id="node9" href="$classutility_1_1dns_1_1_d_n_s_resolver_exception.html" title="Resolver exception class, indicating either a failure to contact a valid resolver or an internal fail..." alt="" coords="235,230,393,271"/>
+<area shape="rect" id="node2" title="STL class." alt="" coords="153,80,268,107"/>
+<area shape="rect" id="node4" title="STL class." alt="" coords="161,5,260,32"/>
+</map>
