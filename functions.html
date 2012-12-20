@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -81,11 +82,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_c"><span>c</span></a></li>
       <li><a href="#index_d"><span>d</span></a></li>
       <li><a href="#index_e"><span>e</span></a></li>
+      <li><a href="#index_g"><span>g</span></a></li>
       <li><a href="#index_h"><span>h</span></a></li>
       <li><a href="#index_m"><span>m</span></a></li>
       <li><a href="#index_n"><span>n</span></a></li>
       <li><a href="#index_o"><span>o</span></a></li>
       <li><a href="#index_p"><span>p</span></a></li>
+      <li><a href="#index_r"><span>r</span></a></li>
       <li><a href="#index_s"><span>s</span></a></li>
       <li><a href="#index_t"><span>t</span></a></li>
       <li><a href="#index_v"><span>v</span></a></li>
@@ -99,7 +102,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -166,22 +169,37 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_c_l_i.html#af69a3a7900a88187a32b53f75e47fb72">libCLAP::CLAP::CLI</a>
 </li>
 <li>convert_to_dns_type()
-: <a class="el" href="class_d_n_s_names.html#a16c23305c145c0c6fa3d748efb020722">DNSNames</a>
+: <a class="el" href="class_d_n_s_record.html#a415eb2d857f34a05fe026d5d7f6bc619">DNSRecord</a>
 </li>
 <li>convert_to_ns_type()
-: <a class="el" href="class_d_n_s_names.html#a9e7d97165aba328d9f90e674945facd1">DNSNames</a>
+: <a class="el" href="class_d_n_s_record.html#a54b648b3bc352d843917e4b5cf9f088e">DNSRecord</a>
 </li>
 <li>Current()
 : <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_execution_plan.html#a624daabeb68a5f8fffe1d2dcf264fe61">libCLAP::CLAP::ExecutionPlan</a>
 </li>
+<li>cv_dns_last_query
+: <a class="el" href="class_d_n_s_query.html#a5c5a145915a8aa95877be69df7f3925f">DNSQuery</a>
+</li>
+<li>cv_dns_query_future
+: <a class="el" href="class_d_n_s_query.html#a8077833d9094386c5a9893a8fa800a76">DNSQuery</a>
+</li>
 <li>cv_dns_query_name
-: <a class="el" href="class_d_n_s_names.html#a3899efdad4d769d9501325fd03a38334">DNSNames</a>
+: <a class="el" href="class_d_n_s_record.html#a06ea904cebd3ffd3d0045c49a7d94867">DNSRecord</a>
+</li>
+<li>cv_dns_query_promise
+: <a class="el" href="class_d_n_s_query.html#afdc2251853c1db01be0943a68e2aad9a">DNSQuery</a>
+</li>
+<li>cv_dns_query_thread
+: <a class="el" href="class_d_n_s_query.html#a25b6d0799e53ecb8f15a134b3890ea98">DNSQuery</a>
 </li>
 <li>cv_dns_query_type
-: <a class="el" href="class_d_n_s_names.html#a19115f27799e7add6051e1214f20665e">DNSNames</a>
+: <a class="el" href="class_d_n_s_record.html#aa212e55909be6f34bc6b55b45db06fd1">DNSRecord</a>
 </li>
 <li>cv_dns_record_list
-: <a class="el" href="class_d_n_s_names.html#a90cd919f66a1a019135779bf6ce98cec">DNSNames</a>
+: <a class="el" href="class_d_n_s_query.html#a22274959083a0f49ed441a4730649ac8">DNSQuery</a>
+</li>
+<li>cv_inital_query
+: <a class="el" href="classutility_1_1dns_1_1_d_n_s_loq.html#a14384aec5ae016c15b5f35632d182567">utility::dns::DNSLoq</a>
 </li>
 </ul>
 
@@ -194,8 +212,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_sub_command.html#ad96c6ad51c8d66ef24906b827fb2c456">libCLAP::CLAP::SubCommand</a>
 , <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_switch.html#a726a727fd1b2e5c32610d752dafe1911">libCLAP::CLAP::Switch</a>
 </li>
-<li>DNSNames()
-: <a class="el" href="class_d_n_s_names.html#af9381f050acffd660d9cfef43cd88193">DNSNames</a>
+<li>dns_name
+: <a class="el" href="struct_d_n_s_query_parameters.html#afd1867618c064da60c4a4d56d4222285">DNSQueryParameters</a>
+, <a class="el" href="structutility_1_1dns_1_1_d_n_s_query_parameters.html#accacf2179878cdfd8b04bb6e74336c6f">utility::dns::DNSQueryParameters</a>
+</li>
+<li>dns_query_type
+: <a class="el" href="structutility_1_1dns_1_1_d_n_s_query_parameters.html#ac0f81ab3fc8e712d77249027a46e721e">utility::dns::DNSQueryParameters</a>
+, <a class="el" href="struct_d_n_s_query_parameters.html#a0042cfef5ef2130d029789d42e5ce972">DNSQueryParameters</a>
+</li>
+<li>DNSLoq()
+: <a class="el" href="classutility_1_1dns_1_1_d_n_s_loq.html#ae65440e8872ae4d5d91913ca79b76d7e">utility::dns::DNSLoq</a>
+</li>
+<li>DNSQuery()
+: <a class="el" href="class_d_n_s_query.html#abe10624cc033e7d7c5e7f0dbe76e2527">DNSQuery</a>
+</li>
+<li>DNSRecord()
+: <a class="el" href="class_d_n_s_record.html#ad0a2d214ceab64532a3af2a1bfd62f34">DNSRecord</a>
 </li>
 </ul>
 
@@ -225,7 +257,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_execution_plan.html#a508a7f59d27924e5235940259a339ac4">libCLAP::CLAP::ExecutionPlan</a>
 </li>
 <li>extract_resource_records()
-: <a class="el" href="class_d_n_s_names.html#a927cec8a90a67a73a0b8b9339e6492f8">DNSNames</a>
+: <a class="el" href="class_d_n_s_query.html#a542252fbaa872ebc370a0c317400a2ef">DNSQuery</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
+<li>get_dns_query()
+: <a class="el" href="class_d_n_s_query.html#a20720148968df6c0248bed3c54cf1f16">DNSQuery</a>
 </li>
 </ul>
 
@@ -268,13 +307,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
 <li>operator const boost::asio::ip::address()
-: <a class="el" href="class_d_n_s_names.html#a9232282614b343f536682ddb7a78379b">DNSNames</a>
+: <a class="el" href="class_d_n_s_record.html#a57d19c210ab8f85edb666d829f029195">DNSRecord</a>
+, <a class="el" href="class_d_n_s_query.html#a46d6b53a26e4bea89df9f7f8756345b6">DNSQuery</a>
 </li>
 <li>operator const char *()
-: <a class="el" href="class_d_n_s_names.html#a79650276bc6ee4ea7c22ab3e2e9c4f0e">DNSNames</a>
+: <a class="el" href="class_d_n_s_query.html#a699e54ed8e105183b5ef7a6f2275688c">DNSQuery</a>
+, <a class="el" href="class_d_n_s_record.html#a256b3afcc8027b580dd1622f19ac5486">DNSRecord</a>
+</li>
+<li>operator int()
+: <a class="el" href="class_d_n_s_record.html#a21931b447b92b4d58f054b73a4d3fcce">DNSRecord</a>
 </li>
 <li>operator std::string()
-: <a class="el" href="class_d_n_s_names.html#a46c1c008e817fc835d2d9620e698a475">DNSNames</a>
+: <a class="el" href="class_d_n_s_record.html#ae3b23b03f11a241fefa02827982743cd">DNSRecord</a>
+, <a class="el" href="class_d_n_s_query.html#afa21e3d860d1bfded12f0b04b9b21834">DNSQuery</a>
 </li>
 <li>operator!=()
 : <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_option.html#a03bda1b6cbb328faa7a5a2f771add153">libCLAP::CLAP::Option</a>
@@ -282,14 +327,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_switch.html#afff13515a6e4893ac83e7cbb099732e0">libCLAP::CLAP::Switch</a>
 </li>
 <li>operator=()
-: <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_sub_command.html#a066d93ed932444c9f725fef2016b4054">libCLAP::CLAP::SubCommand</a>
+: <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_option.html#ae8dc0c8142edf06c19558647fb962bb3">libCLAP::CLAP::Option</a>
+, <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_sub_command.html#a066d93ed932444c9f725fef2016b4054">libCLAP::CLAP::SubCommand</a>
 , <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_switch.html#aa9c51662b3ae5bf8a3bc4d69cba4d9b3">libCLAP::CLAP::Switch</a>
-, <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_option.html#ae8dc0c8142edf06c19558647fb962bb3">libCLAP::CLAP::Option</a>
 </li>
 <li>operator==()
-: <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_option.html#a08d711deff0ed26762e296ce256ce0aa">libCLAP::CLAP::Option</a>
+: <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_switch.html#a278482f5263f2264e55618acc55c856b">libCLAP::CLAP::Switch</a>
 , <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_sub_command.html#aa3e444d3fee9c079eb572342f61a2f73">libCLAP::CLAP::SubCommand</a>
-, <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_switch.html#a278482f5263f2264e55618acc55c856b">libCLAP::CLAP::Switch</a>
+, <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_option.html#a08d711deff0ed26762e296ce256ce0aa">libCLAP::CLAP::Option</a>
 </li>
 <li>Option()
 : <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_option.html#ac152d0b8a1fb869d168b9b8be6408a85">libCLAP::CLAP::Option</a>
@@ -313,9 +358,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 
 
+<h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
+<li>response
+: <a class="el" href="structutility_1_1dns_1_1_d_n_s_query_parameters.html#a9917f746ce38c11b5da240e3a80013b4">utility::dns::DNSQueryParameters</a>
+, <a class="el" href="struct_d_n_s_query_parameters.html#a585a6512314b58b736e7c0832744ef72">DNSQueryParameters</a>
+</li>
+<li>response_length
+: <a class="el" href="structutility_1_1dns_1_1_d_n_s_query_parameters.html#a7d742821342ad03cf0807ba9b9540d02">utility::dns::DNSQueryParameters</a>
+, <a class="el" href="struct_d_n_s_query_parameters.html#a62228477fc886e1d1a1c0baba6a88776">DNSQueryParameters</a>
+</li>
+</ul>
+
+
 <h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
 <li>send_dns_query()
-: <a class="el" href="class_d_n_s_names.html#a0e529b6f84b2a570bcb9cdbe4bf7a06d">DNSNames</a>
+: <a class="el" href="class_d_n_s_query.html#a2234f5b9f47bc03b4d1dcf032761cfd6">DNSQuery</a>
 </li>
 <li>Shift()
 : <a class="el" href="classlib_c_l_a_p_1_1_c_l_a_p_1_1_stage.html#a469472898104ee269b065c9315d0de59">libCLAP::CLAP::Stage</a>
@@ -353,13 +410,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
 <li>to_c_str()
-: <a class="el" href="class_d_n_s_names.html#a4ade6117e515ed0ff463977c1fa3a80f">DNSNames</a>
+: <a class="el" href="class_d_n_s_record.html#a46002fed6df9a74238013094d9067a2d">DNSRecord</a>
+, <a class="el" href="class_d_n_s_query.html#a1dc87f740b5d681cc39c49e24637cecf">DNSQuery</a>
 </li>
 <li>to_ip()
-: <a class="el" href="class_d_n_s_names.html#acbe11cdf512d467df0156f81269d2975">DNSNames</a>
+: <a class="el" href="class_d_n_s_query.html#ac02b35631ab44965403bd9fff68b5ae0">DNSQuery</a>
+, <a class="el" href="class_d_n_s_record.html#a1aee25a38c0c71959862d84c9094338d">DNSRecord</a>
+</li>
+<li>to_ns_type()
+: <a class="el" href="class_d_n_s_record.html#a4698c51b4c7a7f9b874d1cd51732cc30">DNSRecord</a>
 </li>
 <li>to_str()
-: <a class="el" href="class_d_n_s_names.html#a80c3463e574b97d790c129ec4e60f698">DNSNames</a>
+: <a class="el" href="class_d_n_s_record.html#a6a67975bfd4467ebd1f751a11e9be123">DNSRecord</a>
+, <a class="el" href="class_d_n_s_query.html#a34e26c08e68da9d9cad559c42c9f9a49">DNSQuery</a>
 </li>
 </ul>
 
@@ -409,7 +472,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 13 2012 15:51:44 for TreeRat by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 20 2012 22:34:45 for TreeRat by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>

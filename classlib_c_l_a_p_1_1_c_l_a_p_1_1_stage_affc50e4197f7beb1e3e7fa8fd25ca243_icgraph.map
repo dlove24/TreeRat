@@ -1,7 +1,7 @@
 <map id="libCLAP::CLAP::Stage::Parent" name="libCLAP::CLAP::Stage::Parent">
-<area shape="rect" id="node2" href="$classlib_c_l_a_p_1_1_c_l_a_p_1_1_execution_plan.html#a508a7f59d27924e5235940259a339ac4" title="Copy Constructor." alt="" coords="208,5,387,46"/>
-<area shape="rect" id="node3" href="$classlib_c_l_a_p_1_1_c_l_a_p_1_1_execution_plan.html#a079bcc2bbb0a91b2280b74f30c8a92d0" title="An AddStage Function." alt="" coords="208,70,387,111"/>
-<area shape="rect" id="node6" href="$classlib_c_l_a_p_1_1_c_l_a_p_1_1_execution_plan.html#a0d077741f88a5b11183bddefc53ae394" title="A Previous Function." alt="" coords="208,135,387,177"/>
-<area shape="rect" id="node4" href="$classlib_c_l_a_p_1_1_c_l_a_p_1_1_c_l_i.html#aa3c346ef53e87f1a5902a83a7a44c1a2" title="A Parse function." alt="" coords="435,70,575,111"/>
-<area shape="rect" id="node5" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Main loop." alt="" coords="624,77,675,104"/>
+<area shape="rect" id="node3" href="$classlib_c_l_a_p_1_1_c_l_a_p_1_1_execution_plan.html#a508a7f59d27924e5235940259a339ac4" title="Copy Constructor." alt="" coords="205,5,376,46"/>
+<area shape="rect" id="node5" href="$classlib_c_l_a_p_1_1_c_l_a_p_1_1_execution_plan.html#a079bcc2bbb0a91b2280b74f30c8a92d0" title="An AddStage Function." alt="" coords="205,70,376,111"/>
+<area shape="rect" id="node11" href="$classlib_c_l_a_p_1_1_c_l_a_p_1_1_execution_plan.html#a0d077741f88a5b11183bddefc53ae394" title="A Previous Function." alt="" coords="205,135,376,177"/>
+<area shape="rect" id="node7" href="$classlib_c_l_a_p_1_1_c_l_a_p_1_1_c_l_i.html#aa3c346ef53e87f1a5902a83a7a44c1a2" title="A Parse function." alt="" coords="424,70,560,111"/>
+<area shape="rect" id="node9" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Main loop." alt="" coords="609,77,658,104"/>
 </map>

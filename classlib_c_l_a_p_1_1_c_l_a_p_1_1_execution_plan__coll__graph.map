@@ -1,6 +1,6 @@
 <map id="libCLAP::CLAP::ExecutionPlan" name="libCLAP::CLAP::ExecutionPlan">
-<area shape="rect" id="node2" href="$classlib_c_l_a_p_1_1_c_l_a_p_1_1_stage.html" title="A class to define a Stage object for a given input." alt="" coords="112,428,267,455"/>
-<area shape="rect" id="node4" title="STL class." alt="" coords="183,99,263,125"/>
-<area shape="rect" id="node7" href="$classlib_c_l_a_p_1_1_c_l_a_p_1_1_option.html" title="A class to define an option of a stage." alt="" coords="314,203,472,229"/>
-<area shape="rect" id="node5" title="STL class." alt="" coords="159,6,285,47"/>
+<area shape="rect" id="node2" href="$classlib_c_l_a_p_1_1_c_l_a_p_1_1_stage.html" title="A class to define a Stage object for a given input." alt="" coords="34,428,184,455"/>
+<area shape="rect" id="node6" title="STL class." alt="" coords="155,99,228,125"/>
+<area shape="rect" id="node14" href="$classlib_c_l_a_p_1_1_c_l_a_p_1_1_option.html" title="A class to define an option of a stage." alt="" coords="291,203,444,229"/>
+<area shape="rect" id="node8" title="STL class." alt="" coords="133,6,251,47"/>
 </map>

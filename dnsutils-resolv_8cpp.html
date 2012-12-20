@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -70,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -98,17 +99,29 @@ Include dependency graph for dnsutils-resolv.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="dnsutils-resolv_8cpp__incl.png" border="0" usemap="#lib_2utils_2dnsutils-resolv_8cpp" alt=""/></div>
 <map name="lib_2utils_2dnsutils-resolv_8cpp" id="lib_2utils_2dnsutils-resolv_8cpp">
-<area shape="rect" id="node2" href="dnsutils_8h.html" title="Portable utilities for querying data held in the Domain Name System (DNS)." alt="" coords="231,96,336,123"/><area shape="rect" id="node3" href="config_8h.html" title="Provides defines for platform, compiler and header options from CMake." alt="" coords="5,171,112,197"/></map>
+<area shape="rect" id="node3" href="dnsutils_8h.html" title="Portable utilities for querying data held in the Domain Name System (DNS)." alt="" coords="345,96,444,123"/><area shape="rect" id="node5" href="config_8h.html" title="Provides defines for platform, compiler and header options from CMake." alt="" coords="5,171,104,197"/><area shape="rect" id="node21" href="loq_8h.html" title="Base defines for the loquitur classes." alt="" coords="731,171,799,197"/></map>
 </div>
 </div>
 <p><a href="dnsutils-resolv_8cpp_source.html">Go to the source code of this file.</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Portable utilities for querying data held in the Domain Name System (DNS). </p>
-<p>Copyright(c) 2011 David Love <a href="#" onclick="location.href='mai'+'lto:'+'d.l'+'ov'+'e@s'+'hu'+'.ac'+'.u'+'k'; return false;">d.lov<span style="display: none;">.nosp@m.</span>e@sh<span style="display: none;">.nosp@m.</span>u.ac.<span style="display: none;">.nosp@m.</span>uk</a></p>
-<p>Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.</p>
-<p>THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.</p>
-<dl class="section author"><dt>Author</dt><dd>David Love (<a href="#" onclick="location.href='mai'+'lto:'+'dav'+'id'+'@ho'+'me'+'uni'+'x.'+'org'+'.u'+'k'; return false;">david<span style="display: none;">.nosp@m.</span>@hom<span style="display: none;">.nosp@m.</span>eunix<span style="display: none;">.nosp@m.</span>.org<span style="display: none;">.nosp@m.</span>.uk</a>) </dd></dl>
+<p><b>Licence</b> </p>
+<pre class="fragment">  Copyright(c) 2011 David Love &lt;d.love@shu.ac.uk&gt;
+
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted, provided that the above
+  copyright notice and this permission notice appear in all copies.
+
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+   ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+</pre><dl class="section author"><dt>Author</dt><dd>David Love (<a href="#" onclick="location.href='mai'+'lto:'+'dav'+'id'+'@ho'+'me'+'uni'+'x.'+'org'+'.u'+'k'; return false;">david<span style="display: none;">.nosp@m.</span>@hom<span style="display: none;">.nosp@m.</span>eunix<span style="display: none;">.nosp@m.</span>.org<span style="display: none;">.nosp@m.</span>.uk</a>) </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>December, 2012</dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd></dd></dl>
 <p>A C++ wrapper around the Bind <code>DNS</code> library, providing high level functions to query data held in the Domain Name System (DNS). This wrapper does not aim to expose the full functionality of the <code>DNS</code> library: instead the focus is on ease-of-use and integration into C++ applications.</p>
 <dl class="section note"><dt>Note</dt><dd>This file contains <em>only</em> those routines that allow implementation of the wrapper header file against the Bind <code>resolv</code> library. Implementations for other libraries are available, and <em>must</em> be used if the Bind <code>resolv</code> library is not available. </dd></dl>
 
@@ -116,7 +129,7 @@ Include dependency graph for dnsutils-resolv.cpp:</div>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 13 2012 15:51:43 for TreeRat by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 20 2012 22:34:44 for TreeRat by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>

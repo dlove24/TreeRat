@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -70,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -87,80 +88,107 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#enum-members">Enumerations</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">dnsutils.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Portable utilities for querying data held in the Domain Name System (DNS).  
+<p>Portable utilities for querying data held in the Domain Name System (<code>DNS</code>).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;<a class="el" href="config_8h_source.html">config/config.h</a>&gt;</code><br/>
 <code>#include &lt;list&gt;</code><br/>
+<code>#include &lt;future&gt;</code><br/>
 <code>#include &lt;stdexcept&gt;</code><br/>
 <code>#include &lt;string&gt;</code><br/>
+<code>#include &lt;thread&gt;</code><br/>
 <code>#include &lt;utility&gt;</code><br/>
 <code>#include &lt;boost/asio.hpp&gt;</code><br/>
+<code>#include &lt;<a class="el" href="loq_8h_source.html">loq/loq.h</a>&gt;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for dnsutils.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="dnsutils_8h__incl.png" border="0" usemap="#include_2utils_2dnsutils_8h" alt=""/></div>
 <map name="include_2utils_2dnsutils_8h" id="include_2utils_2dnsutils_8h">
-<area shape="rect" id="node2" href="config_8h.html" title="Provides defines for platform, compiler and header options from CMake." alt="" coords="5,80,112,107"/></map>
+<area shape="rect" id="node3" href="config_8h.html" title="Provides defines for platform, compiler and header options from CMake." alt="" coords="5,80,104,107"/><area shape="rect" id="node19" href="loq_8h.html" title="Base defines for the loquitur classes." alt="" coords="731,80,799,107"/></map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="dnsutils_8h__dep__incl.png" border="0" usemap="#include_2utils_2dnsutils_8hdep" alt=""/></div>
 <map name="include_2utils_2dnsutils_8hdep" id="include_2utils_2dnsutils_8hdep">
-<area shape="rect" id="node2" href="dnsutils-resolv_8cpp.html" title="Portable utilities for querying data held in the Domain Name System (DNS)." alt="" coords="5,81,117,122"/><area shape="rect" id="node3" href="test__dns__wrapper_8cpp_source.html" title="test/dns/test_dns_wrapper.cpp" alt="" coords="142,88,345,115"/></map>
+<area shape="rect" id="node3" href="dnsutils-resolv_8cpp.html" title="Portable utilities for querying data held in the Domain Name System (DNS)." alt="" coords="5,81,109,122"/><area shape="rect" id="node5" href="test__dns__loq_8cpp_source.html" title="test/dns/test_dns_loq.cpp" alt="" coords="134,88,300,115"/></map>
 </div>
 </div>
 <p><a href="dnsutils_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_n_s_exception.html">DNSException</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic exception class for <code>DNS</code> errors.  <a href="class_d_n_s_exception.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutility_1_1dns_1_1_d_n_s_exception.html">utility::dns::DNSException</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic exception class for <code>DNS</code> errors.  <a href="classutility_1_1dns_1_1_d_n_s_exception.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_n_s_resolver_exception.html">DNSResolverException</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolver exception class, indicating either a failure to contact a valid resolver or an internal failure within that resolver.  <a href="class_d_n_s_resolver_exception.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutility_1_1dns_1_1_d_n_s_resolver_exception.html">utility::dns::DNSResolverException</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolver exception class, indicating either a failure to contact a valid resolver or an internal failure within that resolver.  <a href="classutility_1_1dns_1_1_d_n_s_resolver_exception.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_n_s_name_conversion_exception.html">DNSNameConversionException</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name to IP address failure exception, indicating the DNS name is not a valid IP address (although it may still be a valid DNS Name).  <a href="class_d_n_s_name_conversion_exception.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutility_1_1dns_1_1_d_n_s_name_conversion_exception.html">utility::dns::DNSNameConversionException</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name to IP address failure exception, indicating the DNS name is not a valid IP address (although it may still be a valid DNS Name).  <a href="classutility_1_1dns_1_1_d_n_s_name_conversion_exception.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_n_s_names.html">DNSNames</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a list named resources, of a type specified as a <code>DNSQueryType</code>, held within the Domain Name System (<code>DNS</code>).  <a href="class_d_n_s_names.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structutility_1_1dns_1_1_d_n_s_query_parameters.html">utility::dns::DNSQueryParameters</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Low-Level <code>DNS</code> Buffer Type.  <a href="structutility_1_1dns_1_1_d_n_s_query_parameters.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutility_1_1dns_1_1_d_n_s_loq.html">utility::dns::DNSLoq</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:aebb610aef56dbda35e43f6424539b02b"><td class="memItemLeft" align="right" valign="top">typedef pair&lt; string, <br class="typebreak"/>
-<a class="el" href="dnsutils_8h.html#abff0723cdf1654d367d5ef0df7a69786">DNSQueryType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dnsutils_8h.html#aebb610aef56dbda35e43f6424539b02b">DNSPair</a></td></tr>
-<tr class="memdesc:aebb610aef56dbda35e43f6424539b02b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Low-Level DNS Buffer Type.  <a href="#aebb610aef56dbda35e43f6424539b02b"></a><br/></td></tr>
-<tr class="separator:aebb610aef56dbda35e43f6424539b02b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99c30432856dff806ad9025e904e5a72"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a99c30432856dff806ad9025e904e5a72"></a>
-typedef list&lt; string &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dnsutils_8h.html#a99c30432856dff806ad9025e904e5a72">DNSList</a></td></tr>
-<tr class="memdesc:a99c30432856dff806ad9025e904e5a72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the list of DNS records, used as the return type by many of the wrapper functions. <br/></td></tr>
-<tr class="separator:a99c30432856dff806ad9025e904e5a72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespaceutility"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutility.html">utility</a></td></tr>
+<tr class="memdesc:namespaceutility"><td class="mdescLeft">&#160;</td><td class="mdescRight">TreeRat utility namespace. <br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceutility_1_1dns"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutility_1_1dns.html">utility::dns</a></td></tr>
+<tr class="memdesc:namespaceutility_1_1dns"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace for the DNS Loquiturs. <br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceutility_1_1dns_1_1question"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutility_1_1dns_1_1question.html">utility::dns::question</a></td></tr>
+<tr class="memdesc:namespaceutility_1_1dns_1_1question"><td class="mdescLeft">&#160;</td><td class="mdescRight">Questions that can be asked of the Oracle via the DNS Loquiturs. <br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:abff0723cdf1654d367d5ef0df7a69786"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dnsutils_8h.html#abff0723cdf1654d367d5ef0df7a69786">DNSQueryType</a> { <br/>
-&#160;&#160;<a class="el" href="dnsutils_8h.html#abff0723cdf1654d367d5ef0df7a69786">NO_RECORD</a>, 
-<a class="el" href="dnsutils_8h.html#abff0723cdf1654d367d5ef0df7a69786">A</a>, 
-<a class="el" href="dnsutils_8h.html#abff0723cdf1654d367d5ef0df7a69786">AAAA</a>, 
-<a class="el" href="dnsutils_8h.html#abff0723cdf1654d367d5ef0df7a69786">MX</a>, 
-<br/>
-&#160;&#160;<a class="el" href="dnsutils_8h.html#abff0723cdf1654d367d5ef0df7a69786">SRV</a>
-<br/>
- }</td></tr>
-<tr class="memdesc:abff0723cdf1654d367d5ef0df7a69786"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valid DNS resource types, understood by this wrapper.  <a href="dnsutils_8h.html#abff0723cdf1654d367d5ef0df7a69786">More...</a><br/></td></tr>
-<tr class="separator:abff0723cdf1654d367d5ef0df7a69786"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada245a75317ac44b7803a4b27a355609"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutility_1_1dns.html#ada245a75317ac44b7803a4b27a355609">utility::dns::DNSRecordType</a> </td></tr>
+<tr class="memdesc:ada245a75317ac44b7803a4b27a355609"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valid DNS resource types, as understood by this wrapper.  <a href="namespaceutility_1_1dns.html#ada245a75317ac44b7803a4b27a355609">More...</a><br/></td></tr>
+<tr class="separator:ada245a75317ac44b7803a4b27a355609"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a943f9d3f99eda1e9211491ca2037fbe5"><td class="memItemLeft" align="right" valign="top">const DNSLoq&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutility_1_1dns_1_1question.html#a943f9d3f99eda1e9211491ca2037fbe5">utility::dns::question::name_to_name</a> (const std::string dns_name, const DNSRecordType dns_query_type=DNSRecordType::AAAA)</td></tr>
+<tr class="memdesc:a943f9d3f99eda1e9211491ca2037fbe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the internal <code>DNS</code> resource representation to a <code>boost::ip::address</code>.  <a href="#a943f9d3f99eda1e9211491ca2037fbe5"></a><br/></td></tr>
+<tr class="separator:a943f9d3f99eda1e9211491ca2037fbe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a924f3f466da43de647762d8bc2f6ffb7"><td class="memItemLeft" align="right" valign="top">const boost::asio::ip::address&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutility_1_1dns_1_1question.html#a924f3f466da43de647762d8bc2f6ffb7">utility::dns::question::name_to_ip</a> (const std::string dns_name, const DNSRecordType dns_query_type=DNSRecordType::AAAA, bool recursive=true, bool prefer_legacy=false)</td></tr>
+<tr class="memdesc:a924f3f466da43de647762d8bc2f6ffb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the internal <code>DNS</code> resource representation to a <code>boost::ip::address</code>.  <a href="#a924f3f466da43de647762d8bc2f6ffb7"></a><br/></td></tr>
+<tr class="separator:a924f3f466da43de647762d8bc2f6ffb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Portable utilities for querying data held in the Domain Name System (DNS). </p>
+<div class="textblock"><p>Portable utilities for querying data held in the Domain Name System (<code>DNS</code>). </p>
+<p>Portable utilities for querying data held in the Domain Name System (DNS).</p>
+<p><b>Licence</b> </p>
+<pre class="fragment">  Copyright(c) 2011 David Love &lt;d.love@shu.ac.uk&gt;
+
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted, provided that the above
+  copyright notice and this permission notice appear in all copies.
+
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+   ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+</pre><dl class="section author"><dt>Author</dt><dd>David Love (<a href="#" onclick="location.href='mai'+'lto:'+'dav'+'id'+'@ho'+'me'+'uni'+'x.'+'org'+'.u'+'k'; return false;">david<span style="display: none;">.nosp@m.</span>@hom<span style="display: none;">.nosp@m.</span>eunix<span style="display: none;">.nosp@m.</span>.org<span style="display: none;">.nosp@m.</span>.uk</a>) </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>December, 2012</dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd></dd></dl>
+<p>A C++ wrapper around the <code>DNS</code> library, providing high level functions to query data held in the Domain Name System (<code>DNS</code>). This wrapper does not aim to expose the full functionality of the <code>DNS</code> library: instead the focus is on ease-of-use and integration into C++ applications.</p>
 <p>Copyright(c) 2011 David Love <a href="#" onclick="location.href='mai'+'lto:'+'d.l'+'ov'+'e@s'+'hu'+'.ac'+'.u'+'k'; return false;">d.lov<span style="display: none;">.nosp@m.</span>e@sh<span style="display: none;">.nosp@m.</span>u.ac.<span style="display: none;">.nosp@m.</span>uk</a></p>
 <p>Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.</p>
 <p>THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.</p>
@@ -169,65 +197,10 @@ Enumerations</h2></td></tr>
 <p>A C++ wrapper around the <code>DNS</code> library, providing high level functions to query data held in the Domain Name System (<code>DNS</code>). This wrapper does not aim to expose the full functionality of the <code>DNS</code> library: instead the focus is on ease-of-use and integration into C++ applications. </p>
 
 <p>Definition in file <a class="el" href="dnsutils_8h_source.html">dnsutils.h</a>.</p>
-</div><h2 class="groupheader">Typedef Documentation</h2>
-<a class="anchor" id="aebb610aef56dbda35e43f6424539b02b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef pair&lt;string, <a class="el" href="dnsutils_8h.html#abff0723cdf1654d367d5ef0df7a69786">DNSQueryType</a>&gt; <a class="el" href="dnsutils_8h.html#aebb610aef56dbda35e43f6424539b02b">DNSPair</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Low-Level DNS Buffer Type. </p>
-<p>Used to collect the resources from the operating system resolver library. Utility typedef for creating a name, <code>DNSQueryType</code> pair. </p>
-
-<p>Definition at line <a class="el" href="dnsutils_8h_source.html#l00127">127</a> of file <a class="el" href="dnsutils_8h_source.html">dnsutils.h</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a class="anchor" id="abff0723cdf1654d367d5ef0df7a69786"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="dnsutils_8h.html#abff0723cdf1654d367d5ef0df7a69786">DNSQueryType</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Valid DNS resource types, understood by this wrapper. </p>
-<dl class="section note"><dt>Note</dt><dd>This is not an exhaustive list of all possible DNS resouce records: <em>only</em> those which can be processed by this wrapper. If new types are added to this list, the wrapper code <b>must</b> be modified to match. </dd></dl>
-<dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
-<tr><td valign="top"><em><a class="anchor" id="abff0723cdf1654d367d5ef0df7a69786"></a>NO_RECORD</em>&nbsp;</td><td>
-<p>No Valid Resource Record Held. </p>
-</td></tr>
-<tr><td valign="top"><em><a class="anchor" id="abff0723cdf1654d367d5ef0df7a69786"></a>A</em>&nbsp;</td><td>
-<p>IPV4 Address Record. </p>
-</td></tr>
-<tr><td valign="top"><em><a class="anchor" id="abff0723cdf1654d367d5ef0df7a69786"></a>AAAA</em>&nbsp;</td><td>
-<p>IPv6 Address Record. </p>
-</td></tr>
-<tr><td valign="top"><em><a class="anchor" id="abff0723cdf1654d367d5ef0df7a69786"></a>MX</em>&nbsp;</td><td>
-<p>Mail Exchange Record. </p>
-</td></tr>
-<tr><td valign="top"><em><a class="anchor" id="abff0723cdf1654d367d5ef0df7a69786"></a>SRV</em>&nbsp;</td><td>
-<p>Service Record. </p>
-</td></tr>
-</table>
-</dd>
-</dl>
-
-<p>Definition at line <a class="el" href="dnsutils_8h_source.html#l00100">100</a> of file <a class="el" href="dnsutils_8h_source.html">dnsutils.h</a>.</p>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 13 2012 15:51:43 for TreeRat by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 20 2012 22:34:44 for TreeRat by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>

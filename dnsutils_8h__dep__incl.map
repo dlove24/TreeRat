@@ -1,4 +1,4 @@
 <map id="include/utils/dnsutils.h" name="include/utils/dnsutils.h">
-<area shape="rect" id="node2" href="$dnsutils-resolv_8cpp.html" title="Portable utilities for querying data held in the Domain Name System (DNS)." alt="" coords="5,81,117,122"/>
-<area shape="rect" id="node3" href="$test__dns__wrapper_8cpp_source.html" title="test/dns/test_dns_wrapper.cpp" alt="" coords="142,88,345,115"/>
+<area shape="rect" id="node3" href="$dnsutils-resolv_8cpp.html" title="Portable utilities for querying data held in the Domain Name System (DNS)." alt="" coords="5,81,109,122"/>
+<area shape="rect" id="node5" href="$test__dns__loq_8cpp_source.html" title="test/dns/test_dns_loq.cpp" alt="" coords="134,88,300,115"/>
 </map>

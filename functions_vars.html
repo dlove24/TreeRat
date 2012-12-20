@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -80,7 +81,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -100,20 +101,51 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>_What
 : <a class="el" href="classlib_c_l_a_p_1_1_common_1_1_exception.html#a860fcee3f89c49323a803c363e8f76a9">libCLAP::Common::Exception</a>
 </li>
+<li>cv_dns_last_query
+: <a class="el" href="class_d_n_s_query.html#a5c5a145915a8aa95877be69df7f3925f">DNSQuery</a>
+</li>
+<li>cv_dns_query_future
+: <a class="el" href="class_d_n_s_query.html#a8077833d9094386c5a9893a8fa800a76">DNSQuery</a>
+</li>
 <li>cv_dns_query_name
-: <a class="el" href="class_d_n_s_names.html#a3899efdad4d769d9501325fd03a38334">DNSNames</a>
+: <a class="el" href="class_d_n_s_record.html#a06ea904cebd3ffd3d0045c49a7d94867">DNSRecord</a>
+</li>
+<li>cv_dns_query_promise
+: <a class="el" href="class_d_n_s_query.html#afdc2251853c1db01be0943a68e2aad9a">DNSQuery</a>
+</li>
+<li>cv_dns_query_thread
+: <a class="el" href="class_d_n_s_query.html#a25b6d0799e53ecb8f15a134b3890ea98">DNSQuery</a>
 </li>
 <li>cv_dns_query_type
-: <a class="el" href="class_d_n_s_names.html#a19115f27799e7add6051e1214f20665e">DNSNames</a>
+: <a class="el" href="class_d_n_s_record.html#aa212e55909be6f34bc6b55b45db06fd1">DNSRecord</a>
 </li>
 <li>cv_dns_record_list
-: <a class="el" href="class_d_n_s_names.html#a90cd919f66a1a019135779bf6ce98cec">DNSNames</a>
+: <a class="el" href="class_d_n_s_query.html#a22274959083a0f49ed441a4730649ac8">DNSQuery</a>
+</li>
+<li>cv_inital_query
+: <a class="el" href="classutility_1_1dns_1_1_d_n_s_loq.html#a14384aec5ae016c15b5f35632d182567">utility::dns::DNSLoq</a>
+</li>
+<li>dns_name
+: <a class="el" href="structutility_1_1dns_1_1_d_n_s_query_parameters.html#accacf2179878cdfd8b04bb6e74336c6f">utility::dns::DNSQueryParameters</a>
+, <a class="el" href="struct_d_n_s_query_parameters.html#afd1867618c064da60c4a4d56d4222285">DNSQueryParameters</a>
+</li>
+<li>dns_query_type
+: <a class="el" href="structutility_1_1dns_1_1_d_n_s_query_parameters.html#ac0f81ab3fc8e712d77249027a46e721e">utility::dns::DNSQueryParameters</a>
+, <a class="el" href="struct_d_n_s_query_parameters.html#a0042cfef5ef2130d029789d42e5ce972">DNSQueryParameters</a>
+</li>
+<li>response
+: <a class="el" href="structutility_1_1dns_1_1_d_n_s_query_parameters.html#a9917f746ce38c11b5da240e3a80013b4">utility::dns::DNSQueryParameters</a>
+, <a class="el" href="struct_d_n_s_query_parameters.html#a585a6512314b58b736e7c0832744ef72">DNSQueryParameters</a>
+</li>
+<li>response_length
+: <a class="el" href="structutility_1_1dns_1_1_d_n_s_query_parameters.html#a7d742821342ad03cf0807ba9b9540d02">utility::dns::DNSQueryParameters</a>
+, <a class="el" href="struct_d_n_s_query_parameters.html#a62228477fc886e1d1a1c0baba6a88776">DNSQueryParameters</a>
 </li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 13 2012 15:51:44 for TreeRat by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 20 2012 22:34:45 for TreeRat by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>

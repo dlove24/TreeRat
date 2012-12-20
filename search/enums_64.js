@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dnsquerytype',['DNSQueryType',['../dnsutils_8h.html#abff0723cdf1654d367d5ef0df7a69786',1,'dnsutils.h']]]
+  ['dnsrecordtype',['DNSRecordType',['../namespaceutility_1_1dns.html#ada245a75317ac44b7803a4b27a355609',1,'utility::dns']]]
 ];

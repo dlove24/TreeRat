@@ -1,4 +1,5 @@
 <map id="lib/utils/dnsutils&#45;resolv.cpp" name="lib/utils/dnsutils&#45;resolv.cpp">
-<area shape="rect" id="node2" href="$dnsutils_8h.html" title="Portable utilities for querying data held in the Domain Name System (DNS)." alt="" coords="231,96,336,123"/>
-<area shape="rect" id="node3" href="$config_8h.html" title="Provides defines for platform, compiler and header options from CMake." alt="" coords="5,171,112,197"/>
+<area shape="rect" id="node3" href="$dnsutils_8h.html" title="Portable utilities for querying data held in the Domain Name System (DNS)." alt="" coords="345,96,444,123"/>
+<area shape="rect" id="node5" href="$config_8h.html" title="Provides defines for platform, compiler and header options from CMake." alt="" coords="5,171,104,197"/>
+<area shape="rect" id="node21" href="$loq_8h.html" title="Base defines for the loquitur classes." alt="" coords="731,171,799,197"/>
 </map>
